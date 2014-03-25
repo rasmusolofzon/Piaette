@@ -22,7 +22,6 @@ public class GameTest {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

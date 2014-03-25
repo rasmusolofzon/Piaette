@@ -42,7 +42,11 @@ public class Game extends BasicGame {
 	}
 	
 	
-	
+	/*
+	 * Ladda upp spelet
+	 * 
+	 * @see org.newdawn.slick.BasicGame#init(org.newdawn.slick.GameContainer)
+	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		
@@ -56,7 +60,6 @@ public class Game extends BasicGame {
 				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.cyan));
 		players.add(new Player(width/2*scale,height/2*scale+100,
 				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.pink));
-		chaser = players.get(0);
 		
 		//Ladda litta ljud
 		try {
@@ -81,16 +84,21 @@ public class Game extends BasicGame {
 		
 	}
 
-	//Rita maddafukkas
+	/*
+	 * Rita maddafukkas
+	 * 
+	 * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
+	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		//Under gameplay
-		if(isRunning){
+		if(elapsedTime<4000 || isRunning){
 			
 			//Fyll pjättarrrns cirkel
-			g.setColor(chaser.color);
-			g.fill(chaser.circle);
-			
+			if(chaser!=null){
+				g.setColor(chaser.color);
+				g.fill(chaser.circle);
+			}
 			
 			//Rita och animera de andra spelarna
 			for(Player p : players){
@@ -124,13 +132,12 @@ public class Game extends BasicGame {
 				boomAnimate.draw(boomX,boomY);
 			}
 			
-			//För att rita ut "GO! GO! GO! GO!"
+			//För att rita ut introt
 			if(elapsedTime<4000) intro.draw(width/2-64, height/2-64);
 			
-		} else if(elapsedTime<4000){ //starting the game
-			intro.draw(width/2-64, height/2-64); 
-			
-		} else { //it's over. Show dah winner
+		} 
+		
+		else { //it's over. Show dah winner
 			
 			for(Player p : players){ //Finns bara en player i loopen, men orka.
 				g.setColor(p.color);
@@ -144,7 +151,7 @@ public class Game extends BasicGame {
 				}
 			}
 			
-			//WINNER! animatino
+			//WINNER! animation
 			winner.draw(width/2-256,height/2-64);
 			
 			//Behövs för att låta losern explodera
@@ -154,7 +161,11 @@ public class Game extends BasicGame {
 		}	
 	}
 
-	//körs varje frame. Logik som behöver uppdateras i realtid.
+	/*
+	 * körs varje frame. Logik som behöver uppdateras i realtid.
+	 * 
+	 * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer, int)
+	 */
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
@@ -170,22 +181,29 @@ public class Game extends BasicGame {
 		if(boomAnimate.isStopped()) boom = false;
 		if(explodeAnimate.isStopped()) explode = false;
 		
-		//Pjättarn förlorar poäng
-		if(isRunning) chaser.score+=delta;
-		
-		//Introanimationer, ljud och vem som börjar pjätta
+		//Introanimationer
 		if(!isRunning && elapsedTime>3000 && elapsedTime<5000) {
 			ding.playAsSoundEffect(2f, 0.7f, false);
 			isRunning = true;
-			Random generator = new Random();
-			youreIt(players.get(generator.nextInt(players.size())));
-		} else if(!isRunning && elapsedTime/1000>=dingCounter && elapsedTime<5000){
+		} 
+		//Ljudeffekter under introt
+		else if(!isRunning && elapsedTime/1000>=dingCounter && elapsedTime<5000){
 			dingCounter++;
 			ding.playAsSoundEffect(1f, 0.5f, false);
+		} 
+		//Vem som börjar pjätta. Övre gränsen är för att undvika omstart av pjättande när spelet är över
+		else if(chaser==null && elapsedTime>5000){
+			Random generator = new Random();
+			youreIt(players.get(generator.nextInt(players.size())));
 		}
+		
 		
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
+		
+		//Pjättarn förlorar poäng
+		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
+				
 		
 		//Spelares styrning
 		for(Player player : players){
@@ -198,7 +216,7 @@ public class Game extends BasicGame {
 			if(!isRunning) return;
 			
 			//Kollisionsdetektion
-			if(player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
+			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
 			}
 			
@@ -218,7 +236,7 @@ public class Game extends BasicGame {
 					break;
 				}
 				
-				//Utse random nästa pjättare
+				//annars utse nästa pjättare by random
 				else{
 					Random generator = new Random();
 					youreIt(players.get(generator.nextInt(players.size())));
