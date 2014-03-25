@@ -38,7 +38,7 @@ public class Game extends BasicGame {
 		players = new ArrayList<Player>();
 		
 		//Tweakvärde
-		gameLength = 10000;
+		gameLength = 30000;
 	}
 	
 	
