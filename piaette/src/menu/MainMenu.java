@@ -9,7 +9,6 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -17,15 +16,13 @@ import org.newdawn.slick.state.StateBasedGame;
 public class MainMenu extends BasicGameState {
 	
 	private int id;
-	private float height,width,scale,sloganPos,finalPos;
+	private float width,sloganPos,finalPos;
 	private Image gameTitle,slogan, play,exit,playHover,exitHover;
 	private MenuButton playButton,exitButton;
 	
 	public MainMenu(int id){
 		this.id = id;
-		height = Main.height;
 		width = Main.width;
-		scale = Main.scale;
 	}
 	
 	@Override
