@@ -19,15 +19,16 @@ import shapes.Player;
 
 
 public class Game extends BasicGame {
-	private Player chaser;
-	private ArrayList<Player> players;
+
+	//Soooo many attributes
 	private int width,height,dingCounter;
 	private float scale, explX,explY,boomX,boomY;
-	private Animation boomAnimate,intro,explodeAnimate,winner;
-	private boolean boom,explode;
-	private Audio ding,explosion;
-	private boolean isRunning = false;
 	private long elapsedTime,gameLength;
+	private boolean boom,explode,isRunning = false;
+	private Player chaser;
+	private ArrayList<Player> players;
+	private Animation boomAnimate,intro,explodeAnimate,winner;
+	private Audio ding,explosion;
 	
 	public Game(String title) {
 		super(title);
