@@ -3,25 +3,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import menu.MenuButton;
+
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import shapes.Player;
 
 
-public class Game extends BasicGame {
+public class Game extends BasicGameState {
 
 	//Soooo many attributes
-	private int width,height,dingCounter;
+	private int id,width,height,dingCounter;
 	private float scale, explX,explY,boomX,boomY;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
@@ -29,9 +35,10 @@ public class Game extends BasicGame {
 	private ArrayList<Player> players;
 	private Animation boomAnimate,intro,explodeAnimate,winner;
 	private Audio ding,explosion;
+	private MenuButton backButton;
 	
-	public Game(String title) {
-		super(title);
+	public Game(int id) {
+		this.id = id;
 		width = Main.width;
 		height = Main.height;
 		scale = Main.scale;
@@ -48,7 +55,7 @@ public class Game extends BasicGame {
 	 * @see org.newdawn.slick.BasicGame#init(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	public void init(GameContainer gc) throws SlickException {
+	public void init(GameContainer gc,StateBasedGame sbg) throws SlickException {
 		
 		//Vit bakgrund
 		Graphics g = gc.getGraphics();
@@ -82,6 +89,11 @@ public class Game extends BasicGame {
 		
 		winner = new Animation(new SpriteSheet("animations/winner.png",512,128),100);
 		
+		//Knapp
+		Image back = new Image("menu/back.png");
+		Image backHover = new Image("menu/back-hover.png");
+		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
+		
 	}
 
 	/*
@@ -90,9 +102,19 @@ public class Game extends BasicGame {
 	 * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
 	 */
 	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	public void render(GameContainer gc,StateBasedGame sbg , Graphics g) throws SlickException {
 		//Under gameplay
 		if(elapsedTime<4000 || isRunning){
+			
+			//Score at the bottom of everything
+			int i = 0;
+			for(Player p:players){
+				g.setColor(p.color);
+				g.drawRect(20, 20+i*30, 100, 20);
+				g.fillRect(20, 20+i*30, (gameLength - p.score)/(gameLength/100),20);
+				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
+				i++;
+			}
 			
 			//Fyll pjättarrrns cirkel
 			if(chaser!=null){
@@ -115,15 +137,6 @@ public class Game extends BasicGame {
 				
 			}
 			
-			//Score
-			int i = 0;
-			for(Player p:players){
-				g.setColor(p.color);
-				g.drawRect(20, 20+i*30, 100, 20);
-				g.fillRect(20, 20+i*30, (gameLength - p.score)/(gameLength/100),20);
-				g.drawString(p.score/1000+"", 125, 23+i*30);
-				i++;
-			}
 			
 			//esssplosions
 			if(explode) {
@@ -134,7 +147,6 @@ public class Game extends BasicGame {
 			
 			//För att rita ut introt
 			if(elapsedTime<4000) intro.draw(width/2-64, height/2-64);
-			
 		} 
 		
 		else { //it's over. Show dah winner
@@ -158,6 +170,10 @@ public class Game extends BasicGame {
 			if(explode) {
 				explodeAnimate.draw(explX,explY);
 			}
+			
+			g.drawImage(backButton.getImage(), backButton.getMinX(), backButton.getMinY());
+			
+			
 		}	
 	}
 
@@ -167,7 +183,7 @@ public class Game extends BasicGame {
 	 * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer, int)
 	 */
 	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
+	public void update(GameContainer gc,StateBasedGame sbg, int delta) throws SlickException {
 		
 		//Räknar total tid
 		elapsedTime+=delta;
@@ -203,7 +219,7 @@ public class Game extends BasicGame {
 		
 		//Pjättarn förlorar poäng
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
-				
+		
 		
 		//Spelares styrning
 		for(Player player : players){
@@ -213,7 +229,7 @@ public class Game extends BasicGame {
 			player.playerAnimation.update(delta);
 			
 			//Om spelet är över, så kolla inte efter kollisioner
-			if(!isRunning) return;
+			if(!isRunning) break;
 			
 			//Kollisionsdetektion
 			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
@@ -243,6 +259,12 @@ public class Game extends BasicGame {
 				}
 			}
 		}
+		
+		if(!isRunning){ //Game is overh
+			if(backButton.isHovering(Mouse.getX(), Mouse.getY()) && Mouse.isButtonDown(0)){
+				sbg.enterState(GameStater.mainMenu);
+			}
+		}
 	}
 	
 	//Animationer och ljud för att bli pjättad
@@ -254,6 +276,12 @@ public class Game extends BasicGame {
 		boomAnimate.restart();
 		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
 		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
+	}
+
+
+	@Override
+	public int getID() {
+		return id;
 	}
 
 }

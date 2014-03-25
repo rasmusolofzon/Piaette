@@ -15,7 +15,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		try {
-			AppGameContainer app = new AppGameContainer(new Game("Pjätt"));
+			AppGameContainer app = new AppGameContainer(new GameStater("Pjätt"));
 			app.setDisplayMode((int) (width*scale), (int) (height*scale), false);
 			app.setTargetFrameRate(fpsLimit);
 			app.start();

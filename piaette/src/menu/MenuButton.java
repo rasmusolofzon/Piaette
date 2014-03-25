@@ -1,0 +1,46 @@
+package menu;
+
+import main.Main;
+
+import org.newdawn.slick.Image;
+
+public class MenuButton {
+	private float x, y;
+	private Image img,hover;
+	private boolean hovering;
+	public MenuButton(Image img,Image hover, float x, float y){
+		this.hover = hover;
+		this.img = img;
+		this.x = x;
+		this.y = y;
+	}
+	public float getMinX(){
+		return x;
+	}
+	public float getMinY(){
+		return y;
+	}
+	public float getMaxX(){
+		return x + img.getWidth();
+	}
+	public float getMaxY(){
+		return y+img.getHeight();
+	}
+	
+	/*
+	 * Sets if the mouse is hovering and returns boolean if needed
+	 */
+	public boolean isHovering(float mouseX, float mouseY){
+		hovering = (mouseX>x && mouseX<getMaxX() && mouseY<(Main.height-y) && mouseY>(Main.height-getMaxY()));
+		return hovering;
+	}
+	public boolean isHovering(){
+		return hovering;
+	}
+	public Image getImage(){
+		if(hovering) return hover;
+		return img;
+	}
+	
+	
+}
