@@ -1,7 +1,7 @@
 package shapes;
 
 
-import main.GameTest;
+import main.Main;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -30,8 +30,8 @@ public class Player{
 		direction = 0f;
 		movementSpeed = 4; // Tweak
 		freezeTime = 2000; // Tweak
-		width = GameTest.width;
-		height = GameTest.height;
+		width = Main.width;
+		height = Main.height;
 		playerAnimation = new Animation(new SpriteSheet("animations/runningPlayer.png",64,64),250);
 		frozenTime = System.currentTimeMillis();
 		score = 0;

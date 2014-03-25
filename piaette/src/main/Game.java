@@ -32,9 +32,9 @@ public class Game extends BasicGame {
 	
 	public Game(String title) {
 		super(title);
-		width = GameTest.width;
-		height = GameTest.height;
-		scale = GameTest.scale;
+		width = Main.width;
+		height = Main.height;
+		scale = Main.scale;
 		players = new ArrayList<Player>();
 		
 		//Tweakvärde

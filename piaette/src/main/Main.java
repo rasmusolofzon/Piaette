@@ -3,7 +3,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 
-public class GameTest {
+public class Main {
 
 	public static int width = 900;
 	public static int height = 9*width/16;
