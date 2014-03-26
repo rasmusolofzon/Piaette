@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import menu.MenuButton;
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -259,9 +258,8 @@ public class Game extends BasicGameState {
 		}
 		
 		if(!isRunning){ //Game is overh
-			if(backButton.isHovering(Mouse.getX(), Mouse.getY()) && Mouse.isButtonDown(0)){
+			if(backButton.clicked())
 				sbg.enterState(GameStater.mainMenu);
-			}
 		}
 	}
 	

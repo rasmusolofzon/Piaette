@@ -5,7 +5,6 @@ import java.util.Random;
 import main.GameStater;
 import main.Main;
 
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,14 +14,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenu extends BasicGameState {
 	
-	private int id;
+	private int id,buttonSpacing;
 	private float width,sloganPos,finalPos;
-	private Image gameTitle,slogan, play,exit,playHover,exitHover;
-	private MenuButton playButton,exitButton;
+	private Image gameTitle,slogan;
+	private MenuButton playButton,exitButton,playOnlineButton;
 	
 	public MainMenu(int id){
 		this.id = id;
 		width = Main.width;
+		buttonSpacing = 75;
 	}
 	
 	@Override
@@ -35,14 +35,17 @@ public class MainMenu extends BasicGameState {
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
-		play = new Image("menu/play.png");
-		playHover = new Image("menu/play-hover.png");
-		exit = new Image("menu/exit.png");
-		exitHover = new Image("menu/exit-hover.png");
+		Image play = new Image("menu/play.png");
+		Image playHover = new Image("menu/play-hover.png");
+		Image exit = new Image("menu/exit.png");
+		Image exitHover = new Image("menu/exit-hover.png");
+		Image playWithOthers = new Image("menu/playWithOthers.png");
+		Image playWithOthersHover = new Image("menu/playWithOthers-hover.png");
+		
 		
 		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,250);
-		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,350);
-		
+		playOnlineButton = new MenuButton(playWithOthers,playWithOthersHover,(width-playWithOthers.getWidth())/2,250+buttonSpacing);
+		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,250+2*buttonSpacing);
 	}
 
 	@Override
@@ -51,27 +54,26 @@ public class MainMenu extends BasicGameState {
 		g.drawImage(slogan,sloganPos,175);
 		
 		g.drawImage(playButton.getImage(),playButton.getMinX(),playButton.getMinY());
+		g.drawImage(playOnlineButton.getImage(),playOnlineButton.getMinX(),playOnlineButton.getMinY());
 		g.drawImage(exitButton.getImage(),exitButton.getMinX(),exitButton.getMinY());
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		float mouseX = Mouse.getX();
-		float mouseY = Mouse.getY();
 		
-		if(playButton.isHovering(mouseX, mouseY)){
-			if(Mouse.isButtonDown(0)){
-				sbg.enterState(GameStater.game);
-			}
-		} else if(exitButton.isHovering(mouseX, mouseY)){
-			if(Mouse.isButtonDown(0)){
-				System.exit(0);
-			}
-		}
+		if(playButton.clicked())
+			sbg.enterState(GameStater.game);
+		
+		else if(playOnlineButton.clicked())
+			sbg.enterState(GameStater.onlineMenu);
+		
+		else if(exitButton.clicked())
+			System.exit(0);
+
+		
 		if(sloganPos<finalPos) sloganPos+=20;
-		else{
-			sloganPos = finalPos;
-		}
+		else sloganPos = finalPos;
+		
 	}
 
 	@Override

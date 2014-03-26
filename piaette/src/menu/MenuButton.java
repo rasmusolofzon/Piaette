@@ -2,12 +2,13 @@ package menu;
 
 import main.Main;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Image;
 
 public class MenuButton {
 	private float x, y;
 	private Image img,hover;
-	private boolean hovering;
+	private boolean hovering,waitingForMouseRelease=false;
 	public MenuButton(Image img,Image hover, float x, float y){
 		this.hover = hover;
 		this.img = img;
@@ -40,6 +41,16 @@ public class MenuButton {
 	public Image getImage(){
 		if(hovering) return hover;
 		return img;
+	}
+	public boolean clicked(){
+		float x = Mouse.getX(), y = Mouse.getY();
+		if(isHovering(x,y)){
+			if(!Mouse.isButtonDown(0) && this.waitingForMouseRelease) return true;
+			if(Mouse.isButtonDown(0)) this.waitingForMouseRelease = true;
+		} else{
+			this.waitingForMouseRelease = false;
+		}
+		return false;
 	}
 	
 	
