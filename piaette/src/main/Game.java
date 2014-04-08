@@ -208,6 +208,7 @@ public class Game extends BasicGameState {
 			player.handleInput(i);
 			//Animation
 			player.playerAnimation.update(delta);
+			player.updateSpeed();
 			
 			//Om spelet är över, så kolla inte efter kollisioner
 			if(!isRunning) break;

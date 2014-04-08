@@ -133,5 +133,9 @@ public class Player{
 	public void die(){ // DÖÖÖÖÖÖÖÖ!
 		isAlive = false;
 	}
+	
+	public void updateSpeed(){ //Run faster the less life you has
+		//this.movementSpeed = score/8000 +4;
+	}
 
 }
