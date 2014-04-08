@@ -130,6 +130,15 @@ public class Player{
 	public float getDirection(){
 		return (float) Math.toDegrees(direction);
 	}
+	
+	public float getX() {
+		return circle.getCenterX();
+	}
+	
+	public float getY() {
+		return circle.getCenterY();
+	}
+	
 	public void die(){ // DÖÖÖÖÖÖÖÖ!
 		isAlive = false;
 	}

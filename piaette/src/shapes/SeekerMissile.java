@@ -11,7 +11,8 @@ public class SeekerMissile {
 	private float direction, movementSpeed, height, width;
 	public Color color;
 	public Shape circle;
-	//public Animation missileAnimation;
+	public boolean alive;
+	public Player target;
 	
 	private SeekerMissile(float x, float y) throws SlickException {
 		direction = 0f;
@@ -26,4 +27,19 @@ public class SeekerMissile {
 		this.color = color;
 	}
 	
+	public void awaken() {
+		alive = true;
+	}
+	
+	public void hunt(Player player) {
+		target = player;
+	}
+	
+	public float getX() {
+		return circle.getCenterX();
+	}
+	
+	public float getY() {
+		return circle.getCenterY();
+	}
 }

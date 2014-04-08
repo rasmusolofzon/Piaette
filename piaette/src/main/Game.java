@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import menu.MenuButton;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -19,6 +20,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import shapes.Player;
+import shapes.SeekerMissile;
 
 
 public class Game extends BasicGameState {
@@ -33,6 +35,7 @@ public class Game extends BasicGameState {
 	private Animation boomAnimate,intro,explodeAnimate,winner;
 	private Audio ding,explosion;
 	private MenuButton backButton;
+	private SeekerMissile deathWorm;
 	
 	public Game(int id) {
 		this.id = id;
@@ -194,13 +197,13 @@ public class Game extends BasicGameState {
 			youreIt(players.get(generator.nextInt(players.size())));
 		}
 		
-		
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
 		
 		//Pjättarn förlorar poäng
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
 		
+		double deathWormTargetDistance = 0;
 		
 		//Spelares styrning
 		for(Player player : players){
@@ -216,6 +219,14 @@ public class Game extends BasicGameState {
 			//Kollisionsdetektion
 			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
+			}
+			
+			if (deathWorm.alive) {
+				//avgöra om current player är den player som är närmast Death Worm 2000
+				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
+					player.getY()-deathWorm.getY());
+				if (deathWormDistance < deathWormTargetDistance) 
+					deathWormTargetDistance = deathWormDistance;
 			}
 			
 			//När tiden rinner ut
@@ -234,10 +245,10 @@ public class Game extends BasicGameState {
 					break;
 				}
 				
-				//annars utse nästa pjättare by random <- här ska missilen in
+				//annars utse nästa pjättare av missilen Death Worm 2000
 				else{
-					Random generator = new Random();
-					youreIt(players.get(generator.nextInt(players.size())));
+					deathWorm.alive = true;
+					deathWorm.awaken();
 				}
 			}
 		}
