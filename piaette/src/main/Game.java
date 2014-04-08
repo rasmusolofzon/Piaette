@@ -112,26 +112,10 @@ public class Game extends BasicGameState {
 				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
 				i++;
 			}
-			
-			//Fyll pjättarrrns cirkel
-			if(chaser!=null){
-				g.setColor(chaser.color);
-				g.fill(chaser.circle);
-			}
-			
-			//Rita och animera de andra spelarna
+						
+			//Rita och animera spelarna
 			for(Player p : players){
-				g.setColor(p.color);
-				g.draw(p.circle);
-				
-				if(p.isRunning){ //springandes
-					p.playerAnimation.getCurrentFrame().setRotation(-p.getDirection()-90);
-					p.playerAnimation.draw(p.circle.getMinX(),p.circle.getMinY());
-				} else { //Stillastående
-					p.playerAnimation.getImage(0).setRotation(-p.getDirection()-90);
-					p.playerAnimation.getImage(0).draw(p.circle.getMinX(),p.circle.getMinY());
-				}
-				
+				p.draw(g,chaser);
 			}
 			
 			
