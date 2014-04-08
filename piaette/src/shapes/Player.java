@@ -5,6 +5,7 @@ import main.Main;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -13,7 +14,7 @@ import org.newdawn.slick.geom.Shape;
 
 
 public class Player{
-	
+
 	//Kanske borde göra några av dessa attribut privata... eller alla
 	private float direction,movementSpeed,height,width;
 	public Shape circle;
@@ -24,7 +25,7 @@ public class Player{
 	public Color color;
 	public Animation playerAnimation;
 	public boolean isRunning=false,isAlive = true;
-	
+
 	private Player(float x, float y) throws SlickException {
 		circle = new Circle(x,y,32);
 		direction = 0f;
@@ -36,7 +37,7 @@ public class Player{
 		frozenTime = System.currentTimeMillis();
 		score = 0;
 	}
-	
+
 	public Player(float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color) throws SlickException{
 		this(x,y);
 		down = keyDown;
@@ -46,13 +47,33 @@ public class Player{
 		this.name = name;
 		this.color = color;
 	}
-	
+
+
+	public void draw(Graphics g, Player chaser){
+		
+		if(this == chaser){
+			g.setColor(color);
+			g.fill(circle);
+		}
+		
+		g.setColor(color);
+		g.draw(circle);
+
+		if(isRunning){ //springandes
+			playerAnimation.getCurrentFrame().setRotation(-getDirection()-90);
+			playerAnimation.draw(circle.getMinX(),circle.getMinY());
+		} else { //Stillastående
+			playerAnimation.getImage(0).setRotation(-getDirection()-90);
+			playerAnimation.getImage(0).draw(circle.getMinX(),circle.getMinY());
+		}
+	}
+
 	public void handleInput(Input i){
 		//Sätt animationen till stilla
 		isRunning = false;
 		//Får inte styra om man precis blivit pjättad eller är död
 		if(isFrozen() || !isAlive) return; 
-		
+
 		//Up and down
 		if(i.isKeyDown(down)){
 			goBack();
@@ -75,14 +96,14 @@ public class Player{
 	public void goBack(){
 		move(1);
 	}
-	
-	
+
+
 	private void move(int forward){
 		isRunning=true; //NU SPRINGER VI JUH!
-		
+
 		float newX = circle.getCenterX()+(float) ((float) forward*Math.sin(direction)*movementSpeed);
 		float newY = circle.getCenterY()+(float) ((float) forward*Math.cos(direction)*movementSpeed);
-		
+
 		if(newX>0 && newX<width && newY>0 && newY<height){
 			circle.setCenterX(newX);
 			circle.setCenterY(newY);
@@ -94,18 +115,18 @@ public class Player{
 			circle.setCenterY(height-newY);
 		}
 	}
-	
+
 	public String toString(){
 		return name;
 	}
-	
+
 	public void freeze(){ //Frys spelaren när denne blir pjättad
 		frozenTime = System.currentTimeMillis();
 	}
 	public boolean isFrozen(){
 		return (System.currentTimeMillis()-frozenTime) < freezeTime;
 	}
-	
+
 	public float getDirection(){
 		return (float) Math.toDegrees(direction);
 	}
