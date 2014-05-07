@@ -1,5 +1,6 @@
 package menu;
 
+import java.io.File;
 import java.util.Random;
 
 import main.GameStater;
@@ -30,8 +31,10 @@ public class MainMenu extends BasicGameState {
 		//Title and slogan
 		gameTitle = new Image("menu/GameTitle.png");
 		Random generator = new Random();
-		int i = generator.nextInt(2)+1;
-		slogan = new Image("menu/slogan-"+i+".png");
+		//Addera slogan utan att trixa med fastavärden
+		int k = new File("menu/slogan/").list().length;
+		int i = generator.nextInt(k)+1;
+		slogan = new Image("menu/slogan/slogan-"+i+".png");
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
