@@ -36,6 +36,7 @@ public class Game extends BasicGameState {
 	private Audio ding,explosion;
 	private MenuButton backButton;
 	private SeekerMissile deathWorm;
+	private Image gameBackground;
 	
 	public Game(int id) {
 		this.id = id;
@@ -58,7 +59,10 @@ public class Game extends BasicGameState {
 	public void init(GameContainer gc,StateBasedGame sbg) throws SlickException {
 		
 		//Vit bakgrund
+
 		Graphics g = gc.getGraphics();
+		//gameBackground = new Image("game/background.png");
+		//g.drawImage(gameBackground, width, height);
 		g.setBackground(Color.white);
 		
 		
@@ -221,13 +225,13 @@ public class Game extends BasicGameState {
 				youreIt(player);
 			}
 			
-			if (deathWorm.alive) {
-				//avgöra om current player är den player som är närmast Death Worm 2000
-				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
-					player.getY()-deathWorm.getY());
-				if (deathWormDistance < deathWormTargetDistance) 
-					deathWormTargetDistance = deathWormDistance;
-			}
+//			if (deathWorm.alive) {
+//				//avgöra om current player är den player som är närmast Death Worm 2000
+//				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
+//					player.getY()-deathWorm.getY());
+//				if (deathWormDistance < deathWormTargetDistance) 
+//					deathWormTargetDistance = deathWormDistance;
+//			}
 			
 			//När tiden rinner ut
 			if(player.score>gameLength){ 
