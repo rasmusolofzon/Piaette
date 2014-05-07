@@ -86,7 +86,7 @@ public class MainMenu extends BasicGameState {
 			sbg.enterState(GameStater.settingsMenu);
 
 		else if(exitButton.clicked())
-			System.exit(0);
+			gc.exit();
 		
 		if(sloganPos<finalPos) sloganPos+=20;
 		else sloganPos = finalPos;
