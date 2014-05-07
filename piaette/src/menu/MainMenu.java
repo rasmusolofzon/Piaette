@@ -1,6 +1,8 @@
 package menu;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.Random;
 
 import main.GameStater;
@@ -19,6 +21,7 @@ public class MainMenu extends BasicGameState {
 	private float width,sloganPos,finalPos;
 	private Image gameTitle,slogan;
 	private MenuButton playButton,exitButton,playOnlineButton, settingsButton;
+	private FileFilter filter;
 	
 	public MainMenu(int id){
 		this.id = id;
@@ -28,13 +31,15 @@ public class MainMenu extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		//Title and slogan
+		//Title
 		gameTitle = new Image("menu/GameTitle.png");
+		
+		//Slogan
 		Random generator = new Random();
-		//Addera slogan utan att trixa med fastavärden
-		int k = new File("menu/slogan/").list().length-2;
-		int i = generator.nextInt(k)+1;
-		slogan = new Image("menu/slogan/slogan-"+i+".png");
+		filter = new PNGFileFilter();
+		int nbrOfSlogans = new File("menu/slogan/").listFiles(filter).length;
+		int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans)+1;
+		slogan = new Image("menu/slogan/slogan-"+randomNbrOfSlogans+".png");
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
@@ -92,5 +97,20 @@ public class MainMenu extends BasicGameState {
 	public int getID() {
 		return id;
 	}
+	
+	//Returnerar true för alla .png-filer
+	public static class PNGFileFilter implements FileFilter {
+
+	    @Override
+	    public boolean accept(File pathname) {
+	        String suffix = ".png";
+	        if( pathname.getName().toLowerCase().endsWith(suffix) ) {
+	            return true;
+	        }
+	        return false;
+	    }
+
+	}
+	
 
 }
