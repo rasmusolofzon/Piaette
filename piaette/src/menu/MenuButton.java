@@ -25,7 +25,7 @@ public class MenuButton {
 		return x + img.getWidth();
 	}
 	public float getMaxY(){
-		return y+img.getHeight();
+		return y + img.getHeight();
 	}
 	
 	/*

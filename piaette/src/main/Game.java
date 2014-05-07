@@ -36,6 +36,7 @@ public class Game extends BasicGameState {
 	private Audio ding,explosion;
 	private MenuButton backButton;
 	private SeekerMissile deathWorm;
+	private Image gameBackground;
 	
 	public Game(int id) {
 		this.id = id;
@@ -58,7 +59,10 @@ public class Game extends BasicGameState {
 	public void init(GameContainer gc,StateBasedGame sbg) throws SlickException {
 		
 		//Vit bakgrund
+
 		Graphics g = gc.getGraphics();
+		//gameBackground = new Image("game/background.png");
+		//g.drawImage(gameBackground, width, height);
 		g.setBackground(Color.white);
 		
 		

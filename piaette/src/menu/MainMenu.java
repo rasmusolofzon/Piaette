@@ -17,7 +17,7 @@ public class MainMenu extends BasicGameState {
 	private int id,buttonSpacing;
 	private float width,sloganPos,finalPos;
 	private Image gameTitle,slogan;
-	private MenuButton playButton,exitButton,playOnlineButton;
+	private MenuButton playButton,exitButton,playOnlineButton, settingsButton;
 	
 	public MainMenu(int id){
 		this.id = id;
@@ -35,17 +35,22 @@ public class MainMenu extends BasicGameState {
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
+		//Bilder på knappar
 		Image play = new Image("menu/play.png");
 		Image playHover = new Image("menu/play-hover.png");
 		Image exit = new Image("menu/exit.png");
 		Image exitHover = new Image("menu/exit-hover.png");
 		Image playWithOthers = new Image("menu/playWithOthers.png");
 		Image playWithOthersHover = new Image("menu/playWithOthers-hover.png");
+		Image settings = new Image("menu/settings.png");
+		Image settingsHover = new Image("menu/settings-hover.png");
 		
 		
 		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,250);
 		playOnlineButton = new MenuButton(playWithOthers,playWithOthersHover,(width-playWithOthers.getWidth())/2,250+buttonSpacing);
-		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,250+2*buttonSpacing);
+		settingsButton = new MenuButton(settings,settingsHover,(width-settings.getWidth())/2,250+2*buttonSpacing);
+		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,250+3*buttonSpacing);
+
 	}
 
 	@Override
@@ -56,6 +61,7 @@ public class MainMenu extends BasicGameState {
 		g.drawImage(playButton.getImage(),playButton.getMinX(),playButton.getMinY());
 		g.drawImage(playOnlineButton.getImage(),playOnlineButton.getMinX(),playOnlineButton.getMinY());
 		g.drawImage(exitButton.getImage(),exitButton.getMinX(),exitButton.getMinY());
+		g.drawImage(settingsButton.getImage(),settingsButton.getMinX(),settingsButton.getMinY());
 	}
 
 	@Override
@@ -66,10 +72,13 @@ public class MainMenu extends BasicGameState {
 		
 		else if(playOnlineButton.clicked())
 			sbg.enterState(GameStater.onlineMenu);
+	
 		
+		else if(settingsButton.clicked())
+			sbg.enterState(GameStater.settingsMenu);
+
 		else if(exitButton.clicked())
 			System.exit(0);
-
 		
 		if(sloganPos<finalPos) sloganPos+=20;
 		else sloganPos = finalPos;
