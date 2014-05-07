@@ -3,6 +3,7 @@ package main;
 import menu.JoinGameMenu;
 import menu.MainMenu;
 import menu.OnlineMenu;
+import menu.SettingsMenu;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -10,7 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameStater extends StateBasedGame {
 	
-	public static final int mainMenu = 0, game = 1, onlineMenu = 2, joinGameMenu = 3;
+	public static final int mainMenu = 0, game = 1, onlineMenu = 2, joinGameMenu = 3, settingsMenu = 3;
 	
 	public GameStater(String name) {
 		super(name);
@@ -18,6 +19,7 @@ public class GameStater extends StateBasedGame {
 		this.addState(new Game(game));
 		this.addState(new OnlineMenu(onlineMenu));
 		this.addState(new JoinGameMenu(joinGameMenu));
+		this.addState(new SettingsMenu(settingsMenu));
 	}
 
 	@Override
