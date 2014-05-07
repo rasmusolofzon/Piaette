@@ -42,6 +42,7 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 				new MyComponentListener());
 		nameInput.setBackgroundColor(Color.white);
 		nameInput.setBorderColor(Color.gray);
+		nameInput.setTextColor(Color.black);
 		nameInput.setText("Change name");
 		
 		nameInput.setConsumeEvents(true);
