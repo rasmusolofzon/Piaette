@@ -1,5 +1,6 @@
 package main;
 
+import menu.JoinGameMenu;
 import menu.MainMenu;
 import menu.OnlineMenu;
 
@@ -9,13 +10,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameStater extends StateBasedGame {
 	
-	public static final int mainMenu = 0, game = 1, onlineMenu = 2;
+	public static final int mainMenu = 0, game = 1, onlineMenu = 2, joinGameMenu = 3;
 	
 	public GameStater(String name) {
 		super(name);
 		this.addState(new MainMenu(mainMenu));
 		this.addState(new Game(game));
 		this.addState(new OnlineMenu(onlineMenu));
+		this.addState(new JoinGameMenu(joinGameMenu));
 	}
 
 	@Override

@@ -8,5 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="dependencies/slick.jar"/>
+	<classpathentry kind="lib" path="dependencies/jbox2d-library-2.1.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

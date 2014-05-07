@@ -3,6 +3,7 @@ package menu;
 import main.Main;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class MenuButton {
@@ -26,6 +27,9 @@ public class MenuButton {
 	}
 	public float getMaxY(){
 		return y+img.getHeight();
+	}
+	public void draw(Graphics g){
+		g.drawImage(this.getImage(), this.getMinX(), this.getMinY());
 	}
 	
 	/*

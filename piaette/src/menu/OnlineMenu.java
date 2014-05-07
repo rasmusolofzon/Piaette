@@ -12,7 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class OnlineMenu extends BasicGameState {
 	
 	private int id;
-	private MenuButton backButton;
+	private MenuButton backButton,joinButton;
 	
 	public OnlineMenu(int id){
 		this.id = id;
@@ -24,12 +24,17 @@ public class OnlineMenu extends BasicGameState {
 		Image back = new Image("menu/back.png");
 		Image backHover = new Image("menu/back-hover.png");
 		backButton = new MenuButton(back,backHover,(Main.width-back.getWidth())/2,Main.height-100);
+		
+		Image join = new Image("menu/join.png");
+		Image joinHover = new Image("menu/join-hover.png");
+		joinButton = new MenuButton(join,joinHover,(Main.width-join.getWidth())/2,100);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		//TODO
-		g.drawImage(backButton.getImage(), backButton.getMinX(), backButton.getMinY());
+		backButton.draw(g);
+		joinButton.draw(g);
 	}
 
 	@Override
@@ -37,6 +42,9 @@ public class OnlineMenu extends BasicGameState {
 		//TODO
 		if(backButton.clicked()){
 			sbg.enterState(GameStater.mainMenu);
+		}
+		if(joinButton.clicked()){
+			sbg.enterState(GameStater.joinGameMenu);
 		}
 	}
 
