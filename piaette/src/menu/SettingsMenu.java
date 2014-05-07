@@ -17,7 +17,6 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.TrueTypeFont;
 
 public class SettingsMenu extends BasicGameState implements ComponentListener {
 
