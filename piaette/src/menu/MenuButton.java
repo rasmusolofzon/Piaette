@@ -26,7 +26,7 @@ public class MenuButton {
 		return x + img.getWidth();
 	}
 	public float getMaxY(){
-		return y+img.getHeight();
+		return y + img.getHeight();
 	}
 	public void draw(Graphics g){
 		g.drawImage(this.getImage(), this.getMinX(), this.getMinY());
