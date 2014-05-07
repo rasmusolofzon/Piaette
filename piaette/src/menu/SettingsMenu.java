@@ -1,5 +1,7 @@
 package menu;
 
+import java.awt.Font;
+
 import main.GameStater;
 import main.Main;
 
@@ -9,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.TextField;
@@ -37,20 +40,19 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
 		
 		//Input
-		font = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.ITALIC, 20));
+//		font = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.ITALIC, 20));
+		font = getNewFont("Arial",20);
 		nameInput = new TextField(gc, font, (Main.width - back.getWidth())/2, (Main.height -200), 250, 40,
 				new MyComponentListener());
 		nameInput.setBackgroundColor(Color.white);
 		nameInput.setBorderColor(Color.gray);
 		nameInput.setTextColor(Color.black);
 		nameInput.setText("Change name");
-		
-		nameInput.setConsumeEvents(true);
+		nameInput.setConsumeEvents(true);		
 	}
 
 	private class MyComponentListener implements ComponentListener {
 
-		@Override
 		public void componentActivated(AbstractComponent source) {
 			String message = "Entered1: "+nameInput.getText();
 			System.out.println(message);
@@ -71,10 +73,11 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
-		// TODO
 		if (backButton.clicked()) {
 			sbg.enterState(GameStater.mainMenu);
 		}
+		
+		font.loadGlyphs();
 	}
 
 	@Override
@@ -88,5 +91,12 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 	}
 
 
+	public UnicodeFont getNewFont(String fontName , int fontSize)
+    {
+		font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));
+        font.addGlyphs("@");
+        font.getEffects().add(new ColorEffect(java.awt.Color.white));
+        return (font);
+    }
 
 }
