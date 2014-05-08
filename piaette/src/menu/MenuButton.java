@@ -49,7 +49,10 @@ public class MenuButton {
 	public boolean clicked(){
 		float x = Mouse.getX(), y = Mouse.getY();
 		if(isHovering(x,y)){
-			if(!Mouse.isButtonDown(0) && this.waitingForMouseRelease) return true;
+			if(!Mouse.isButtonDown(0) && this.waitingForMouseRelease) {
+				this.waitingForMouseRelease=false;
+				return true;
+			}
 			if(Mouse.isButtonDown(0)) this.waitingForMouseRelease = true;
 		} else{
 			this.waitingForMouseRelease = false;

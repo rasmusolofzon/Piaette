@@ -34,8 +34,7 @@ public class SettingsMenu extends BasicGameState {
 
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException{
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
 		// TODO
 		g.drawImage(backButton.getImage(), backButton.getMinX(),
 				backButton.getMinY());
@@ -44,8 +43,7 @@ public class SettingsMenu extends BasicGameState {
 		
 	}
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-			throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		if (backButton.clicked()) {
 			sbg.enterState(GameStater.mainMenu);
 		}

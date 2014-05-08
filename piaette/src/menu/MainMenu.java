@@ -2,7 +2,6 @@ package menu;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.util.Random;
 
 import main.GameStater;
@@ -17,16 +16,16 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenu extends BasicGameState {
 	
-	private int id,buttonSpacing;
+	private int id;
 	private float width,sloganPos,finalPos;
 	private Image gameTitle,slogan;
 	private MenuButton playButton,exitButton,playOnlineButton, settingsButton;
 	private FileFilter filter;
+	public static final int buttonSpacing = 75,topButton = 250;
 	
 	public MainMenu(int id){
 		this.id = id;
 		width = Main.width;
-		buttonSpacing = 75;
 	}
 	
 	@Override
@@ -54,10 +53,10 @@ public class MainMenu extends BasicGameState {
 		Image settingsHover = new Image("menu/settings-button-hover.png");
 		
 		
-		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,250);
-		playOnlineButton = new MenuButton(playWithOthers,playWithOthersHover,(width-playWithOthers.getWidth())/2,250+buttonSpacing);
-		settingsButton = new MenuButton(settings,settingsHover,(width-settings.getWidth())/2,250+2*buttonSpacing);
-		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,250+3*buttonSpacing);
+		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,topButton);
+		playOnlineButton = new MenuButton(playWithOthers,playWithOthersHover,(width-playWithOthers.getWidth())/2,topButton+buttonSpacing);
+		settingsButton = new MenuButton(settings,settingsHover,(width-settings.getWidth())/2,topButton+2*buttonSpacing);
+		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,topButton+3*buttonSpacing);
 
 	}
 
@@ -66,10 +65,10 @@ public class MainMenu extends BasicGameState {
 		g.drawImage(gameTitle,(width-gameTitle.getWidth())/2,50);
 		g.drawImage(slogan,sloganPos,175);
 		
-		g.drawImage(playButton.getImage(),playButton.getMinX(),playButton.getMinY());
-		g.drawImage(playOnlineButton.getImage(),playOnlineButton.getMinX(),playOnlineButton.getMinY());
-		g.drawImage(exitButton.getImage(),exitButton.getMinX(),exitButton.getMinY());
-		g.drawImage(settingsButton.getImage(),settingsButton.getMinX(),settingsButton.getMinY());
+		playButton.draw(g);
+		playOnlineButton.draw(g);
+		settingsButton.draw(g);
+		exitButton.draw(g);
 	}
 
 	@Override

@@ -15,17 +15,19 @@ public class GameStater extends StateBasedGame {
 	
 	public GameStater(String name) {
 		super(name);
-		this.addState(new MainMenu(mainMenu));
-		this.addState(new Game(game));
-		this.addState(new OnlineMenu(onlineMenu));
-		this.addState(new SettingsMenu(settingsMenu));
-		this.addState(new JoinGameMenu(joinGameMenu));
+		
 	}
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		//this.getState(mainMenu).init(gc, this);
 		//this.getState(game).init(gc, this);
-		this.enterState(mainMenu);
+		this.addState(new MainMenu(mainMenu));
+		this.addState(new Game(game));
+		this.addState(new OnlineMenu(onlineMenu));
+		this.addState(new SettingsMenu(settingsMenu));
+		this.addState(new JoinGameMenu(joinGameMenu));
+		
+		//this.enterState(mainMenu);
 	}
 }

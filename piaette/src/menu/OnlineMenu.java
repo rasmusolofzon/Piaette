@@ -13,6 +13,7 @@ public class OnlineMenu extends BasicGameState {
 	
 	private int id;
 	private MenuButton backButton,joinButton;
+	private Image gameTitle;
 	
 	public OnlineMenu(int id){
 		this.id = id;
@@ -20,19 +21,26 @@ public class OnlineMenu extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		//TODO
-		Image back = new Image("menu/back.png");
-		Image backHover = new Image("menu/back-hover.png");
-		backButton = new MenuButton(back,backHover,(Main.width-back.getWidth())/2,Main.height-100);
+		//Title
+		gameTitle = new Image("menu/GameTitle.png");
 		
+		
+		//TODO Create game-menu
 		Image join = new Image("menu/join.png");
 		Image joinHover = new Image("menu/join-hover.png");
-		joinButton = new MenuButton(join,joinHover,(Main.width-join.getWidth())/2,100);
+		joinButton = new MenuButton(join,joinHover,(Main.width-join.getWidth())/2,MainMenu.topButton);
+		
+		Image back = new Image("menu/back.png");
+		Image backHover = new Image("menu/back-hover.png");
+		backButton = new MenuButton(back,backHover,(Main.width-back.getWidth())/2,MainMenu.topButton+MainMenu.buttonSpacing);
+		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		//TODO
+		g.drawImage(gameTitle,(Main.width-gameTitle.getWidth())/2,50);
+		
 		backButton.draw(g);
 		joinButton.draw(g);
 	}
