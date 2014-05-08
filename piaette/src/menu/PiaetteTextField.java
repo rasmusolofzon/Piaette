@@ -1,12 +1,12 @@
 package menu;
 
-import java.awt.Font;
+import main.Main;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.gui.TextField;
 
 
@@ -16,26 +16,26 @@ import org.newdawn.slick.gui.TextField;
  */
 public class PiaetteTextField extends TextField {
 	private GameContainer gc;
-	private static UnicodeFont font;
+	private UnicodeFont font;
 	
-	public PiaetteTextField(GameContainer gc, int x, int y, int width, int height){
-		super(gc,getNewFont("Arial",20),x,y,width,height);
+	/*
+	 * Short hand for standard set-up of text field. 
+	 * Centered, 300 wide, standard colours.
+	 */
+	public PiaetteTextField(GameContainer gc, UnicodeFont font, int y){
+		this(gc,font,(Main.width-300)/2,y,300,32);
+		setBackgroundColor(new Color(170, 170, 170));
+		setTextColor(Color.white);
+	}
+	
+	public PiaetteTextField(GameContainer gc, UnicodeFont font, int x, int y, int width, int height){
+		super(gc,font,x,y,width,height);
+		this.font = font;
+		this.gc = gc;
 	}
 	
 	public void render(Graphics g) throws SlickException{
 		font.loadGlyphs();	
 		super.render(gc, g);
-		
-	}
-	
-	public void update() throws SlickException{
-		font.loadGlyphs();
-	}
-
-	private static UnicodeFont getNewFont(String fontName , int fontSize) {
-		font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));
-		font.addGlyphs("@");
-		font.getEffects().add(new ColorEffect(java.awt.Color.white));
-		return font;
 	}
 }

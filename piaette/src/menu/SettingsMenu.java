@@ -3,7 +3,6 @@ package menu;
 import main.GameStater;
 import main.Main;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -30,10 +29,7 @@ public class SettingsMenu extends BasicGameState {
 		backButton = new MenuButton(back, backHover,
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
 		
-		nameInput = new PiaetteTextField(gc,(Main.width - back.getWidth())/2, (Main.height -200), 250, 40);
-		nameInput.setBackgroundColor(Color.white);
-		nameInput.setBorderColor(Color.gray);
-		nameInput.setTextColor(Color.black);
+		nameInput = new PiaetteTextField(gc,Utility.getNewFont("Futura", 20),250);
 	}
 
 
@@ -53,7 +49,6 @@ public class SettingsMenu extends BasicGameState {
 		if (backButton.clicked()) {
 			sbg.enterState(GameStater.mainMenu);
 		}
-		nameInput.update();
 	}
 
 	@Override

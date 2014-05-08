@@ -50,8 +50,8 @@ public class MainMenu extends BasicGameState {
 		Image exitHover = new Image("menu/exit-hover.png");
 		Image playWithOthers = new Image("menu/playWithOthers.png");
 		Image playWithOthersHover = new Image("menu/playWithOthers-hover.png");
-		Image settings = new Image("menu/settings.png");
-		Image settingsHover = new Image("menu/settings-hover.png");
+		Image settings = new Image("menu/settings-button.png");
+		Image settingsHover = new Image("menu/settings-button-hover.png");
 		
 		
 		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,250);
