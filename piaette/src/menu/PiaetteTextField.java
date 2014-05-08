@@ -22,8 +22,10 @@ public class PiaetteTextField extends TextField {
 		super(gc,getNewFont("Arial",20),x,y,width,height);
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g) throws SlickException{
+		font.loadGlyphs();	
 		super.render(gc, g);
+		
 	}
 	
 	public void update() throws SlickException{

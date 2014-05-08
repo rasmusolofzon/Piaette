@@ -22,7 +22,7 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 
 	private int id;
 	private MenuButton backButton;
-	private TextField nameInput;
+	private PiaetteTextField nameInput;
 	private UnicodeFont font;
 
 	public SettingsMenu(int id) {
@@ -41,13 +41,16 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		//Input
 		//		font = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.ITALIC, 20));
 		font = getNewFont("Arial",20);
-		nameInput = new TextField(gc, font, (Main.width - back.getWidth())/2, (Main.height -200), 250, 40,
-				new MyComponentListener());
+//		nameInput = new TextField(gc, font, (Main.width - back.getWidth())/2, (Main.height -200), 250, 40,
+//				new MyComponentListener());
+		
+		nameInput = new PiaetteTextField(gc,(Main.width - back.getWidth())/2, (Main.height -200), 250, 40);
+//		nameInput.addListener(this);
 		nameInput.setBackgroundColor(Color.white);
 		nameInput.setBorderColor(Color.gray);
 		nameInput.setTextColor(Color.black);
-		nameInput.setText("Change name");
-		nameInput.setConsumeEvents(true);		
+//		nameInput.setText("Change name");
+//		nameInput.setConsumeEvents(true);		
 	}
 
 	private class MyComponentListener implements ComponentListener {
@@ -55,7 +58,7 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		public void componentActivated(AbstractComponent source) {
 			String message = "Entered1: "+nameInput.getText();
 			System.out.println(message);
-			nameInput.setFocus(true);
+			//nameInput.setFocus(true);
 		}
 	}
 
@@ -66,8 +69,8 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		g.drawImage(backButton.getImage(), backButton.getMinX(),
 				backButton.getMinY());
 
-		nameInput.render(gc, g);
-
+		nameInput.render(g);
+		
 	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
@@ -75,8 +78,6 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		if (backButton.clicked()) {
 			sbg.enterState(GameStater.mainMenu);
 		}
-
-		font.loadGlyphs();
 	}
 
 	@Override
