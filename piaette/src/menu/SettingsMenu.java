@@ -24,8 +24,8 @@ public class SettingsMenu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		// BackButtom
-		Image back = new Image("menu/back.png");
-		Image backHover = new Image("menu/back-hover.png");
+		Image back = new Image("Graphics/menu/back.png");
+		Image backHover = new Image("Graphics/menu/back-hover.png");
 		backButton = new MenuButton(back, backHover,
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
 		

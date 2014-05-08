@@ -22,16 +22,16 @@ public class OnlineMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		//Title
-		gameTitle = new Image("menu/GameTitle.png");
+		gameTitle = new Image("Graphics/menu/GameTitle.png");
 		
 		
 		//TODO Create game-menu
-		Image join = new Image("menu/join.png");
-		Image joinHover = new Image("menu/join-hover.png");
+		Image join = new Image("Graphics/menu/join.png");
+		Image joinHover = new Image("Graphics/menu/join-hover.png");
 		joinButton = new MenuButton(join,joinHover,(Main.width-join.getWidth())/2,MainMenu.topButton);
 		
-		Image back = new Image("menu/back.png");
-		Image backHover = new Image("menu/back-hover.png");
+		Image back = new Image("Graphics/menu/back.png");
+		Image backHover = new Image("Graphics/menu/back-hover.png");
 		backButton = new MenuButton(back,backHover,(Main.width-back.getWidth())/2,MainMenu.topButton+MainMenu.buttonSpacing);
 		
 	}

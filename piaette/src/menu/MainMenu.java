@@ -31,26 +31,26 @@ public class MainMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		//Title
-		gameTitle = new Image("menu/GameTitle.png");
+		gameTitle = new Image("Graphics/menu/GameTitle.png");
 		
 		//Slogan
 		Random generator = new Random();
 		filter = new PNGFileFilter();
-		int nbrOfSlogans = new File("menu/slogan/").listFiles(filter).length;
+		int nbrOfSlogans = new File("Graphics/menu/slogan/").listFiles(filter).length;
 		int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans)+1;
-		slogan = new Image("menu/slogan/slogan-"+randomNbrOfSlogans+".png");
+		slogan = new Image("Graphics/menu/slogan/slogan-"+randomNbrOfSlogans+".png");
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
 		//Bilder p� knappar
-		Image play = new Image("menu/play.png");
-		Image playHover = new Image("menu/play-hover.png");
-		Image exit = new Image("menu/exit.png");
-		Image exitHover = new Image("menu/exit-hover.png");
-		Image playWithOthers = new Image("menu/playWithOthers.png");
-		Image playWithOthersHover = new Image("menu/playWithOthers-hover.png");
-		Image settings = new Image("menu/settings-button.png");
-		Image settingsHover = new Image("menu/settings-button-hover.png");
+		Image play = new Image("Graphics/menu/play.png");
+		Image playHover = new Image("Graphics/menu/play-hover.png");
+		Image exit = new Image("Graphics/menu/exit.png");
+		Image exitHover = new Image("Graphics/menu/exit-hover.png");
+		Image playWithOthers = new Image("Graphics/menu/playWithOthers.png");
+		Image playWithOthersHover = new Image("Graphics/menu/playWithOthers-hover.png");
+		Image settings = new Image("Graphics/menu/settings-button.png");
+		Image settingsHover = new Image("Graphics/menu/settings-button-hover.png");
 		
 		
 		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,topButton);
