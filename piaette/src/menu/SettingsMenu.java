@@ -1,7 +1,5 @@
 package menu;
 
-import java.awt.Font;
-
 import main.GameStater;
 import main.Main;
 
@@ -10,20 +8,14 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class SettingsMenu extends BasicGameState implements ComponentListener {
+public class SettingsMenu extends BasicGameState {
 
 	private int id;
 	private MenuButton backButton;
 	private PiaetteTextField nameInput;
-	private UnicodeFont font;
 
 	public SettingsMenu(int id) {
 		this.id = id;
@@ -37,30 +29,13 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		Image backHover = new Image("menu/back-hover.png");
 		backButton = new MenuButton(back, backHover,
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
-
-		//Input
-		//		font = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.ITALIC, 20));
-		font = getNewFont("Arial",20);
-//		nameInput = new TextField(gc, font, (Main.width - back.getWidth())/2, (Main.height -200), 250, 40,
-//				new MyComponentListener());
 		
 		nameInput = new PiaetteTextField(gc,(Main.width - back.getWidth())/2, (Main.height -200), 250, 40);
-//		nameInput.addListener(this);
 		nameInput.setBackgroundColor(Color.white);
 		nameInput.setBorderColor(Color.gray);
 		nameInput.setTextColor(Color.black);
-//		nameInput.setText("Change name");
-//		nameInput.setConsumeEvents(true);		
 	}
 
-	private class MyComponentListener implements ComponentListener {
-
-		public void componentActivated(AbstractComponent source) {
-			String message = "Entered1: "+nameInput.getText();
-			System.out.println(message);
-			//nameInput.setFocus(true);
-		}
-	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -78,25 +53,12 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		if (backButton.clicked()) {
 			sbg.enterState(GameStater.mainMenu);
 		}
+		nameInput.update();
 	}
 
 	@Override
 	public int getID() {
 		return id;
-	}
-
-	@Override
-	public void componentActivated(AbstractComponent arg0) {
-
-	}
-
-
-	public UnicodeFont getNewFont(String fontName , int fontSize)
-	{
-		font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));
-		font.addGlyphs("@");
-		font.getEffects().add(new ColorEffect(java.awt.Color.white));
-		return (font);
 	}
 
 }
