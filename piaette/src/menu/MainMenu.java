@@ -43,7 +43,7 @@ public class MainMenu extends BasicGameState {
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
-		//Bilder på knappar
+		//Bilder pï¿½ knappar
 		Image play = new Image("menu/play.png");
 		Image playHover = new Image("menu/play-hover.png");
 		Image exit = new Image("menu/exit.png");
@@ -98,7 +98,7 @@ public class MainMenu extends BasicGameState {
 		return id;
 	}
 	
-	//Returnerar true för alla .png-filer
+	//Returnerar true fï¿½r alla .png-filer
 	public static class PNGFileFilter implements FileFilter {
 
 	    @Override
