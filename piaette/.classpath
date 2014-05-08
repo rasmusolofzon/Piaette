@@ -2,13 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="dependencies/lwjgl.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="piaette/dependencies/native/windows"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="dependencies/slick.jar" sourcepath="dependencies/slick.jar"/>
-	<classpathentry kind="lib" path="C:/Development/Libraries/Slick2d/lib/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="C:/Development/Libraries/Slick2d/lib/natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Oskar/Downloads/slick/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Oskar/Downloads/slick/lib/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
