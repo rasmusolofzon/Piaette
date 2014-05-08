@@ -24,7 +24,7 @@ public class JoinGameMenu extends BasicGameState {
 		Image backHover = new Image("menu/back-hover.png");
 		backButton = new MenuButton(back, backHover, (Main.width - back.getWidth()) / 2, Main.height - 100);
 		
-		ipField = new PiaetteTextField(gc,Utility.getNewFont("Futura",20),200);
+		ipField = new PiaetteTextField(gc,Utility.getNewFont("Futura",20),200,"IP Address:");
 		
 	}
 

@@ -29,7 +29,7 @@ public class SettingsMenu extends BasicGameState {
 		backButton = new MenuButton(back, backHover,
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
 		
-		nameInput = new PiaetteTextField(gc,Utility.getNewFont("Futura", 20),250);
+		nameInput = new PiaetteTextField(gc,Utility.getNewFont("Futura", 20),250,"Player name:");
 	}
 
 
