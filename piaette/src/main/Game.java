@@ -63,7 +63,7 @@ public class Game extends BasicGameState {
 		Graphics g = gc.getGraphics();
 		//gameBackground = new Image("game/background.png");
 		//g.drawImage(gameBackground, width, height);
-		g.setBackground(Color.white);
+		g.setBackground(Color.black);
 		
 		
 		//Init players. Could be done better.
