@@ -37,9 +37,9 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 		Image backHover = new Image("menu/back-hover.png");
 		backButton = new MenuButton(back, backHover,
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
-		
+
 		//Input
-//		font = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.ITALIC, 20));
+		//		font = new UnicodeFont(new java.awt.Font("Arial", java.awt.Font.ITALIC, 20));
 		font = getNewFont("Arial",20);
 		nameInput = new TextField(gc, font, (Main.width - back.getWidth())/2, (Main.height -200), 250, 40,
 				new MyComponentListener());
@@ -67,15 +67,15 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 				backButton.getMinY());
 
 		nameInput.render(gc, g);
-		
-			}
+
+	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		if (backButton.clicked()) {
 			sbg.enterState(GameStater.mainMenu);
 		}
-		
+
 		font.loadGlyphs();
 	}
 
@@ -86,16 +86,16 @@ public class SettingsMenu extends BasicGameState implements ComponentListener {
 
 	@Override
 	public void componentActivated(AbstractComponent arg0) {
-		
+
 	}
 
 
 	public UnicodeFont getNewFont(String fontName , int fontSize)
-    {
+	{
 		font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));
-        font.addGlyphs("@");
-        font.getEffects().add(new ColorEffect(java.awt.Color.white));
-        return (font);
-    }
+		font.addGlyphs("@");
+		font.getEffects().add(new ColorEffect(java.awt.Color.white));
+		return (font);
+	}
 
 }
