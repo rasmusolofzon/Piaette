@@ -61,8 +61,8 @@ public class Game extends BasicGameState {
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
-		//gameBackground = new Image("game/background.png");
-		//g.drawImage(gameBackground, width, height);
+		gameBackground = new Image("Graphics/game/background.png");
+
 		g.setBackground(Color.black);
 		
 		
@@ -108,6 +108,7 @@ public class Game extends BasicGameState {
 	@Override
 	public void render(GameContainer gc,StateBasedGame sbg , Graphics g) throws SlickException {
 		//Under gameplay
+		g.drawImage(gameBackground,0,0);
 		if(elapsedTime<4000 || isRunning){
 			
 			//Score at the bottom of everything
