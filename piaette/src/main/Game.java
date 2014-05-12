@@ -211,6 +211,7 @@ public class Game extends BasicGameState {
 		//Preppar Death Worm
 		double deathWormVictimDistance = 0;
 		Player deathWormVictim = null;
+		deathWorm = new DeathWorm(50, 50, Color.red);
 		
 		//Spelares styrning
 		for(Player player : players){
@@ -228,7 +229,7 @@ public class Game extends BasicGameState {
 				youreIt(player);
 			}
 
-			if (deathWorm.alive) {
+			if (deathWorm.isAlive()) {
 				if (deathWorm.circle.intersects(player.circle)) {
 					youreIt(player);
 					deathWorm.slumber();
@@ -243,13 +244,13 @@ public class Game extends BasicGameState {
 				}
 			}
 
-//			if (deathWorm.alive) {
-//				//avgöra om current player är den player som är närmast Death Worm 2000
-//				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
-//					player.getY()-deathWorm.getY());
-//				if (deathWormDistance < deathWormTargetDistance) 
-//					deathWormTargetDistance = deathWormDistance;
-//			}
+			if (deathWorm.isAlive()) {
+				//avgöra om current player är den player som är närmast Death Worm 2000
+				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
+					player.getY()-deathWorm.getY());
+				if (deathWormDistance < deathWormVictimDistance) 
+					deathWormVictimDistance = deathWormDistance;
+			}
 			
 			//När tiden rinner ut
 			if(player.score>gameLength){ 
@@ -275,7 +276,7 @@ public class Game extends BasicGameState {
 			}
 		}
 		
-		if (deathWorm.alive) {
+		if (deathWorm.isAlive()) {
 			deathWorm.hunt(deathWormVictim);
 		}
 		

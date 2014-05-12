@@ -35,6 +35,10 @@ public class DeathWorm {
 		alive = false;
 	}
 	
+	public boolean isAlive() {
+		return alive;
+	}
+	
 	public void hunt(Player player) {
 		target = player;
 		calibrateSights();
