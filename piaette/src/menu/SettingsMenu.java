@@ -30,6 +30,8 @@ public class SettingsMenu extends BasicGameState {
 				(Main.width - back.getWidth()) / 2, Main.height - 100);
 		
 		nameInput = new PiaetteTextField(gc,Utility.getNewFont("Futura", 20),250,"Player name:");
+		nameInput.deactivate();
+		nameInput.setConsumeEvents(false);
 	}
 
 
