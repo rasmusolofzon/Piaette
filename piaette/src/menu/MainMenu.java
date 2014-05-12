@@ -1,5 +1,7 @@
 package menu;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.Random;
 
 import main.GameStater;
@@ -14,38 +16,48 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenu extends BasicGameState {
 	
-	private int id,buttonSpacing;
+	private int id;
 	private float width,sloganPos,finalPos;
 	private Image gameTitle,slogan;
-	private MenuButton playButton,exitButton,playOnlineButton;
+	private MenuButton playButton,exitButton,playOnlineButton, settingsButton;
+	private FileFilter filter;
+	public static final int buttonSpacing = 75,topButton = 250;
 	
 	public MainMenu(int id){
 		this.id = id;
 		width = Main.width;
-		buttonSpacing = 75;
 	}
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		//Title and slogan
-		gameTitle = new Image("menu/GameTitle.png");
+		//Title
+		gameTitle = new Image("Graphics/menu/GameTitle.png");
+		
+		//Slogan
 		Random generator = new Random();
-		int i = generator.nextInt(2)+1;
-		slogan = new Image("menu/slogan-"+i+".png");
+		filter = new PNGFileFilter();
+		int nbrOfSlogans = new File("Graphics/menu/slogan/").listFiles(filter).length;
+		int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans)+1;
+		slogan = new Image("Graphics/menu/slogan/slogan-"+randomNbrOfSlogans+".png");
 		finalPos = (width-gameTitle.getWidth())/2+slogan.getWidth()-5;
 		sloganPos = -slogan.getWidth();
 		
-		Image play = new Image("menu/play.png");
-		Image playHover = new Image("menu/play-hover.png");
-		Image exit = new Image("menu/exit.png");
-		Image exitHover = new Image("menu/exit-hover.png");
-		Image playWithOthers = new Image("menu/playWithOthers.png");
-		Image playWithOthersHover = new Image("menu/playWithOthers-hover.png");
+		//Bilder p� knappar
+		Image play = new Image("Graphics/menu/play.png");
+		Image playHover = new Image("Graphics/menu/play-hover.png");
+		Image exit = new Image("Graphics/menu/exit.png");
+		Image exitHover = new Image("Graphics/menu/exit-hover.png");
+		Image playWithOthers = new Image("Graphics/menu/playWithOthers.png");
+		Image playWithOthersHover = new Image("Graphics/menu/playWithOthers-hover.png");
+		Image settings = new Image("Graphics/menu/settings-button.png");
+		Image settingsHover = new Image("Graphics/menu/settings-button-hover.png");
 		
 		
-		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,250);
-		playOnlineButton = new MenuButton(playWithOthers,playWithOthersHover,(width-playWithOthers.getWidth())/2,250+buttonSpacing);
-		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,250+2*buttonSpacing);
+		playButton = new MenuButton(play,playHover,(width-play.getWidth())/2,topButton);
+		playOnlineButton = new MenuButton(playWithOthers,playWithOthersHover,(width-playWithOthers.getWidth())/2,topButton+buttonSpacing);
+		settingsButton = new MenuButton(settings,settingsHover,(width-settings.getWidth())/2,topButton+2*buttonSpacing);
+		exitButton = new MenuButton(exit,exitHover,(width-exit.getWidth())/2,topButton+3*buttonSpacing);
+
 	}
 
 	@Override
@@ -53,9 +65,10 @@ public class MainMenu extends BasicGameState {
 		g.drawImage(gameTitle,(width-gameTitle.getWidth())/2,50);
 		g.drawImage(slogan,sloganPos,175);
 		
-		g.drawImage(playButton.getImage(),playButton.getMinX(),playButton.getMinY());
-		g.drawImage(playOnlineButton.getImage(),playOnlineButton.getMinX(),playOnlineButton.getMinY());
-		g.drawImage(exitButton.getImage(),exitButton.getMinX(),exitButton.getMinY());
+		playButton.draw(g);
+		playOnlineButton.draw(g);
+		settingsButton.draw(g);
+		exitButton.draw(g);
 	}
 
 	@Override
@@ -66,10 +79,13 @@ public class MainMenu extends BasicGameState {
 		
 		else if(playOnlineButton.clicked())
 			sbg.enterState(GameStater.onlineMenu);
+	
 		
-		else if(exitButton.clicked())
-			System.exit(0);
+		else if(settingsButton.clicked())
+			sbg.enterState(GameStater.settingsMenu);
 
+		else if(exitButton.clicked())
+			gc.exit();
 		
 		if(sloganPos<finalPos) sloganPos+=20;
 		else sloganPos = finalPos;
@@ -80,5 +96,20 @@ public class MainMenu extends BasicGameState {
 	public int getID() {
 		return id;
 	}
+	
+	//Returnerar true f�r alla .png-filer
+	public static class PNGFileFilter implements FileFilter {
+
+	    @Override
+	    public boolean accept(File pathname) {
+	        String suffix = ".png";
+	        if( pathname.getName().toLowerCase().endsWith(suffix) ) {
+	            return true;
+	        }
+	        return false;
+	    }
+
+	}
+	
 
 }

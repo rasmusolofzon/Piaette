@@ -33,7 +33,7 @@ public class Player{
 		freezeTime = 2000; // Tweak
 		width = Main.width;
 		height = Main.height;
-		playerAnimation = new Animation(new SpriteSheet("animations/runningPlayer.png",64,64),250);
+		playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer2.png",64,64),250);
 		frozenTime = System.currentTimeMillis();
 		score = 0;
 	}

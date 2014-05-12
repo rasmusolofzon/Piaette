@@ -3,6 +3,7 @@ package menu;
 import main.Main;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class MenuButton {
@@ -25,7 +26,10 @@ public class MenuButton {
 		return x + img.getWidth();
 	}
 	public float getMaxY(){
-		return y+img.getHeight();
+		return y + img.getHeight();
+	}
+	public void draw(Graphics g){
+		g.drawImage(this.getImage(), this.getMinX(), this.getMinY());
 	}
 	
 	/*
@@ -45,7 +49,10 @@ public class MenuButton {
 	public boolean clicked(){
 		float x = Mouse.getX(), y = Mouse.getY();
 		if(isHovering(x,y)){
-			if(!Mouse.isButtonDown(0) && this.waitingForMouseRelease) return true;
+			if(!Mouse.isButtonDown(0) && this.waitingForMouseRelease) {
+				this.waitingForMouseRelease=false;
+				return true;
+			}
 			if(Mouse.isButtonDown(0)) this.waitingForMouseRelease = true;
 		} else{
 			this.waitingForMouseRelease = false;

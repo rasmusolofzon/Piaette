@@ -36,6 +36,7 @@ public class Game extends BasicGameState {
 	private Audio ding,explosion;
 	private MenuButton backButton;
 	private DeathWorm deathWorm;
+	private Image gameBackground;
 	
 	public Game(int id) {
 		this.id = id;
@@ -58,8 +59,11 @@ public class Game extends BasicGameState {
 	public void init(GameContainer gc,StateBasedGame sbg) throws SlickException {
 		
 		//Vit bakgrund
+
 		Graphics g = gc.getGraphics();
-		g.setBackground(Color.white);
+		gameBackground = new Image("Graphics/game/background.png");
+
+		g.setBackground(Color.black);
 		
 		
 		//Init players. Could be done better.
@@ -78,20 +82,20 @@ public class Game extends BasicGameState {
 		
 		
 		//Ladda animationer
-		boomAnimate = new Animation(new SpriteSheet("animations/boom.png",128,128,Color.black),50);
+		boomAnimate = new Animation(new SpriteSheet("Graphics/animations/boom.png",128,128,Color.black),50);
 		boomAnimate.setLooping(false);
 		
-		explodeAnimate = new Animation(new SpriteSheet("animations/explosion.png",128,128,Color.black),50);
+		explodeAnimate = new Animation(new SpriteSheet("Graphics/animations/explosion.png",128,128,Color.black),50);
 		explodeAnimate.setLooping(false);
 		
-		intro = new Animation(new SpriteSheet("animations/intro.png",128,128),250);
+		intro = new Animation(new SpriteSheet("Graphics/animations/intro.png",128,128),250);
 		intro.setLooping(false);
 		
-		winner = new Animation(new SpriteSheet("animations/winner.png",512,128),100);
+		winner = new Animation(new SpriteSheet("Graphics/animations/winner.png",512,128),100);
 		
 		//Knapp
-		Image back = new Image("menu/back.png");
-		Image backHover = new Image("menu/back-hover.png");
+		Image back = new Image("Graphics/menu/back.png");
+		Image backHover = new Image("Graphics/menu/back-hover.png");
 		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
 		
 	}
@@ -104,6 +108,7 @@ public class Game extends BasicGameState {
 	@Override
 	public void render(GameContainer gc,StateBasedGame sbg , Graphics g) throws SlickException {
 		//Under gameplay
+		g.drawImage(gameBackground,0,0);
 		if(elapsedTime<4000 || isRunning){
 			
 			//Score at the bottom of everything
@@ -222,7 +227,7 @@ public class Game extends BasicGameState {
 			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
 			}
-			
+
 			if (deathWorm.alive) {
 				if (deathWorm.circle.intersects(player.circle)) {
 					youreIt(player);
@@ -237,6 +242,14 @@ public class Game extends BasicGameState {
 					}
 				}
 			}
+
+//			if (deathWorm.alive) {
+//				//avgöra om current player är den player som är närmast Death Worm 2000
+//				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
+//					player.getY()-deathWorm.getY());
+//				if (deathWormDistance < deathWormTargetDistance) 
+//					deathWormTargetDistance = deathWormDistance;
+//			}
 			
 			//När tiden rinner ut
 			if(player.score>gameLength){ 
