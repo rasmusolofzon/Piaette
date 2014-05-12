@@ -50,7 +50,6 @@ public class Player{
 
 
 	public void draw(Graphics g, Player chaser){
-		
 		if(this == chaser){
 			g.setColor(color);
 			g.fill(circle);
@@ -96,7 +95,6 @@ public class Player{
 	public void goBack(){
 		move(1);
 	}
-
 
 	private void move(int forward){
 		isRunning=true; //NU SPRINGER VI JUH!
