@@ -27,6 +27,7 @@ public class PiaetteTextField extends TextField {
 		
 		setBackgroundColor(new Color(170, 170, 170));
 		setTextColor(Color.white);
+;
 		this.title = title;
 		this.font = font;
 		this.gc = gc;
@@ -35,11 +36,16 @@ public class PiaetteTextField extends TextField {
 	private PiaetteTextField(GameContainer gc, UnicodeFont font, int x, int y, int width, int height){
 		super(gc,font,x,y,width,height);
 	}
+	public void setText(String input){
+		super.setText(input);
+	}
+	public void  setConsumeEvents(boolean consume){
+		super.setConsumeEvents(consume);
+	}
 	
 	public void render(Graphics g) throws SlickException{
 		//Title
 		Color c = g.getColor();
-		g.setColor(Color.black);
 		g.drawString(title, this.getX(), this.getY()-this.getHeight()/2);
 		g.setColor(c);
 		
