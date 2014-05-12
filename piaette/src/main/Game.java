@@ -20,7 +20,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import shapes.Player;
-import shapes.SeekerMissile;
+import shapes.DeathWorm;
 
 
 public class Game extends BasicGameState {
@@ -35,7 +35,7 @@ public class Game extends BasicGameState {
 	private Animation boomAnimate,intro,explodeAnimate,winner;
 	private Audio ding,explosion;
 	private MenuButton backButton;
-	private SeekerMissile deathWorm;
+	private DeathWorm deathWorm;
 	
 	public Game(int id) {
 		this.id = id;
@@ -203,7 +203,9 @@ public class Game extends BasicGameState {
 		//Pjättarn förlorar poäng
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
 		
-		double deathWormTargetDistance = 0;
+		//Preppar Death Worm
+		double deathWormVictimDistance = 0;
+		Player deathWormVictim = null;
 		
 		//Spelares styrning
 		for(Player player : players){
@@ -222,11 +224,18 @@ public class Game extends BasicGameState {
 			}
 			
 			if (deathWorm.alive) {
-				//avgöra om current player är den player som är närmast Death Worm 2000
-				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
-					player.getY()-deathWorm.getY());
-				if (deathWormDistance < deathWormTargetDistance) 
-					deathWormTargetDistance = deathWormDistance;
+				if (deathWorm.circle.intersects(player.circle)) {
+					youreIt(player);
+					deathWorm.slumber();
+				} else {
+					//avgöra om current player är den player som är närmast Death Worm 2000
+					double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
+							player.getY()-deathWorm.getY());
+					if (deathWormDistance < deathWormVictimDistance) { 
+						deathWormVictimDistance = deathWormDistance;
+						deathWormVictim = player;
+					}
+				}
 			}
 			
 			//När tiden rinner ut
@@ -237,6 +246,7 @@ public class Game extends BasicGameState {
 				explosion.playAsSoundEffect(0.5f, 0.5f, false);
 				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
+				chaser = null;
 				
 				//Om spelaren är den sista kvar = WINNER!
 				if(players.size()-1==1) {
@@ -245,15 +255,18 @@ public class Game extends BasicGameState {
 					break;
 				}
 				
-				//annars utse nästa pjättare av missilen Death Worm 2000
+				//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
 				else{
-					deathWorm.alive = true;
 					deathWorm.awaken();
 				}
 			}
 		}
 		
-		if(!isRunning){ //Game is overh
+		if (deathWorm.alive) {
+			deathWorm.hunt(deathWormVictim);
+		}
+		
+		if(!isRunning){ //Game is over
 			if(backButton.clicked())
 				sbg.enterState(GameStater.mainMenu);
 		}
