@@ -64,7 +64,6 @@ public class ClientHandler extends Thread {
 
 	public void sendMessage(String msg) throws IOException {
 		outputStream.write((msg).getBytes());
-		char n = '\n';
 	}
 
 	public String readNextMessage() throws IOException{

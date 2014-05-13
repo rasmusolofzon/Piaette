@@ -16,8 +16,7 @@ public class ServerLobby extends Thread {
 	@Override
 	public void run(){
 		try {
-			@SuppressWarnings("resource")
-			ServerSocket serverSocket = new ServerSocket(30000);
+			ServerSocket serverSocket = new ServerSocket(serverPort);
 			System.out.println("Created ChatServer");
 			while (true) {
 				Socket socket = serverSocket.accept();
