@@ -14,6 +14,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		try {
+			System.setProperty("org.newdawn.slick.pngloader", "false");
 			AppGameContainer app = new AppGameContainer(new GameStater("Pjätt"));
 			app.setDisplayMode((int) (width*scale), (int) (height*scale), false);
 			app.setTargetFrameRate(fpsLimit);
