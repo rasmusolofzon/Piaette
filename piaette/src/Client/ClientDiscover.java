@@ -5,10 +5,8 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.ArrayList;
 
-//import net.hawry.lab5.nonnet.client.SendUDP;
-
 public class ClientDiscover {
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		if (args.length!=1) {
 			System.out.println("Invalid argument. Valid argument is: 'java ClientDiscover <port>'");
 			System.exit(0);
@@ -28,7 +26,7 @@ public class ClientDiscover {
 			System.out.println("Invalid argument. Valid argument is: 'java ClientDiscover <port>'");
 			System.exit(0);
 		}
-	}
+	}*/
 	
 	private int port;
 	private ArrayList<String> serverList;
