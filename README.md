@@ -16,7 +16,7 @@ CLI:SEQ:PORT:X:Y
 
 Serv UDP/MC:
 
-SRV:SEQ:#PLAYERS:1:X:Y:TMR:2:X:Y:TMR:3:X:Y:TMR:4:X:Y:TMR:PIATTE_ID:
+SRV:SEQ:#PLAYERS:1:X:Y:rotation:TMR:2:X:Y:rotation:TMR:3:X:Y:rotation:TMR:4:X:Y:rotation:TMR:PIATTE_ID:piaettarens ID
 
 Dödsbud skickas med TCP innehållandes vilken spelare som dör.
 
