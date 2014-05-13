@@ -68,9 +68,9 @@ public class Game extends BasicGameState {
 		
 		//Init players. Could be done better.
 		players.add(new Player(width/2*scale,height/2*scale,
-				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.cyan));
+				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.green, true));
 		players.add(new Player(width/2*scale,height/2*scale+100,
-				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.pink));
+				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.red, false));
 		
 		//Ladda litta ljud
 		try {
