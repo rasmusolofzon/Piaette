@@ -5,19 +5,15 @@ import java.net.Socket;
 
 
 public class GameServer {
-	public GameServer(){
-		try {
-			@SuppressWarnings("resource")
-			ServerSocket serverSocket = new ServerSocket(30000);
-			System.out.println("Created GameServer");
-			while (true) {
-				Socket socket = serverSocket.accept();
-
-				//ClientHandler cH = new ClientHandler(socket);
-				//cH.start();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private int serverPort = 22222;
+	public GameServer(String serverName){
+		
+		Thread serverOffer = new ServerOffer(serverPort);
+		serverOffer.start();
+		
+		Thread clientAdder = new ServerLobby(serverPort);
+		clientAdder.start();
+		
 	}
+	
 }
