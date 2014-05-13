@@ -23,8 +23,9 @@ public class Player{
 	private long frozenTime,freezeTime;
 	public long score;
 	public Color color;
-	public Animation playerAnimation;
+	public Animation playerAnimation, otherPlayerAnimation;
 	public boolean isRunning=false,isAlive = true;
+	public boolean first;
 
 	private Player(float x, float y) throws SlickException {
 		circle = new Circle(x,y,32);
@@ -33,12 +34,13 @@ public class Player{
 		freezeTime = 2000; // Tweak
 		width = Main.width;
 		height = Main.height;
-		playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer2.png",64,64),250);
+		playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer1.png",64,64),250);
+		otherPlayerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer2.png",64,64),250);
 		frozenTime = System.currentTimeMillis();
 		score = 0;
 	}
 
-	public Player(float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color) throws SlickException{
+	public Player(float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color,boolean first) throws SlickException{
 		this(x,y);
 		down = keyDown;
 		up = keyUp;
@@ -46,6 +48,7 @@ public class Player{
 		right = keyRight;
 		this.name = name;
 		this.color = color;
+		this.first = first;
 	}
 
 
@@ -58,6 +61,8 @@ public class Player{
 		g.setColor(color);
 		g.draw(circle);
 
+	if(first){	
+		
 		if(isRunning){ //springandes
 			playerAnimation.getCurrentFrame().setRotation(-getDirection()-90);
 			playerAnimation.draw(circle.getMinX(),circle.getMinY());
@@ -65,6 +70,15 @@ public class Player{
 			playerAnimation.getImage(0).setRotation(-getDirection()-90);
 			playerAnimation.getImage(0).draw(circle.getMinX(),circle.getMinY());
 		}
+	}else{
+		if(isRunning){ //springandes
+			otherPlayerAnimation.getCurrentFrame().setRotation(-getDirection()-90);
+			otherPlayerAnimation.draw(circle.getMinX(),circle.getMinY());
+		} else { //Stillastående
+			otherPlayerAnimation.getImage(0).setRotation(-getDirection()-90);
+			otherPlayerAnimation.getImage(0).draw(circle.getMinX(),circle.getMinY());
+		}
+	}
 	}
 
 	public void handleInput(Input i){
