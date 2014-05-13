@@ -41,7 +41,8 @@ public class ClientHandler extends Thread {
 		if(response1.startsWith("playerName:")){
 			String playerName = response1.substring(12);
 			System.out.println("Found "+playerName);
-			pDef = mailBox.addPlayer(playerName);
+			int id = mailBox.addClient(this);
+			pDef = new PlayerDefinition(playerName,id);
 			sendMessage("playerId: "+pDef.getId());
 		}
 		

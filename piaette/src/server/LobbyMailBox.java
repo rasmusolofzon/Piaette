@@ -3,16 +3,15 @@ package server;
 import java.util.ArrayList;
 
 public class LobbyMailBox {
-	ArrayList<PlayerDefinition> players;
+	ArrayList<ClientHandler> players;
 	private final int MAX_PLAYERS = 4;
 	public LobbyMailBox(){
-		players = new ArrayList<PlayerDefinition>();
+		players = new ArrayList<ClientHandler>();
 	}
 	
-	public synchronized PlayerDefinition addPlayer(String playerName) {
-		PlayerDefinition pDef = new PlayerDefinition(playerName,players.size()+1);
-		players.add(pDef);
-		return pDef;
+	public synchronized int addClient(ClientHandler clientHandler) {
+		players.add(clientHandler);
+		return players.size();
 	}
 	
 	public boolean isServerFull(){
