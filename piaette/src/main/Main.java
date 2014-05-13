@@ -4,7 +4,6 @@ import org.newdawn.slick.SlickException;
 
 
 public class Main {
-
 	public static int width = 1000;
 	public static int height = 9*width/16;
 	public static float scale = 1f;
