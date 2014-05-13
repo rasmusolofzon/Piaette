@@ -28,7 +28,7 @@ public class ServerOffer extends Thread {
 				ms.receive(dp);
 				String s = new String(dp.getData(),0,dp.getLength());
 				System.out.println("Received: "+s);
-				if(s.startsWith("piaette-server-request")){
+				if(s.startsWith("piaetteServerRequest")){
 					System.out.println("Matched server request.");
 					offer(dp);
 				}
@@ -56,7 +56,7 @@ public class ServerOffer extends Thread {
 		System.out.println("Offering server to "+returnAddress);
 		
 		byte[] sendByte = new byte[1024];
-		sendByte = ("piaette-server-offer: "+hostname).getBytes();
+		sendByte = ("piaetteServerOffer: "+hostname).getBytes();
 		DatagramPacket send = new DatagramPacket(sendByte,sendByte.length,returnAddress,returnPort);
 		datagramSocket.send(send);
 	}
