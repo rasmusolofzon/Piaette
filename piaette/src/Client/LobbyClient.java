@@ -6,24 +6,18 @@ import java.net.Socket;
 public class LobbyClient {
 	private static String machine;
 	private static int port;
+	private static LobbyToServer lTS;
 
-	public LobbyClient() {
+	public LobbyClient(String machine, int port) {
 
 		try {
-
-			machine = "localhost";
-			port = Integer.parseInt("port");
 			Socket socket = new Socket(machine, port);
 			
 			LobbyFromServer lFS = new LobbyFromServer(socket);
 			lFS.start();
-			
-			
+						
 			//Olika saker ska ske vid olika inputs...
-			LobbyToServer lTS = new LobbyToServer(socket);
-			lTS.setMessage("hej");			
-			lTS.start();
-
+			lTS = new LobbyToServer(socket);
 
 
 		} catch (IndexOutOfBoundsException e) {
@@ -35,5 +29,13 @@ public class LobbyClient {
 			e.printStackTrace();
 		}
 	}
+
+	public static void ToServer(String output) {
+		lTS.setMessage(output);			
+		lTS.start();
+		
+	}
+
+
 
 }

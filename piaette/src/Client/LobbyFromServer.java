@@ -26,8 +26,10 @@ public class LobbyFromServer extends Thread {
 
 	private void doCase() throws IOException {
 		String input = readInput();
+		String pName ="hej";
 		if(input.startsWith("welcome")){
-			
+			String output = "playerName: "+ pName;
+		LobbyClient.ToServer(output);
 		}else if(input.startsWith("playerName: ")){
 			
 		}else if(input.startsWith("mer")){
