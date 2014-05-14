@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class LobbyClient {
-	private static LobbyToServer lTS;
 	private OutputStream outputStream;
 	private InputStream inputStream;
 	private int playerId;
@@ -67,8 +66,20 @@ public class LobbyClient {
 	public static void startGame(){
 		//TODO
 	}
-	public static void disconnect(){
+	public static void disconnectedByServer(){
 		//TODO
+	}
+	
+	public void disconnectByClient(){
+		try {
+			sendMessage("leaveGame");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public int getPlayerId(){
+		return playerId;
 	}
 
 

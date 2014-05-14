@@ -27,7 +27,7 @@ public class LobbyFromServer extends Thread {
 		if(input.equals("startGame")){
 			LobbyClient.startGame();
 		}else if(input.equals("serverClosed")){
-			LobbyClient.disconnect();
+			LobbyClient.disconnectedByServer();
 		}
 	}
 

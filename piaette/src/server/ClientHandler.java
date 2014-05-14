@@ -22,14 +22,13 @@ public class ClientHandler extends Thread {
 	public void run(){
 		try{
 			if(handShake()){
-				
+				boolean run = true;
+				while(run){
+					String command = readNextMessage();
+					run = parseCommand(command);
+				}
 			}
-			while(true){
-				String command = readNextMessage();
-				parseCommand(command);
-				
-			}
-			
+
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -49,19 +48,12 @@ public class ClientHandler extends Thread {
 		return false;
 	}
 
-	private void parseCommand(String command) {
-		switch(command){
-			case "startGame":
-				//TODO
-				break;
-			case "leaveGame":
-				//TODO
-				break;
-			default:
-				//TODO
-				break;
+	private boolean parseCommand(String command) {
+		if(command.equals("leaveGame")){
+			ServerLobby.getMailBox().removeClient(this);
+			return false;
 		}
-		
+		return true;
 	}
 
 	public void sendMessage(String msg) throws IOException {

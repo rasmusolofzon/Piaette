@@ -14,8 +14,14 @@ public class LobbyMailBox {
 		return players.size();
 	}
 	
+	public void removeClient(ClientHandler clientHandler){
+		players.remove(clientHandler);
+	}
+	
 	public boolean isServerFull(){
 		return players.size()==MAX_PLAYERS;
 	}
+	
+	
 	
 }
