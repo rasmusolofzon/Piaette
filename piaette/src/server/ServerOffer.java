@@ -8,6 +8,11 @@ import java.net.MulticastSocket;
 
 public class ServerOffer extends Thread {
 
+	public static void main(String[] args) {
+		ServerOffer so = new ServerOffer(30000);
+		so.run();
+	}
+	
 	private int msPort;
 	private MulticastSocket ms;
 	private int port;

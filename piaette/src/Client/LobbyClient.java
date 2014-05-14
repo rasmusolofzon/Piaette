@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import main.Utility;
+
 public class LobbyClient {
 	private OutputStream outputStream;
 	private InputStream inputStream;
@@ -26,33 +28,15 @@ public class LobbyClient {
 	}
 	
 	private boolean handshake() throws IOException{
-		String initMessage = receiveMessage();
+		String initMessage = Utility.receiveMessage(inputStream);
 		if(!initMessage.startsWith("welcome")) return false;
-		sendMessage("playerName: "+playerName);
-		String idMessage = receiveMessage();
+		Utility.sendMessage(outputStream,"playerName: "+playerName);
+		String idMessage = Utility.receiveMessage(inputStream);
 		playerId = Integer.parseInt(idMessage.substring(10));
 		System.out.println("Received id "+playerId+" from the server");
 		return true;
 	}
-	
-	public void sendMessage(String msg) throws IOException {
-		outputStream.write((msg+'\n').getBytes());
-	}
 
-	public String receiveMessage() throws IOException{
-		int readByte;
-		StringBuilder sb = new StringBuilder();
-		do {
-			readByte = inputStream.read();
-			char a = (char) readByte;
-			sb.append(a);
-			if (a == '\n') {
-				readByte = -1;
-			}
-		} while (readByte != -1);
-		return sb.toString().trim();
-	}
-	
 	public static void startGame(){
 		//TODO
 	}
@@ -62,7 +46,7 @@ public class LobbyClient {
 	
 	public void disconnectByClient(){
 		try {
-			sendMessage("leaveGame");
+			Utility.sendMessage(outputStream,"leaveGame");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
