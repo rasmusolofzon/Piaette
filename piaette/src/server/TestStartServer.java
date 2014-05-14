@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -19,7 +21,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class TestStartServer extends JFrame implements ActionListener {
+import sun.security.jgss.GSSCaller;
+
+public class TestStartServer extends JFrame implements ActionListener, Observer {
 	int height, width;
 	/**
 	 * 
@@ -31,8 +35,9 @@ public class TestStartServer extends JFrame implements ActionListener {
 	protected JLabel msgLabel;
 	protected JLabel sInfoLabel, sMSGLabel;
 	protected JLabel infoLabel1,msgLabel1;
+	private GameServer gs;
 	
-	private JButton startButton, stopButton;
+	private JButton startServerButton, stopButton, startGameButton;
 
 	private JList<String> pList;
 	private DefaultListModel<String> pListModel;
@@ -40,6 +45,7 @@ public class TestStartServer extends JFrame implements ActionListener {
 	public TestStartServer() {
 		this.height = 300;
 		this.width = 300;
+		ServerLobby.getMailBox().addObserver(this);
 		initUI();
 	}
 
@@ -50,20 +56,27 @@ public class TestStartServer extends JFrame implements ActionListener {
 
 		JPanel northPanel = new JPanel(new GridLayout(2, 2));
 
-		startButton = new JButton("Start");
-		startButton.setToolTipText("Starts da Server!");
-		startButton.addActionListener(this);
+		startServerButton = new JButton("Start server");
+		startServerButton.setToolTipText("Starts da Server!");
+		startServerButton.addActionListener(this);
 
 		stopButton = new JButton("Stop");
 		stopButton.setToolTipText("Stoppes dat Server!");
 		stopButton.addActionListener(this);
 		
+		startGameButton = new JButton("Start game");
+		startGameButton.setToolTipText("Starts da game!");
+		startGameButton.addActionListener(this);
+		
+
+		
 		msgLabel = new JLabel("Messages:");
 		msgLabel = new JLabel(" msgLabel");
 		
 		JPanel welcomePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		welcomePanel.add(startButton);
+		welcomePanel.add(startServerButton);
 		welcomePanel.add(stopButton);
+		welcomePanel.add(startGameButton);
 		northPanel.add(msgLabel);
 		northPanel.add(welcomePanel);
 		
@@ -74,6 +87,7 @@ public class TestStartServer extends JFrame implements ActionListener {
 		pList.setPrototypeCellValue("123456789012");
 		pList.addListSelectionListener(new pSelectionListener());
 		JScrollPane p1 = new JScrollPane(pList);
+		
 		middlePanel.add(p1);
 
 		JPanel southPanel = new JPanel(new GridLayout(2, 2));
@@ -108,13 +122,17 @@ public class TestStartServer extends JFrame implements ActionListener {
 	}
 	 public void actionPerformed(ActionEvent e)
      {
-		 if(e.getSource() == startButton){
+		 if(e.getSource() == startServerButton){
+			 
 			 displayMessage("Attempting to start Server!");
-			 new GameServer("Server name");
+			 GameServer gs = new GameServer("Kyckling");
 			 
 			 
 		 }else if(e.getSource() == stopButton){
 			 displayMessage("Pressed Stop!");
+			 
+		 }else if(e.getSource() == startGameButton){
+			 displayMessage("Pressed StartGame!");
 		 }
 		
      }
@@ -168,6 +186,18 @@ public class TestStartServer extends JFrame implements ActionListener {
 				TestStartServer ex = new TestStartServer();
 			}
 		});
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {;
+		ArrayList<ClientHandler> playerHanList = (LobbyMailBox.getClients());
+		
+		System.out.println("update");
+		for( ClientHandler cH : playerHanList){
+			fillNameList(cH.getPlayer().getName());
+		}
+				
+		
 	}
 
 }
