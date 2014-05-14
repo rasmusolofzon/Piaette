@@ -38,6 +38,7 @@ public class Utility {
 	}
 	public static void sendMessage(OutputStream outputStream, String msg) throws IOException {
 		outputStream.write((msg+'\n').getBytes());
+		outputStream.flush();
 	}
 
 	public static String receiveUDP(DatagramSocket socket){

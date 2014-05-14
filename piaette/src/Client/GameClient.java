@@ -10,6 +10,8 @@ public class GameClient {
 	private InetAddress hostAddress;
 	private int hostPort;
 	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort){
+		System.out.println("Starting sending all that shit!");
+		
 		this.socket = socket;
 		this.hostAddress = hostAddress;
 		this.hostPort = hostPort;

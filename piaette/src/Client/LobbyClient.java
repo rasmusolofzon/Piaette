@@ -20,9 +20,7 @@ public class LobbyClient {
 	
 	public LobbyClient(String machine, int port, String playerName) throws IOException,NumberFormatException{
 		hostAddress = InetAddress.getByName(machine);
-		hostPort = port++;
-		
-		
+		hostPort = port+1;
 		
 		this.playerName = playerName;
 			Socket socket = new Socket(machine, port);
@@ -48,7 +46,9 @@ public class LobbyClient {
 	}
 
 	public static void startGame(){
+		System.out.println("Trying to start game");
 		try {
+			System.out.println("Recieved startgame");
 			new GameClient(new DatagramSocket(),hostAddress,hostPort);
 		} catch (SocketException e) {
 			e.printStackTrace();
