@@ -49,4 +49,6 @@ public class PlayerDefinition {
 	public void updateTimer(float tmr) {
 		this.tmr = tmr;
 	}
+	
+	public String toString() {return id + "-" + x + "-" + y + "-" + rotation + "-" + tmr;}
 }
