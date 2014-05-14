@@ -2,6 +2,7 @@ package menu;
 
 import main.GameStater;
 import main.Main;
+import main.Utility;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
