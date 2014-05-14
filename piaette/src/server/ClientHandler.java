@@ -75,5 +75,9 @@ public class ClientHandler extends Thread {
 
 		return sb.toString().trim();
 	}
+	
+	public PlayerDefinition getPlayer(){
+		return pDef;
+	}
 
 }
