@@ -57,7 +57,7 @@ public class ClientHandler extends Thread {
 	}
 
 	public void sendMessage(String msg) throws IOException {
-		outputStream.write((msg).getBytes());
+		outputStream.write((msg+'\n').getBytes());
 	}
 
 	public String readNextMessage() throws IOException{
@@ -73,7 +73,7 @@ public class ClientHandler extends Thread {
 			}
 		} while (readByte != -1);
 
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 }

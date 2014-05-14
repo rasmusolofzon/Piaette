@@ -16,6 +16,7 @@ public class ServerLobby extends Thread {
 	@Override
 	public void run(){
 		try {
+			System.out.println("Starting server");
 			ServerSocket serverSocket = new ServerSocket(serverPort);
 			System.out.println("Created ChatServer");
 			while (true) {
@@ -33,5 +34,8 @@ public class ServerLobby extends Thread {
 		if(mailBox==null) mailBox = new LobbyMailBox();
 		return mailBox;
 	}
-
+	public static void main(String[] args){
+		ServerLobby lobby = new ServerLobby(22222);
+		lobby.start();
+	}
 }
