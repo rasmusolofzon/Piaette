@@ -128,7 +128,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		 if(e.getSource() == startServerButton){
 			 if(!running){
 				 displayMessage("Attempting to start Server!");
-			 GameServer gs = new GameServer("Kyckling");
+			 GameServer gs = new GameServer(22222,"Kyckling");
 			 running = true;
 			 }else{
 				 displayMessage("Server is runnig around!");
@@ -180,20 +180,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 
 		}
 	}
-	/**
-	 * Fetch product names from the database and display them in the name list.
-	 */
-	private void fillNameList(String newName) {
-		pListModel.removeAllElements();
-		displayMessage("fillNameList");
-		ArrayList<String> nameArray = new ArrayList<String>();
-		nameArray.add(newName);
 
-		for (int i = 0; i < nameArray.size(); i++) {
-			pListModel.addElement(nameArray.get(i));
-
-		}
-	}
 
 
 	public static void main(String[] args) {
@@ -207,10 +194,11 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {;
+	public void update(Observable o, Object arg) {
+		pListModel.removeAllElements();
 		ArrayList<ClientHandler> playerHanList = LobbyMailBox.getClients();
 		for(ClientHandler cH : playerHanList){
-			fillNameList(cH.getPlayer().getName());
+			pListModel.addElement(cH.getPlayer().getName());
 		}
 				
 		
