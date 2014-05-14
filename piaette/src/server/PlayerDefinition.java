@@ -4,7 +4,7 @@ public class PlayerDefinition {
 
 	private int id;
 	private String playerName;
-	private float rotation, x, y;
+	private float rotation, x, y, tmr;
 
 	public PlayerDefinition(String playerName, int i) {
 		this.id = i;
@@ -29,6 +29,10 @@ public class PlayerDefinition {
 	public float getY() {
 		return y;
 	}
+	
+	public float getTimer() {
+		return tmr;
+	}
 
 	public void updateX(float x) {
 		this.x = x;
@@ -42,5 +46,7 @@ public class PlayerDefinition {
 		this.rotation = rotation;
 	}
 	
-	
+	public void updateTimer(float tmr) {
+		this.tmr = tmr;
+	}
 }
