@@ -1,7 +1,7 @@
 package Client;
 
 public class GameUpStream extends Thread {
-	public GameUpStream(){
+	public GameUpStream(GameClient model){
 		//TODO
 	}
 
