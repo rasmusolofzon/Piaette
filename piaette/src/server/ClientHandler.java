@@ -43,6 +43,7 @@ public class ClientHandler extends Thread {
 			int id = mailBox.addClient(this);
 			pDef = new PlayerDefinition(playerName,id);
 			sendMessage("playerId: "+pDef.getId());
+			mailBox.notifyObservers();
 			return true;
 		}
 		return false;
