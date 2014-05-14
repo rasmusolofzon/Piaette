@@ -14,22 +14,24 @@ public class LobbyFromServer extends Thread {
 
 	public void run() {
 		while (true) {
-			try {
-				doCase();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			doCase();
 		}
 	}
 
-	private void doCase() throws IOException {
-		String input = readInput().trim();
-		System.out.println("doCase returns: " + input);
-		if(input.equalsIgnoreCase("startGame")){
-			System.out.println("Recieved startgame in doCase()");
-			LobbyClient.startGame();
-		}else if(input.equals("serverClosed")){
-			LobbyClient.disconnectedByServer();
+	private void doCase() {
+		String input = "";
+		try {
+			input = readInput().trim();
+
+			System.out.println("doCase returns: " + input);
+			if (input.equalsIgnoreCase("startGame")) {
+				System.out.println("Recieved startgame in doCase()");
+				LobbyClient.startGame();
+			} else if (input.equals("serverClosed")) {
+				LobbyClient.disconnectedByServer();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

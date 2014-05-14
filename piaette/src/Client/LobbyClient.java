@@ -35,13 +35,17 @@ public class LobbyClient {
 
 	}
 	
-	private boolean handshake() throws IOException{
-		String initMessage = Utility.receiveMessage(inputStream);
-		if(!initMessage.startsWith("welcome")) return false;
-		Utility.sendMessage(outputStream,"playerName: "+playerName);
-		String idMessage = Utility.receiveMessage(inputStream);
-		playerId = Integer.parseInt(idMessage.substring(10));
-		System.out.println("Received id "+playerId+" from the server");
+	private boolean handshake() {
+		try {
+			String initMessage = Utility.receiveMessage(inputStream);
+			if(!initMessage.startsWith("welcome")) return false;
+			Utility.sendMessage(outputStream,"playerName: "+playerName);
+			String idMessage = Utility.receiveMessage(inputStream);
+			playerId = Integer.parseInt(idMessage.substring(10));
+			System.out.println("Received id "+playerId+" from the server");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 

@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -21,8 +23,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import sun.security.jgss.GSSCaller;
 
 public class TestStartServer extends JFrame implements ActionListener, Observer {
 	int height, width;
@@ -129,6 +129,11 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 			 if(!running){
 				 displayMessage("Attempting to start Server!");
 			 GameServer gs = new GameServer(22222,"Kyckling");
+			 try {
+				sMSGLabel.setText(InetAddress.getLocalHost().getHostAddress());
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			}
 			 running = true;
 			 }else{
 				 displayMessage("Server is runnig around!");
