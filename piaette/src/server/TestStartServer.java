@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -143,6 +144,13 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 			 
 		 }else if(e.getSource() == startGameButton){
 			 displayMessage("Pressed StartGame!");
+			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
+				 try {
+					ch.sendMessage("startGame");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			 }
 		 }
 		
      }
@@ -201,10 +209,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 	@Override
 	public void update(Observable o, Object arg) {;
 		ArrayList<ClientHandler> playerHanList = LobbyMailBox.getClients();
-		System.out.println(playerHanList.size());
-		System.out.println("update");
 		for(ClientHandler cH : playerHanList){
-			System.out.println(cH.getPlayer());
 			fillNameList(cH.getPlayer().getName());
 		}
 				
