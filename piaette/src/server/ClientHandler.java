@@ -21,9 +21,9 @@ public class ClientHandler extends Thread {
 	@Override
 	public void run(){
 		try{
-			
-			handShake();
-			
+			if(handShake()){
+				
+			}
 			while(true){
 				String command = readNextMessage();
 				parseCommand(command);
@@ -35,7 +35,7 @@ public class ClientHandler extends Thread {
 		}
 	}
 
-	private void handShake() throws IOException {
+	private boolean handShake() throws IOException {
 		sendMessage("welcome");
 		String response1 = readNextMessage();
 		if(response1.startsWith("playerName:")){
@@ -44,8 +44,9 @@ public class ClientHandler extends Thread {
 			int id = mailBox.addClient(this);
 			pDef = new PlayerDefinition(playerName,id);
 			sendMessage("playerId: "+pDef.getId());
+			return true;
 		}
-		
+		return false;
 	}
 
 	private void parseCommand(String command) {

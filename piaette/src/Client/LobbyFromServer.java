@@ -3,10 +3,8 @@ package Client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class LobbyFromServer extends Thread {
-	private ArrayList[] ConnectedPlayerList;
 	private InputStream in;
 	int inputCase;
 
@@ -26,14 +24,10 @@ public class LobbyFromServer extends Thread {
 
 	private void doCase() throws IOException {
 		String input = readInput();
-		String pName ="hej";
-		if(input.startsWith("welcome")){
-			String output = "playerName: "+ pName;
-		LobbyClient.ToServer(output);
-		}else if(input.startsWith("playerName: ")){
-			
-		}else if(input.startsWith("mer")){
-			
+		if(input.equals("startGame")){
+			LobbyClient.startGame();
+		}else if(input.equals("serverClosed")){
+			LobbyClient.disconnect();
 		}
 	}
 
