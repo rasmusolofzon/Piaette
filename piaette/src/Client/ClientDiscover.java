@@ -1,84 +1,88 @@
 package Client;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-public class ClientDiscover {
-	/*public static void main(String[] args) {
-		if (args.length!=1) {
-			System.out.println("Invalid argument. Valid argument is: 'java ClientDiscover <port>'");
-			System.exit(0);
-		}
+import javax.swing.Timer;
+
+public class ClientDiscover implements ActionListener {
+	private Timer tmr;
+	private int seconds;
+	public static void main(String[] args) {
+		ClientDiscover cd = new ClientDiscover(4099);
+		System.out.println(cd.discoverServer());
+	}
 		
-		String command = args[1];
-		int port = 0;
-		
-		try {
-			port = Integer.parseInt(args[0]);
-		}
-		catch(Exception e) {
-			port = 0;
-		}
-		
-		if (port==0) {
-			System.out.println("Invalid argument. Valid argument is: 'java ClientDiscover <port>'");
-			System.exit(0);
-		}
-	}*/
-	
 	private int port;
 	private ArrayList<String> serverList;
 	
 	public ClientDiscover (int port) {
 		this.port = port;
 		serverList = new ArrayList<String>();
+		tmr = new Timer(1000,this);
+		seconds = 0;
 	}
 	
-	private String discoverServer() {
-		String rVal = null;
+	public ArrayList<String> discoverServer() {
 		try {
 			MulticastSocket ms = new MulticastSocket();
 			ms.setTimeToLive(1);
+			ms.setSoTimeout(5000);
 			
 			InetAddress addr = InetAddress.getByName("experiment.mcast.net");
 			
-			
-			String DISC_HEAD = "DISCOVER_GAME";
+			String DISC_HEAD = "piaetteServerRequest";
 			byte[] snd = DISC_HEAD.getBytes();
-			byte[] rcv = new byte[2048];
 			
 			DatagramPacket send = new DatagramPacket(snd,snd.length,addr,4099);
 			ms.send(send);
-			
-			DatagramPacket recieve = new DatagramPacket(rcv,rcv.length);
-			
-			ms.receive(recieve);
-			
-			String hostname = new String(recieve.getData()).trim();
-			if (hostname.length()>0) {
-				serverList.add(hostname);
-				rVal = hostname;
+			tmr.start();
+			while (seconds<5) {
+				String data = "neeeeej:n";
+				while ((!data.startsWith("piaetteServerOffer"))) {
+					byte[] rcv = new byte[2048];
+					DatagramPacket recieve = new DatagramPacket(rcv,rcv.length);
+					try {
+						ms.receive(recieve);
+					}catch (SocketTimeoutException e2) {
+						tmr.stop();
+						break;
+					}
+					data = new String(recieve.getData()).trim();
+					System.out.println("Rcv: " + data);
+				}
+				
+				String hostname = data.split(":")[1];
+				
+				if (hostname.length()>0) {
+					serverList.add(hostname);
+				}
 			}
-			
+			tmr.stop();
 			ms.close();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return rVal;
+		return serverList;
 	}
 	
-	public void send() {
+	/*public void send() {
 		String host = this.discoverServer();
 		if (host==null) {
 			return;
 		}
 		
 		//new ClientDiscover(host, port).send();
+	}*/
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(seconds++);
 	}
-	
-	
-	
 }
