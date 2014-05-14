@@ -19,7 +19,8 @@ public class LobbyMailBox extends Observable{
 	
 	public void removeClient(ClientHandler clientHandler){
 		players.remove(clientHandler);
-		notifyAll();
+		setChanged();
+		notifyObservers();
 	}
 	
 	public boolean isServerFull(){
