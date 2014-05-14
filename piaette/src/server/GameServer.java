@@ -86,8 +86,9 @@ public class GameServer {
 				if ((now - lastSend)>=100) {
 					for (SocketAddress sa : udpClients) {
 						byte[] sndTemp = new ServerProtocol(2,null,2).toString().getBytes();
-						DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);
 						try {
+						DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);
+
 							udpSock.send(snd);
 						} catch (IOException e) {
 							e.printStackTrace();
