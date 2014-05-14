@@ -38,10 +38,9 @@ public class LobbyClient {
 	}
 
 	public static void startGame(){
-		//TODO
+		
 	}
 	public static void disconnectedByServer(){
-		//TODO
 	}
 	
 	public void disconnectByClient(){

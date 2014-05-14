@@ -14,14 +14,13 @@ public class ServerProtocol extends Protocol {
 	public int getPiaetteId() {return piaette;}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		
-		sb.append("SEQ=" + sequenceNbr);
-		sb.append(" Number of players: " + pp.length);
-		sb.append(" Players: ");
+		sb.append("SRV:");
+		sb.append(sequenceNbr +":");
+		sb.append(pp.length + ":");
 		for (ProtocolPlayer p : pp) {
-			sb.append(" - " + p + " - ");
+			sb.append(p+":");
 		}
-		sb.append(" Who is kullen? " + piaette);
+		sb.append(piaette);
 		
 		return sb.toString();
 	}

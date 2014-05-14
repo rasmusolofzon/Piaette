@@ -16,5 +16,5 @@ public class ProtocolPlayer {
 	public float getRotation() {return rot;}
 	public int getTimer() {return tmr;}
 	public int getPlayerId() {return pid;}
-	public String toString() {return "ID=" + pid + ", X=" + x + ", Y=" + y + ", Rotation=" + rot + ", Timer=" + tmr;}
+	public String toString() {return pid + "-"+ x + "-" + y + "-" + rot + "-" + tmr;}
 }

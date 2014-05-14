@@ -2,6 +2,8 @@ package Client;
 
 import java.net.DatagramSocket;
 
+import protocol.ProtocolPlayer;
+
 public class GameClient {
 	private DatagramSocket socket;
 	public GameClient(DatagramSocket socket){
@@ -12,11 +14,16 @@ public class GameClient {
 		down.start();
 		up.start();
 	}
+	
 	public DatagramSocket getSocket(){
 		return socket;
 	}
+	
 	public void updatePlayer(int id, float x, float y, float r, float timer) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public ProtocolPlayer getPlayerInfo() {
+		return new ProtocolPlayer(0, 0, 0, 0, 0);
 	}
 }

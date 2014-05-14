@@ -1,12 +1,17 @@
 package Client;
 
 public class GameUpStream extends Thread {
+	private GameClient model;
+	private int SEQ;
 	public GameUpStream(GameClient model){
-		//TODO
+		this.model = model;
+		this.SEQ = 0;
 	}
 
 	@Override
 	public void run(){
-		//TODO
+		while(true) {
+			
+		}
 	}
 }
