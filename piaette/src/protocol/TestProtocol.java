@@ -24,7 +24,5 @@ public class TestProtocol {
 			ServerProtocol sRcv = (ServerProtocol) rcv;
 			System.out.println(sRcv);
 		}
-		
-		
 	}
 }
