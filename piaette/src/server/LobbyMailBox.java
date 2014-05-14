@@ -13,6 +13,7 @@ public class LobbyMailBox extends Observable{
 
 	public synchronized int addClient(ClientHandler clientHandler) {
 		players.add(clientHandler);
+		setChanged();
 		notifyObservers(this);
 		return players.size();
 	}
