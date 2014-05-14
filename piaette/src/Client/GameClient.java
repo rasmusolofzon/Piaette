@@ -15,4 +15,8 @@ public class GameClient {
 	public DatagramSocket getSocket(){
 		return socket;
 	}
+	public void updatePlayer(int id, float x, float y, float r, float timer) {
+		// TODO Auto-generated method stub
+		
+	}
 }
