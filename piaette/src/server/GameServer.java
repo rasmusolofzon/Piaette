@@ -5,6 +5,7 @@ package server;
 
 public class GameServer {
 	private int serverPort = 22222;
+	Thread serverOffer, clientAdder;
 	public GameServer(String serverName){
 		
 		Thread serverOffer = new ServerOffer(serverPort);
@@ -12,6 +13,11 @@ public class GameServer {
 		
 		Thread clientAdder = new ServerLobby(serverPort);
 		clientAdder.start();
+		
+	}
+	public void close() {
+		//serverOffer.close();
+		//clientAdder.close();
 		
 	}
 

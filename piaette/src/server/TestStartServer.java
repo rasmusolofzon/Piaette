@@ -36,6 +36,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 	protected JLabel sInfoLabel, sMSGLabel;
 	protected JLabel infoLabel1,msgLabel1;
 	private GameServer gs;
+	private boolean running;
 	
 	private JButton startServerButton, stopButton, startGameButton;
 
@@ -45,6 +46,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 	public TestStartServer() {
 		this.height = 300;
 		this.width = 300;
+		running = false;
 		ServerLobby.getMailBox().addObserver(this);
 		initUI();
 	}
@@ -123,13 +125,21 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 	 public void actionPerformed(ActionEvent e)
      {
 		 if(e.getSource() == startServerButton){
-			 
-			 displayMessage("Attempting to start Server!");
+			 if(!running){
+				 displayMessage("Attempting to start Server!");
 			 GameServer gs = new GameServer("Kyckling");
+			 running = true;
+			 }else{
+				 displayMessage("Server is runnig around!");
+				 return;
+			 }
+
 			 
 			 
 		 }else if(e.getSource() == stopButton){
 			 displayMessage("Pressed Stop!");
+			 gs.close();
+			 
 			 
 		 }else if(e.getSource() == startGameButton){
 			 displayMessage("Pressed StartGame!");
