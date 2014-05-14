@@ -1,5 +1,9 @@
 package protocol;
 
+import java.util.ArrayList;
+
+import server.PlayerDefinition;
+
 public class ProtocolParser {
 	
 	private static ProtocolParser proto;
@@ -40,15 +44,20 @@ public class ProtocolParser {
 		if (pType==Protocol.PROTOCOL_SERVER) {
 			int SEQ = toInt(p[1]);
 			int PLAYERS = toInt(p[2]);
-			ProtocolPlayer[] pp = new ProtocolPlayer[PLAYERS];
+			ArrayList<PlayerDefinition> pp = new ArrayList<PlayerDefinition>();
 			for (int i = 0;i<PLAYERS;i++) {
 				String[] playerInfo = p[i+3].split("-");
 				int PID = toInt(playerInfo[0]);
 				float PX = toFloat(playerInfo[1]);
 				float PY = toFloat(playerInfo[2]);
 				float PR = toFloat(playerInfo[3]);
-				int PT = toInt(playerInfo[4]);
-				pp[i] = new ProtocolPlayer(PID, PX, PY, PR, PT);
+				float PT = toFloat(playerInfo[4]);
+				PlayerDefinition pd = new PlayerDefinition("na",PID);
+				pd.updateX(PX);
+				pd.updateY(PY);
+				pd.updateRotation(PR);
+				pd.updateTimer(PT);
+				pp.add(pd);
 			}
 			int PIAETTE = toInt(p[p.length-1]);
 			rVal = new ServerProtocol(SEQ, pp, PIAETTE);
