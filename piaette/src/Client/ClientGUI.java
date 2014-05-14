@@ -91,6 +91,7 @@ public class ClientGUI implements ActionListener {
 		}
 		
 		try {
+			enableAll(false);
 			new LobbyClient(host,port,player);
 			lMessage.setText("Waiting for game to start");
 		}catch(Exception e) {
