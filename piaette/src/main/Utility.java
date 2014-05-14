@@ -4,13 +4,16 @@ import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
 public class Utility {
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public static UnicodeFont getNewFont(String fontName , int fontSize) {
 		UnicodeFont font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));
@@ -18,7 +21,7 @@ public class Utility {
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
 		return font;
 	}
-	
+
 	public static String receiveMessage(InputStream in) throws IOException {
 		int readByte;
 		StringBuilder sb = new StringBuilder();
@@ -36,4 +39,31 @@ public class Utility {
 	public static void sendMessage(OutputStream outputStream, String msg) throws IOException {
 		outputStream.write((msg+'\n').getBytes());
 	}
+
+	public static String receiveUDP(DatagramSocket socket){
+		try {
+			byte[] receiveData = new byte[1024];
+			DatagramPacket receivePacket = new DatagramPacket(receiveData,
+					receiveData.length);
+			socket.receive(receivePacket);
+			String message = new String(receivePacket.getData());
+			return message;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static void sendUDP(String message, DatagramSocket socket,InetAddress IPAddress,int port){
+		byte[] sendData = message.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendData,
+				sendData.length, IPAddress, port);
+		try {
+			socket.send(sendPacket);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
