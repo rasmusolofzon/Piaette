@@ -3,8 +3,8 @@ package Client;
 import main.Utility;
 import protocol.Protocol;
 import protocol.ProtocolParser;
-import protocol.ProtocolPlayer;
 import protocol.ServerProtocol;
+import server.PlayerDefinition;
 
 public class GameDownStream extends Thread {
 	private GameClient model;
@@ -30,8 +30,8 @@ public class GameDownStream extends Thread {
 				continue;
 			}
 			
-			for (ProtocolPlayer p : c.getPlayers()) {
-				model.updatePlayer(p.getPlayerId(), p.getX(), p.getY(), p.getRotation(), p.getTimer());
+			for (PlayerDefinition p : c.getPlayers()) {
+				model.updatePlayer(p.getId(), p.getX(), p.getY(), p.getRotation(), p.getTimer());
 			}
 		}
 	}
