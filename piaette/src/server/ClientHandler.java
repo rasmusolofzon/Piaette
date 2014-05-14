@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import main.Utility;
+
 public class ClientHandler extends Thread {
 
 	private OutputStream outputStream;
@@ -58,7 +60,10 @@ public class ClientHandler extends Thread {
 	}
 
 	public void sendMessage(String msg) throws IOException {
-		outputStream.write((msg+'\n').getBytes());
+		System.out.println("ClientHandler: " + msg);
+//		outputStream.write((msg+'\n').getBytes());
+		
+		Utility.sendMessage(outputStream, msg);
 	}
 
 	public String readNextMessage() throws IOException{
@@ -68,7 +73,6 @@ public class ClientHandler extends Thread {
 			readByte = inputStream.read();
 			char a = (char) readByte;
 			sb.append(a);
-			System.out.print(a);
 			if (a == '\n') {
 				readByte = -1;
 			}

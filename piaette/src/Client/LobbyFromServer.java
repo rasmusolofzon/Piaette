@@ -23,8 +23,10 @@ public class LobbyFromServer extends Thread {
 	}
 
 	private void doCase() throws IOException {
-		String input = readInput();
-		if(input.equals("startGame")){
+		String input = readInput().trim();
+		System.out.println("doCase returns: " + input);
+		if(input.equalsIgnoreCase("startGame")){
+			System.out.println("Recieved startgame in doCase()");
 			LobbyClient.startGame();
 		}else if(input.equals("serverClosed")){
 			LobbyClient.disconnectedByServer();

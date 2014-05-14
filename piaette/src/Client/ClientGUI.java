@@ -46,6 +46,10 @@ public class ClientGUI implements ActionListener {
 		tPort = new JTextField(4);
 		tPlayer = new JTextField(8);
 		
+		tHost.setText("localhost");
+		tPort.setText("22222");
+		tPlayer.setText("Blä");
+		
 		bJoin = new JButton("Join game");
 		bJoin.addActionListener(this);
 		
@@ -95,7 +99,7 @@ public class ClientGUI implements ActionListener {
 			new LobbyClient(host,port,player);
 			lMessage.setText("Waiting for game to start");
 		}catch(Exception e) {
-			lMessage.setText("Could not connect to server: " + e.getMessage());
+			lMessage.setText("Could not connect to server: " + e.getMessage() + " on " + host + ":" + port);
 			enableAll(true);
 			return;
 		}

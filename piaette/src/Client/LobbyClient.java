@@ -3,7 +3,10 @@ package Client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 import main.Utility;
 
@@ -12,8 +15,13 @@ public class LobbyClient {
 	private InputStream inputStream;
 	private int playerId;
 	private String playerName;
+	private static InetAddress hostAddress;
+	private static int hostPort;
 	
 	public LobbyClient(String machine, int port, String playerName) throws IOException,NumberFormatException{
+		hostAddress = InetAddress.getByName(machine);
+		hostPort = port+1;
+		
 		this.playerName = playerName;
 			Socket socket = new Socket(machine, port);
 			outputStream = socket.getOutputStream();
@@ -38,10 +46,15 @@ public class LobbyClient {
 	}
 
 	public static void startGame(){
-		//TODO
+		System.out.println("Trying to start game");
+		try {
+			System.out.println("Recieved startgame");
+			new GameClient(new DatagramSocket(),hostAddress,hostPort);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 	}
 	public static void disconnectedByServer(){
-		//TODO
 	}
 	
 	public void disconnectByClient(){

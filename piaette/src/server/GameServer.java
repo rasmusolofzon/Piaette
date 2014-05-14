@@ -19,7 +19,6 @@ public class GameServer {
 		serverOffer.interrupt();
 		clientAdder.interrupt();
 		return;
-		
 	}
 
 	
