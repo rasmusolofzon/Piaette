@@ -200,10 +200,11 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 
 	@Override
 	public void update(Observable o, Object arg) {;
-		ArrayList<ClientHandler> playerHanList = (LobbyMailBox.getClients());
-		
+		ArrayList<ClientHandler> playerHanList = LobbyMailBox.getClients();
+		System.out.println(playerHanList.size());
 		System.out.println("update");
-		for( ClientHandler cH : playerHanList){
+		for(ClientHandler cH : playerHanList){
+			System.out.println(cH.getPlayer());
 			fillNameList(cH.getPlayer().getName());
 		}
 				
