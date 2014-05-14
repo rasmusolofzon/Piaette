@@ -15,7 +15,7 @@ public class ClientDiscover implements ActionListener {
 	private int seconds;
 	public static void main(String[] args) {
 		ClientDiscover cd = new ClientDiscover(4099);
-		System.out.println(cd.discoverServer());
+		System.out.println(cd.discoverServers());
 	}
 		
 	private int port;
@@ -28,7 +28,7 @@ public class ClientDiscover implements ActionListener {
 		seconds = 0;
 	}
 	
-	public ArrayList<String> discoverServer() {
+	public ArrayList<String> discoverServers() {
 		try {
 			MulticastSocket ms = new MulticastSocket();
 			ms.setTimeToLive(1);
@@ -40,9 +40,11 @@ public class ClientDiscover implements ActionListener {
 			byte[] snd = DISC_HEAD.getBytes();
 			
 			DatagramPacket send = new DatagramPacket(snd,snd.length,addr,4099);
+			
 			ms.send(send);
 			tmr.start();
-			while (seconds<5) {
+			
+			do {
 				String data = "neeeeej:n";
 				while ((!data.startsWith("piaetteServerOffer"))) {
 					byte[] rcv = new byte[2048];
@@ -59,10 +61,11 @@ public class ClientDiscover implements ActionListener {
 				
 				String hostname = data.split(":")[1];
 				
-				if (hostname.length()>0) {
+				if (hostname.length() > 0) {
 					serverList.add(hostname);
 				}
-			}
+			} while (seconds < 5 && tmr.isRunning());
+			
 			tmr.stop();
 			ms.close();
 			
@@ -71,15 +74,6 @@ public class ClientDiscover implements ActionListener {
 		}
 		return serverList;
 	}
-	
-	/*public void send() {
-		String host = this.discoverServer();
-		if (host==null) {
-			return;
-		}
-		
-		//new ClientDiscover(host, port).send();
-	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
