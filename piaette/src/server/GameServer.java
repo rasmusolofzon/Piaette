@@ -16,8 +16,9 @@ public class GameServer {
 		
 	}
 	public void close() {
-		//serverOffer.close();
-		//clientAdder.close();
+		serverOffer.interrupt();
+		clientAdder.interrupt();
+		return;
 		
 	}
 
