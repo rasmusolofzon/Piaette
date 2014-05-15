@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -25,6 +26,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import protocol.ServerProtocol;
 
 public class ServerGUI extends JFrame implements ActionListener, Observer {
 	int height, width;
@@ -157,10 +160,23 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 			 
 		 }else if(e.getSource() == startGameButton){
 			 displayMessage("Pressed StartGame!");
+
+			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
+				 PlayerDefinition pd = ch.getPlayer();
+				 pd.updateX(10*pd.getId());
+				 pd.updateY(10*pd.getId());
+				 players.add(pd);				 
+			 }
+			 			 
+			 Random rand = new Random();
+			 int start = rand.nextInt(players.size())+1;
+			 
+			 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
+			 
 			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
 				 try {
-					 players.add(ch.getPlayer());
 					ch.sendMessage("startGame");
+					ch.sendMessage(initProtocol.toString());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
