@@ -152,10 +152,23 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 			 
 		 }else if(e.getSource() == startGameButton){
 			 displayMessage("Pressed StartGame!");
+
+			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
+				 PlayerDefinition pd = ch.getPlayer();
+				 pd.updateX(10*pd.getId());
+				 pd.updateY(10*pd.getId());
+				 players.add(pd);				 
+			 }
+			 			 
+			 Random rand = new Random();
+			 int start = rand.nextInt(players.size())+1;
+			 
+			 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
+			 
 			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
 				 try {
-					 players.add(ch.getPlayer());
 					ch.sendMessage("startGame");
+					ch.sendMessage(initProtocol.toString());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -182,7 +195,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		msgLabel.setText(" ");
 	}
 
-	//Onödig eftersom den väntar på klickningar i listan...
+	//Onï¿½dig eftersom den vï¿½ntar pï¿½ klickningar i listan...
 	class pSelectionListener implements ListSelectionListener {
 
 		@Override

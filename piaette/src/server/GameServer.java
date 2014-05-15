@@ -44,6 +44,7 @@ public class GameServer {
 		this.players = players;
 		new ServerUDPReceiver(udpSocket,udpClients,players).start();
 		new ServerUDPSender(udpSocket,udpClients,players).start();
+		System.out.println(players.size());
 	}
 	
 	public void close() {
@@ -79,6 +80,7 @@ public class GameServer {
 				}
 				
 				String rawData = new String(rcvPacket.getData()).trim();
+				System.out.println("getting: " + rawData);
 				Protocol fromClient = parser.parse(rawData);
 				if (fromClient.getProtocol()==Protocol.PROTOCOL_CLIENT) {
 					ClientProtocol cP = (ClientProtocol) fromClient;
@@ -104,7 +106,7 @@ public class GameServer {
 		public ServerUDPSender(DatagramSocket udpSock,Vector<SocketAddress> udpClients, Vector<PlayerDefinition> players) {
 			this.udpSock = udpSock;
 			this.udpClients = udpClients;
-			this.SEQ = -1;
+			this.SEQ = 0;
 			this.players = players;
 		}
 		
@@ -114,16 +116,18 @@ public class GameServer {
 				long now = System.currentTimeMillis();
 				if ((now - lastSend)>=100) {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
+					String debugP = new ServerProtocol(SEQ,arrPlayers,2).toString();
+					byte[] sndTemp = debugP.getBytes();
+					System.out.println("Sending updates: " + debugP);
 					for (SocketAddress sa : udpClients) {
-						byte[] sndTemp = new ServerProtocol(SEQ,arrPlayers,2).toString().getBytes();
 						try {
 							DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);
 							udpSock.send(snd);
-							SEQ++;
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
+					SEQ++;
 					lastSend = now;
 				}
 			}
