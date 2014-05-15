@@ -3,15 +3,18 @@ package Client;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import main.Game;
 import server.PlayerDefinition;
 
 public class GameClient {
 	private DatagramSocket socket;
 	private InetAddress hostAddress;
 	private int hostPort;
-	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort){
+	private Game game;
+	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort,Game game){
 		System.out.println("Starting sending all that shit!");
 		
+		this.game = game;
 		this.socket = socket;
 		this.hostAddress = hostAddress;
 		this.hostPort = hostPort;
@@ -36,7 +39,12 @@ public class GameClient {
 	}
 	
 	public void updatePlayer(int id, float x, float y, float r, float timer) {
-		// TODO Auto-generated method stub
+		PlayerDefinition pDef = new PlayerDefinition(null,id);
+		pDef.updateX(x);
+		pDef.updateY(y);
+		pDef.updateRotation(r);
+		pDef.updateTimer(timer);
+		game.updatePlayer(pDef);
 	}
 	
 	public PlayerDefinition getPlayerInfo() {

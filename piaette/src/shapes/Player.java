@@ -166,8 +166,8 @@ public class Player{
 	}
 
 	public void updateFromServer(PlayerDefinition pDef) {
-		// TODO Auto-generated method stub
-		pDef.getTimer();
+		this.score = (long) pDef.getTimer();
+		this.direction = pDef.getRotation();
 		float newX = pDef.getX();
 		float newY = pDef.getY();
 		if(newX!=circle.getCenterX() || newY != circle.getCenterY()){

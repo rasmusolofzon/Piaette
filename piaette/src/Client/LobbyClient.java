@@ -10,13 +10,14 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 import server.PlayerDefinition;
+import main.Game;
 import main.Main;
 import main.Utility;
 
 public class LobbyClient {
 	private OutputStream outputStream;
 	private InputStream inputStream;
-	private int playerId;
+	private static int playerId;
 	private String playerName;
 	private static InetAddress hostAddress;
 	private static int hostPort;
@@ -56,8 +57,9 @@ public class LobbyClient {
 		System.out.println("Trying to start game");
 		try {
 			System.out.println("Recieved startgame");
-			new GameClient(new DatagramSocket(),hostAddress,hostPort);
-			new Main(pDefs); 
+			Main main = new Main(pDefs,playerId); 
+			Game game = main.getGame();
+			new GameClient(new DatagramSocket(),hostAddress,hostPort,game);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
