@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import main.Utility;
+import protocol.Protocol;
+import protocol.ProtocolParser;
+import protocol.ServerProtocol;
 import server.PlayerDefinition;
 
 public class LobbyFromServer extends Thread {
@@ -43,10 +46,21 @@ public class LobbyFromServer extends Thread {
 		}
 	}
 
-	private ArrayList<PlayerDefinition> receivePlayers() throws IOException {
-		ArrayList<PlayerDefinition> pDefs = new ArrayList<PlayerDefinition>();
-		String input = Utility.receiveMessage(in);
-		//TODO!
+	private ArrayList<PlayerDefinition> receivePlayers() {
+		try {
+			ProtocolParser parser = ProtocolParser.getInstance();
+			String input = Utility.receiveMessage(in);
+			Protocol pp = parser.parse(input);
+			if (pp.getProtocol()==Protocol.PROTOCOL_SERVER) {
+				ServerProtocol srv = (ServerProtocol) pp;
+				System.out.println("Bäver: " + srv.getPlayers().size());
+				return srv.getPlayers();
+			}else{
+				return receivePlayers();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
