@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
@@ -36,7 +37,8 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 	 */
 	protected JLabel msgLabel;
 	protected JLabel sInfoLabel, sMSGLabel;
-	protected JLabel infoLabel1,msgLabel1;
+	protected JLabel portLabel;
+	protected JTextField portMSGField;
 	private GameServer gs;
 	private boolean running;
 	
@@ -102,14 +104,14 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		sMSGLabel = new JLabel(" sILabel");
 		sMSGLabel.setToolTipText("This is da server IP");
 
-		infoLabel1 = new JLabel("Messages:");
-		msgLabel1 = new JLabel(" msgLabel1");
-		msgLabel1.setToolTipText("Here come da output");
+		portLabel = new JLabel("Server Port:");
+		portMSGField = new JTextField("22222");
+		portMSGField.setToolTipText("Here come da port");
 
 		southPanel.add(sInfoLabel);
 		southPanel.add(sMSGLabel);
-		southPanel.add(infoLabel1);
-		southPanel.add(msgLabel1);
+		southPanel.add(portLabel);
+		southPanel.add(portMSGField);
 
 
 		frame.add(northPanel, BorderLayout.NORTH);
@@ -131,7 +133,9 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		 if(e.getSource() == startServerButton){
 			 if(!running){
 				 displayMessage("Attempting to start Server!");
-			 gs = new GameServer(22222,"Kyckling");
+				 int port = Integer.parseInt(portMSGField.getText());
+				 portMSGField.setEnabled(false);
+			 gs = new GameServer(port,"Kyckling");
 			 try {
 				sMSGLabel.setText(InetAddress.getLocalHost().getHostAddress());
 			} catch (UnknownHostException e1) {
@@ -147,6 +151,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 			 
 		 }else if(e.getSource() == stopButton){
 			 displayMessage("Pressed Stop!");
+			 portMSGField.setEnabled(true);
 			 gs.close();
 			 
 			 
