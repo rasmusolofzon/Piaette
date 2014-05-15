@@ -187,7 +187,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		msgLabel.setText(" ");
 	}
 
-	//Onödig eftersom den väntar på klickningar i listan...
+	//Onï¿½dig eftersom den vï¿½ntar pï¿½ klickningar i listan...
 	class pSelectionListener implements ListSelectionListener {
 
 		@Override
