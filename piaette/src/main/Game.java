@@ -74,18 +74,16 @@ public class Game extends BasicGame {
 				players.add(player);
 
 			}
-			
+
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void updatePlayers(ArrayList<PlayerDefinition> pDefs){
-		for(PlayerDefinition pDef:pDefs){
-			if(pDef.getId()==playerId) continue;
-			Player p = players.get(players.indexOf(pDef));
-			p.updateFromServer(pDef);
-		}
+
+	public void updatePlayer(PlayerDefinition pDef){
+		if(pDef.getId()==playerId) return;
+		Player p = players.get(players.indexOf(pDef));
+		p.updateFromServer(pDef);
 	}
 
 
@@ -256,7 +254,7 @@ public class Game extends BasicGame {
 		//Spelares styrning
 		for(Player player : players){
 			//Player-objektet hanterar input själv
-			player.handleInput(i);
+			if(player.id == playerId) player.handleInput(i);
 			//Animation
 			player.playerAnimation.update(delta);
 			player.updateSpeed();
@@ -338,6 +336,12 @@ public class Game extends BasicGame {
 		boomAnimate.restart();
 		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
 		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
+	}
+
+
+
+	public Player getPlayer() {
+		return players.get(players.indexOf(playerId));
 	}
 
 

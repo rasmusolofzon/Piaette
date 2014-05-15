@@ -161,13 +161,16 @@ public class Player{
 		} else if(o instanceof PlayerDefinition){
 			PlayerDefinition pDef = (PlayerDefinition) o;
 			return this.id == pDef.getId();
+		} else if(o instanceof Integer){
+			int id = (Integer) o;
+			return this.id == id;
 		}
 		return false;
 	}
 
 	public void updateFromServer(PlayerDefinition pDef) {
-		// TODO Auto-generated method stub
-		pDef.getTimer();
+		this.score = (long) pDef.getTimer();
+		this.direction = (float) Math.toRadians((double)pDef.getRotation());
 		float newX = pDef.getX();
 		float newY = pDef.getY();
 		if(newX!=circle.getCenterX() || newY != circle.getCenterY()){

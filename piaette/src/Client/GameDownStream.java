@@ -1,51 +1,36 @@
 package Client;
 
-import java.util.ArrayList;
-
-import server.PlayerDefinition;
 import main.Utility;
+import protocol.Protocol;
+import protocol.ProtocolParser;
+import protocol.ServerProtocol;
+import server.PlayerDefinition;
 
 public class GameDownStream extends Thread {
 	private GameClient model;
+	private int SEQ;
 	public GameDownStream(GameClient model){
-		//TODO
 		this.model = model;
+		this.SEQ = -1;
 	}
 	@Override
 	public void run(){
+		ProtocolParser parser = ProtocolParser.getInstance();
 		while(true){
 			String receive = Utility.receiveUDP(model.getSocket());
-			parse(receive);
-		}
-	}
-	public void parse(String message){
-		message = "SRV:SEQ:4:1:X:Y:rotation:TMR:2:X:Y:rotation:TMR:3:X:Y:rotation:TMR:4:X:Y:"
-				+ "rotation:TMR:PIATTE_ID:piaettarens ID";
-		String[] words = message.split(":");
-		if(words.length>3 && words[0].equals("SRV")){
-			try{
-				int nbrOfPlayers = Integer.parseInt(words[2]);
-				int sequenceNumber = Integer.parseInt(words[1]);
-
-				ArrayList<PlayerDefinition> players = new ArrayList<PlayerDefinition>();
-
-				for(int i = 3;i<words.length;i=i+5){
-					int id = Integer.parseInt(words[i]);
-					float x = Float.parseFloat(words[i+1]);
-					float y = Float.parseFloat(words[i+2]);
-					float r = Float.parseFloat(words[i+3]);
-					float timer = Float.parseFloat(words[i+4]);
-					model.updatePlayer(id,x,y,r,timer);
+			Protocol rcvProtocol = parser.parse(receive);
+			
+			if (rcvProtocol.getProtocol()==Protocol.PROTOCOL_SERVER) {
+				ServerProtocol sp = (ServerProtocol) rcvProtocol;
+				if (sp.getSequenceNumber()<=SEQ) {
+					continue;
 				}
-			} catch (NumberFormatException e){
-				e.printStackTrace();
+				
+				for (PlayerDefinition p : sp.getPlayers()) {
+					model.updatePlayer(p.getId(), p.getX(), p.getY(), p.getRotation(), p.getTimer());
+				}
+				SEQ=sp.getSequenceNumber();
 			}
 		}
-	}
-
-	//TESTING
-	public static void main(String[] args){
-		GameDownStream gds = new GameDownStream(null);
-		gds.parse("");
 	}
 }
