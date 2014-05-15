@@ -339,6 +339,12 @@ public class Game extends BasicGame {
 	}
 
 
+
+	public Player getPlayer() {
+		return players.get(players.indexOf(playerId));
+	}
+
+
 	//	@Override
 	//	public int getID() {
 	//		return id;
