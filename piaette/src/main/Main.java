@@ -1,6 +1,10 @@
 package main;
+import java.util.ArrayList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
+
+import shapes.Player;
 
 
 public class Main {
@@ -12,10 +16,10 @@ public class Main {
 	 * @param args
 	 * Main-metod. Absurt ointressant. Borde kanske lägga alla tweak-värden här i.
 	 */
-	public static void main(String[] args) {
+	public Main(ArrayList<Player> players) {
 		try {
 			System.setProperty("org.newdawn.slick.pngloader", "false");
-			AppGameContainer app = new AppGameContainer(new GameStater("Pjätt"));
+			AppGameContainer app = new AppGameContainer(new Game(players));
 			app.setDisplayMode((int) (width*scale), (int) (height*scale), false);
 			app.setTargetFrameRate(fpsLimit);
 			app.start();

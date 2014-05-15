@@ -23,7 +23,7 @@ public class GameStater extends StateBasedGame {
 		//this.getState(mainMenu).init(gc, this);
 		//this.getState(game).init(gc, this);
 		this.addState(new MainMenu(mainMenu));
-		this.addState(new Game(game));
+		//this.addState(new Game(game));
 		this.addState(new OnlineMenu(onlineMenu));
 		this.addState(new SettingsMenu(settingsMenu));
 		this.addState(new JoinGameMenu(joinGameMenu));

@@ -6,6 +6,7 @@ import java.util.Random;
 import menu.MenuButton;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -23,10 +24,10 @@ import shapes.Player;
 import shapes.DeathWorm;
 
 
-public class Game extends BasicGameState {
+public class Game extends BasicGame {
 
 	//Soooo many attributes
-	private int id,width,height,dingCounter;
+	private int width,height,dingCounter;
 	private float scale, explX,explY,boomX,boomY;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
@@ -38,16 +39,16 @@ public class Game extends BasicGameState {
 	private DeathWorm deathWorm;
 	private Image gameBackground;
 	
-	public Game(int id) {
-		this.id = id;
+	public Game(ArrayList<Player> players) {
+		super("Piaette");
 		width = Main.width;
 		height = Main.height;
 		scale = Main.scale;
-		players = new ArrayList<Player>();
-		
+		this.players = players;
 		//Tweakvärde
 		gameLength = 30000;
 	}
+
 	
 	
 	/*
@@ -56,7 +57,7 @@ public class Game extends BasicGameState {
 	 * @see org.newdawn.slick.BasicGame#init(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	public void init(GameContainer gc,StateBasedGame sbg) throws SlickException {
+	public void init(GameContainer gc) throws SlickException {
 		
 		//Vit bakgrund
 
@@ -66,11 +67,11 @@ public class Game extends BasicGameState {
 		g.setBackground(Color.black);
 		
 		
-		//Init players. Could be done better.
-		players.add(new Player(width/2*scale,height/2*scale,
-				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.green, true));
-		players.add(new Player(width/2*scale,height/2*scale+100,
-				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.red, false));
+		//Init players. Testing
+//		players.add(new Player(width/2*scale,height/2*scale,
+//				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.green, true));
+//		players.add(new Player(width/2*scale,height/2*scale+100,
+//				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.red, false));
 		
 		//Ladda litta ljud
 		try {
@@ -106,7 +107,7 @@ public class Game extends BasicGameState {
 	 * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
 	 */
 	@Override
-	public void render(GameContainer gc,StateBasedGame sbg , Graphics g) throws SlickException {
+	public void render(GameContainer gc, Graphics g) throws SlickException {
 		//Under gameplay
 		g.drawImage(gameBackground,0,0);
 		if(elapsedTime<4000 || isRunning){
@@ -172,7 +173,7 @@ public class Game extends BasicGameState {
 	 * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer, int)
 	 */
 	@Override
-	public void update(GameContainer gc,StateBasedGame sbg, int delta) throws SlickException {
+	public void update(GameContainer gc, int delta) throws SlickException {
 		
 		//Räknar total tid
 		elapsedTime+=delta;
@@ -281,8 +282,11 @@ public class Game extends BasicGameState {
 		}
 		
 		if(!isRunning){ //Game is over
-			if(backButton.clicked())
-				sbg.enterState(GameStater.mainMenu);
+			if(backButton.clicked()){
+				//TODO
+			}
+				
+				//sbg.enterState(GameStater.mainMenu);
 		}
 	}
 	
@@ -298,9 +302,9 @@ public class Game extends BasicGameState {
 	}
 
 
-	@Override
-	public int getID() {
-		return id;
-	}
+//	@Override
+//	public int getID() {
+//		return id;
+//	}
 
 }
