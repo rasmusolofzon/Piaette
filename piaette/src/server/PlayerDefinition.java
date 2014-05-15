@@ -50,5 +50,9 @@ public class PlayerDefinition {
 		this.tmr = tmr;
 	}
 	
+	public boolean equals(PlayerDefinition p) {
+		return this.id == p.id;
+	}
+	
 	public String toString() {return id + "-" + x + "-" + y + "-" + rotation + "-" + tmr;}
 }
