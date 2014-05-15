@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -43,6 +44,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 
 	private JList<String> pList;
 	private DefaultListModel<String> pListModel;
+	private Vector<PlayerDefinition> players;
 
 	public TestStartServer() {
 		this.height = 300;
@@ -50,6 +52,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		running = false;
 		ServerLobby.getMailBox().addObserver(this);
 		initUI();
+		players = new Vector<PlayerDefinition>();
 	}
 
 	private void initUI() {
@@ -128,7 +131,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		 if(e.getSource() == startServerButton){
 			 if(!running){
 				 displayMessage("Attempting to start Server!");
-			 GameServer gs = new GameServer(22222,"Kyckling");
+			 gs = new GameServer(22222,"Kyckling");
 			 try {
 				sMSGLabel.setText(InetAddress.getLocalHost().getHostAddress());
 			} catch (UnknownHostException e1) {
@@ -151,11 +154,13 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 			 displayMessage("Pressed StartGame!");
 			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
 				 try {
+					 players.add(ch.getPlayer());
 					ch.sendMessage("startGame");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			 }
+			 gs.startGame(players);
 		 }
 		
      }
@@ -177,7 +182,7 @@ public class TestStartServer extends JFrame implements ActionListener, Observer 
 		msgLabel.setText(" ");
 	}
 
-	//Onödig eftersom den väntar på klickningar i listan...
+	//Onï¿½dig eftersom den vï¿½ntar pï¿½ klickningar i listan...
 	class pSelectionListener implements ListSelectionListener {
 
 		@Override
