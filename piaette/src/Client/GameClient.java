@@ -2,15 +2,26 @@ package Client;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Observable;
+import java.util.Observer;
 
+import main.Game;
 import server.PlayerDefinition;
+import shapes.Player;
 
-public class GameClient {
+public class GameClient{
 	private DatagramSocket socket;
 	private InetAddress hostAddress;
 	private int hostPort;
-	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort){
+	private Game game;
+	private Player player;
+	private PlayerDefinition pDef;
+	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort,Game game){
 		System.out.println("Starting sending all that shit!");
+		
+		this.game = game;
+		this.player = game.getPlayer();
+		this.pDef = new PlayerDefinition(player.name,player.id);
 		
 		this.socket = socket;
 		this.hostAddress = hostAddress;
@@ -36,15 +47,21 @@ public class GameClient {
 	}
 	
 	public void updatePlayer(int id, float x, float y, float r, float timer) {
-		// TODO Auto-generated method stub
+
+		PlayerDefinition pDef = new PlayerDefinition(null,id);
+		pDef.updateX(x);
+		pDef.updateY(y);
+		pDef.updateRotation(r);
+		pDef.updateTimer(timer);
+		game.updatePlayer(pDef);
 	}
 	
 	public PlayerDefinition getPlayerInfo() {
-		PlayerDefinition temp = new PlayerDefinition("none",1);
-		temp.updateX(100);
-		temp.updateY(200);
-		temp.updateRotation(300);
-		temp.updateTimer(30);
-		return temp;
+		pDef.updateX(player.getX());
+		pDef.updateY(player.getY());
+		pDef.updateRotation(player.getDirection());
+		pDef.updateTimer(player.score);
+		return pDef;
 	}
+
 }
