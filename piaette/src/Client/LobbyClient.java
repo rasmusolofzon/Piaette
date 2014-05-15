@@ -7,7 +7,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
+import server.PlayerDefinition;
+import main.Main;
 import main.Utility;
 
 public class LobbyClient {
@@ -49,11 +52,12 @@ public class LobbyClient {
 		return true;
 	}
 
-	public static void startGame(){
+	public static void startGame(ArrayList<PlayerDefinition> pDefs){
 		System.out.println("Trying to start game");
 		try {
 			System.out.println("Recieved startgame");
 			new GameClient(new DatagramSocket(),hostAddress,hostPort);
+			new Main(pDefs); 
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}

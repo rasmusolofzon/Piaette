@@ -12,6 +12,8 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
+import server.PlayerDefinition;
+
 
 public class Player{
 
@@ -19,11 +21,11 @@ public class Player{
 	private float direction,movementSpeed,height,width;
 	public Shape circle;
 	public String name;
-	public int down,up,left,right;
+	public int id,down,up,left,right;
 	private long frozenTime,freezeTime;
 	public long score;
 	public Color color;
-	public Animation playerAnimation, otherPlayerAnimation;
+	public Animation playerAnimation;
 	public boolean isRunning=false,isAlive = true;
 	public boolean first;
 
@@ -34,13 +36,11 @@ public class Player{
 		freezeTime = 2000; // Tweak
 		width = Main.width;
 		height = Main.height;
-		playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer1.png",64,64),250);
-		otherPlayerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer2.png",64,64),250);
 		frozenTime = System.currentTimeMillis();
 		score = 0;
 	}
 
-	public Player(float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color,boolean first) throws SlickException{
+	public Player(float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color,boolean first,int id) throws SlickException{
 		this(x,y);
 		down = keyDown;
 		up = keyUp;
@@ -49,6 +49,11 @@ public class Player{
 		this.name = name;
 		this.color = color;
 		this.first = first;
+		this.id = id;
+		if(first)
+			playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer1.png",64,64),250);
+		else
+			playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer2.png",64,64),250);
 	}
 
 
@@ -60,8 +65,6 @@ public class Player{
 		
 		g.setColor(color);
 		g.draw(circle);
-
-	if(first){	
 		
 		if(isRunning){ //springandes
 			playerAnimation.getCurrentFrame().setRotation(-getDirection()-90);
@@ -70,15 +73,7 @@ public class Player{
 			playerAnimation.getImage(0).setRotation(-getDirection()-90);
 			playerAnimation.getImage(0).draw(circle.getMinX(),circle.getMinY());
 		}
-	}else{
-		if(isRunning){ //springandes
-			otherPlayerAnimation.getCurrentFrame().setRotation(-getDirection()-90);
-			otherPlayerAnimation.draw(circle.getMinX(),circle.getMinY());
-		} else { //Stillastående
-			otherPlayerAnimation.getImage(0).setRotation(-getDirection()-90);
-			otherPlayerAnimation.getImage(0).draw(circle.getMinX(),circle.getMinY());
-		}
-	}
+	
 	}
 
 	public void handleInput(Input i){
@@ -158,5 +153,35 @@ public class Player{
 	public void updateSpeed(){ //Run faster the less life you has
 		//this.movementSpeed = score/8000 +4;
 	}
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Player){
+			Player p = (Player) o;
+			return this.id == p.id;
+		} else if(o instanceof PlayerDefinition){
+			PlayerDefinition pDef = (PlayerDefinition) o;
+			return this.id == pDef.getId();
+		}
+		return false;
+	}
 
+	public void updateFromServer(PlayerDefinition pDef) {
+		// TODO Auto-generated method stub
+		pDef.getTimer();
+		float newX = pDef.getX();
+		float newY = pDef.getY();
+		if(newX!=circle.getCenterX() || newY != circle.getCenterY()){
+			isRunning = true;
+			if(newX>0 && newX<width && newY>0 && newY<height){
+				circle.setCenterX(newX);
+				circle.setCenterY(newY);
+			} else if(!(newX>0 && newX<width)){ //Spegling höger/vänster
+				circle.setCenterX(width-newX);
+				circle.setCenterY(newY);
+			} else { //Spegling upp/ner
+				circle.setCenterX(newX);
+				circle.setCenterY(height-newY);
+			}
+		}
+	}
 }

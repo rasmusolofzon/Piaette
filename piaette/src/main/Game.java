@@ -20,6 +20,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
+import server.PlayerDefinition;
 import shapes.Player;
 import shapes.DeathWorm;
 
@@ -27,7 +28,7 @@ import shapes.DeathWorm;
 public class Game extends BasicGame {
 
 	//Soooo many attributes
-	private int width,height,dingCounter;
+	private int width,height,dingCounter,playerId;
 	private float scale, explX,explY,boomX,boomY;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
@@ -38,19 +39,57 @@ public class Game extends BasicGame {
 	private MenuButton backButton;
 	private DeathWorm deathWorm;
 	private Image gameBackground;
-	
-	public Game(ArrayList<Player> players) {
+
+	public Game(ArrayList<PlayerDefinition> pDefs, int playerId) {
 		super("Piaette");
 		width = Main.width;
 		height = Main.height;
 		scale = Main.scale;
-		this.players = players;
+		this.playerId = playerId;
+
+		createPlayers(pDefs);
 		//Tweakvärde
 		gameLength = 30000;
 	}
 
+
+
+	private void createPlayers(ArrayList<PlayerDefinition> pDefs)  {
+		// TODO Auto-generated method stub
+		players = new ArrayList<Player>();
+		Color color;
+		try {
+
+			for(PlayerDefinition pDef : pDefs){
+				boolean first = false;
+				color = Color.red;
+				if(pDef.getId() == playerId){
+					color = Color.green;
+					first = true;
+				}
+
+				//float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color,boolean first,int id
+				Player player = new Player(pDef.getX(), pDef.getY(), Input.KEY_UP, Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,
+						pDef.getName(), color, first, pDef.getId());
+				players.add(player);
+
+			}
+			
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
 	
-	
+	public void updatePlayers(ArrayList<PlayerDefinition> pDefs){
+		for(PlayerDefinition pDef:pDefs){
+			if(pDef.getId()==playerId) continue;
+			Player p = players.get(players.indexOf(pDef));
+			p.updateFromServer(pDef);
+		}
+	}
+
+
+
 	/*
 	 * Ladda upp spelet (init' = initialize)
 	 * 
@@ -58,21 +97,21 @@ public class Game extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		
+
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
 		gameBackground = new Image("Graphics/game/background.png");
 
 		g.setBackground(Color.black);
-		
-		
+
+
 		//Init players. Testing
-//		players.add(new Player(width/2*scale,height/2*scale,
-//				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.green, true));
-//		players.add(new Player(width/2*scale,height/2*scale+100,
-//				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.red, false));
-		
+		//		players.add(new Player(width/2*scale,height/2*scale,
+		//				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.green, true));
+		//		players.add(new Player(width/2*scale,height/2*scale+100,
+		//				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.red, false));
+
 		//Ladda litta ljud
 		try {
 			explosion = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sounds/smallBomb.wav"));
@@ -80,25 +119,25 @@ public class Game extends BasicGame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		//Ladda animationer
 		boomAnimate = new Animation(new SpriteSheet("Graphics/animations/boom.png",128,128,Color.black),50);
 		boomAnimate.setLooping(false);
-		
+
 		explodeAnimate = new Animation(new SpriteSheet("Graphics/animations/explosion.png",128,128,Color.black),50);
 		explodeAnimate.setLooping(false);
-		
+
 		intro = new Animation(new SpriteSheet("Graphics/animations/intro.png",128,128),250);
 		intro.setLooping(false);
-		
+
 		winner = new Animation(new SpriteSheet("Graphics/animations/winner.png",512,128),100);
-		
+
 		//Knapp
 		Image back = new Image("Graphics/menu/back.png");
 		Image backHover = new Image("Graphics/menu/back-hover.png");
 		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
-		
+
 	}
 
 	/*
@@ -111,7 +150,7 @@ public class Game extends BasicGame {
 		//Under gameplay
 		g.drawImage(gameBackground,0,0);
 		if(elapsedTime<4000 || isRunning){
-			
+
 			//Score at the bottom of everything
 			int i = 0;
 			for(Player p:players){
@@ -121,26 +160,26 @@ public class Game extends BasicGame {
 				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
 				i++;
 			}
-						
+
 			//Rita och animera spelarna
 			for(Player p : players){
 				p.draw(g,chaser);
 			}
-			
-			
+
+
 			//esssplosions
 			if(explode) {
 				explodeAnimate.draw(explX,explY);
 			} if(boom) {
 				boomAnimate.draw(boomX,boomY);
 			}
-			
+
 			//För att rita ut introt
 			if(elapsedTime<4000) intro.draw(width/2-64, height/2-64);
 		} 
-		
+
 		else { //it's over. Show dah winner
-			
+
 			for(Player p : players){ //Finns bara en player i loopen, men orka.
 				g.setColor(p.color);
 				g.fill(p.circle);
@@ -152,18 +191,18 @@ public class Game extends BasicGame {
 					p.playerAnimation.getImage(0).draw(p.circle.getMinX(),p.circle.getMinY());
 				}
 			}
-			
+
 			//WINNER! animation
 			winner.draw(width/2-256,height/2-64);
-			
+
 			//Behövs för att låta losern explodera
 			if(explode) {
 				explodeAnimate.draw(explX,explY);
 			}
-			
+
 			g.drawImage(backButton.getImage(), backButton.getMinX(), backButton.getMinY());
-			
-			
+
+
 		}	
 	}
 
@@ -174,19 +213,19 @@ public class Game extends BasicGame {
 	 */
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		
+
 		//Räknar total tid
 		elapsedTime+=delta;
 
 		//Mouse & tangentbord input
 		Input i = gc.getInput();
-		
+
 		//Animationslogik
 		boomAnimate.update(delta);
 		explodeAnimate.update(delta);
 		if(boomAnimate.isStopped()) boom = false;
 		if(explodeAnimate.isStopped()) explode = false;
-		
+
 		//Introanimationer
 		if(!isRunning && elapsedTime>3000 && elapsedTime<5000) {
 			ding.playAsSoundEffect(2f, 0.7f, false);
@@ -202,18 +241,18 @@ public class Game extends BasicGame {
 			Random generator = new Random();
 			youreIt(players.get(generator.nextInt(players.size())));
 		}
-		
+
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
-		
+
 		//Pjättarn förlorar poäng
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
-		
+
 		//Preppar Death Worm
 		double deathWormVictimDistance = 0;
 		Player deathWormVictim = null;
 		deathWorm = new DeathWorm(50, 50, Color.red);
-		
+
 		//Spelares styrning
 		for(Player player : players){
 			//Player-objektet hanterar input själv
@@ -221,10 +260,10 @@ public class Game extends BasicGame {
 			//Animation
 			player.playerAnimation.update(delta);
 			player.updateSpeed();
-			
+
 			//Om spelet är över, så kolla inte efter kollisioner
 			if(!isRunning) break;
-			
+
 			//Kollisionsdetektion
 			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
@@ -248,11 +287,11 @@ public class Game extends BasicGame {
 			if (deathWorm.isAlive()) {
 				//avgöra om current player är den player som är närmast Death Worm 2000
 				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
-					player.getY()-deathWorm.getY());
+						player.getY()-deathWorm.getY());
 				if (deathWormDistance < deathWormVictimDistance) 
 					deathWormVictimDistance = deathWormDistance;
 			}
-			
+
 			//När tiden rinner ut
 			if(player.score>gameLength){ 
 				player.die();
@@ -262,34 +301,34 @@ public class Game extends BasicGame {
 				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
 				chaser = null;
-				
+
 				//Om spelaren är den sista kvar = WINNER!
 				if(players.size()-1==1) {
 					isRunning = false;
 					players.remove(player);
 					break;
 				}
-				
+
 				//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
 				else{
 					deathWorm.awaken();
 				}
 			}
 		}
-		
+
 		if (deathWorm.isAlive()) {
 			deathWorm.hunt(deathWormVictim);
 		}
-		
+
 		if(!isRunning){ //Game is over
 			if(backButton.clicked()){
 				//TODO
 			}
-				
-				//sbg.enterState(GameStater.mainMenu);
+
+			//sbg.enterState(GameStater.mainMenu);
 		}
 	}
-	
+
 	//Animationer och ljud för att bli pjättad
 	private void youreIt(Player player) {
 		ding.playAsSoundEffect(0.5f, 0.5f, false);
@@ -302,9 +341,9 @@ public class Game extends BasicGame {
 	}
 
 
-//	@Override
-//	public int getID() {
-//		return id;
-//	}
+	//	@Override
+	//	public int getID() {
+	//		return id;
+	//	}
 
 }
