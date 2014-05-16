@@ -1,7 +1,13 @@
 package game;
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Random;
+
+
+
 
 
 import org.newdawn.slick.Animation;
@@ -19,16 +25,16 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
+import client.GameClient;
 import framtiden.DeathWorm;
 import framtidensMenu.MenuButton;
-
 import utilties.PlayerDefinition;
 
 
 public class Game extends BasicGame {
 
 	//Soooo many attributes
-	private int width,height,dingCounter,playerId;
+	private int width,height,dingCounter,playerId,port;
 	private float scale, explX,explY,boomX,boomY;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
@@ -40,8 +46,9 @@ public class Game extends BasicGame {
 	private MenuButton backButton;
 	private DeathWorm deathWorm;
 	private Image gameBackground;
-
-	public Game(ArrayList<PlayerDefinition> pDefs, int playerId) {
+	private GameClient gameClient;
+	private InetAddress hostAddress;
+	public Game(ArrayList<PlayerDefinition> pDefs, int playerId,InetAddress hostAddress,int port) {
 		super("Piaette");
 		width = GameInstantiator.width;
 		height = GameInstantiator.height;
@@ -49,6 +56,9 @@ public class Game extends BasicGame {
 		this.playerId = playerId;
 		this.initialPlayerDefs = pDefs;
 
+		this.hostAddress = hostAddress;
+		this.port = port;
+		
 		//Tweakvärde
 		gameLength = 30000;
 	}
@@ -97,6 +107,9 @@ public class Game extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		createPlayers(initialPlayerDefs);
+		
+
+		
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
@@ -136,7 +149,14 @@ public class Game extends BasicGame {
 		Image back = new Image("Graphics/menu/back.png");
 		Image backHover = new Image("Graphics/menu/back-hover.png");
 		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
+		
+		
 
+		try {
+			this.gameClient = new GameClient(new DatagramSocket(),hostAddress,port,this);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*

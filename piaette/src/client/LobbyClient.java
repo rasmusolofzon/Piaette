@@ -1,15 +1,12 @@
 package client;
 
-import game.Game;
 import game.GameInstantiator;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 
 
@@ -58,14 +55,8 @@ public class LobbyClient {
 
 	public static void startGame(ArrayList<PlayerDefinition> pDefs){
 		System.out.println("Trying to start game");
-		try {
-			System.out.println("Recieved startgame");
-			GameInstantiator main = new GameInstantiator(pDefs,playerId); 
-			Game game = main.getGame();
-			new GameClient(new DatagramSocket(),hostAddress,hostPort,game);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
+		System.out.println("Recieved startgame");
+		new GameInstantiator(pDefs,playerId,hostAddress,hostPort); 
 	}
 	public static void disconnectedByServer(){
 	}

@@ -57,6 +57,7 @@ public class GameClient{
 	}
 	
 	public PlayerDefinition getPlayerInfo() {
+		System.out.println(player.debugPrint());
 		pDef.updateX(player.getX());
 		pDef.updateY(player.getY());
 		pDef.updateRotation(player.getDirection());
