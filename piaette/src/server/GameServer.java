@@ -22,17 +22,14 @@ import framtiden.ServerOffer;
 
 
 public class GameServer {
-	Thread serverOffer, clientAdder;
+	Thread  clientAdder;
 	private DatagramSocket udpSocket;
 	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
 	
 	public GameServer(int serverPort, String serverName){
 		
-		Thread serverOffer = new ServerOffer(serverPort);
-		serverOffer.start();
-		
-		Thread clientAdder = new ServerLobby(serverPort);
+		clientAdder = new ServerLobby(serverPort);
 		clientAdder.start();
 		udpSocket = null;
 		try {
@@ -53,7 +50,6 @@ public class GameServer {
 	}
 	
 	public void close() {
-		serverOffer.interrupt();
 		clientAdder.interrupt();
 		return;
 	}

@@ -56,7 +56,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 
 	public ServerGUI() {
 		this.height = 300;
-		this.width = 300;
+		this.width = 500;
 		running = false;
 		ServerLobby.getMailBox().addObserver(this);
 		initUI();
@@ -129,7 +129,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 	
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(height,width);
+		frame.setSize(width,height);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);		
 
@@ -156,35 +156,47 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 			 
 			 
 		 }else if(e.getSource() == stopButton){
-			 displayMessage("Pressed Stop!");
-			 portMSGField.setEnabled(true);
-			 gs.close();
-			 
-			 
-		 }else if(e.getSource() == startGameButton){
-			 displayMessage("Pressed StartGame!");
-
-			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
-				 PlayerDefinition pd = ch.getPlayer();
-				 pd.updateX(10*pd.getId());
-				 pd.updateY(10*pd.getId());
-				 players.add(pd);				 
+			 if(running){
+				 displayMessage("Pressed Stop!");
+				 portMSGField.setEnabled(true);
+				 running = false;
+				 gs.close();
+			 } else{
+				 displayMessage("Server not yet started.");
 			 }
-			 			 
-			 Random rand = new Random();
-			 int start = rand.nextInt(players.size())+1;
-			 
-			 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
-			 
-			 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
-				 try {
-					ch.sendMessage("startGame");
-					ch.sendMessage(initProtocol.toString());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+		 } else if(e.getSource() == startGameButton){
+			 if(running){
+				
+				 ArrayList<ClientHandler> clients = ServerLobby.getMailBox().getClients();
+				 if(clients.size()==0){
+					 displayMessage("No players in the server");
+					 return;
+				 }
+				 displayMessage("Starting game");
+				 for (ClientHandler ch : clients) {
+					 PlayerDefinition pd = ch.getPlayer();
+					 pd.updateX(10*pd.getId());
+					 pd.updateY(10*pd.getId());
+					 players.add(pd);				 
+				 }
+				 			 
+				 Random rand = new Random();
+				 int start = rand.nextInt(players.size())+1;
+				 
+				 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
+				 
+				 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
+					 try {
+						ch.sendMessage("startGame");
+						ch.sendMessage(initProtocol.toString());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				 }
+				 gs.startGame(players);
+			 } else{
+				 displayMessage("Server not running");
 			 }
-			 gs.startGame(players);
 		 }
 		
      }

@@ -22,7 +22,6 @@ public class ServerLobby extends Thread {
 			System.out.println("Created ChatServer");
 			while (true) {
 				Socket socket = serverSocket.accept();
-
 				ClientHandler cH = new ClientHandler(socket);
 				cH.start();
 			}
