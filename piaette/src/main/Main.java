@@ -15,21 +15,13 @@ public class Main extends Thread {
 	public static int fpsLimit = 60;
 	private Game game;
 
-	/**
-	 * @param args
-	 *            Main-metod. Absurt ointressant. Borde kanske lägga alla
-	 *            tweak-värden här i.
-	 */
 	private ArrayList<PlayerDefinition> pDefs;
 	private int playerId;
 
 	public Main(ArrayList<PlayerDefinition> pDefs, int playerId) {
 		this.pDefs = pDefs;
 		this.playerId = playerId;
-		start();
-	}
 
-	public void run() {
 		try {
 			System.setProperty("org.newdawn.slick.pngloader", "false");
 			game = new Game(pDefs, playerId);
@@ -42,7 +34,6 @@ public class Main extends Thread {
 			e.printStackTrace();
 		}
 	}
-
 	public Game getGame() {
 		return game;
 	}
