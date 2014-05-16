@@ -170,6 +170,8 @@ public class Game extends BasicGame {
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
+		
+		chaser = players.get(0);
 	}
 
 	/*
