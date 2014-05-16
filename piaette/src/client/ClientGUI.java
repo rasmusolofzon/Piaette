@@ -4,7 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,12 +25,24 @@ public class ClientGUI implements ActionListener {
 		init();
 	}
 	private JTextField tHost,tPort,tPlayer;
-	private JLabel lMessage,lTopicHost,lTopicPort,lTopicName;
+	private JLabel lMessage,lTopicHost,lTopicPort,lTopicName, picLabel;
 	private JButton bJoin;
+	private BufferedImage image;
 	
 	private void init() {
 		JPanel north = new JPanel();
 		north.setLayout(new BorderLayout());
+		
+		try {
+			image = ImageIO.read(new File("Graphics/menu/GameTitle.png"));
+			picLabel = new JLabel(new ImageIcon(image));
+			
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
 		
 		JPanel northTop = new JPanel();
 		northTop.setLayout(new FlowLayout());
@@ -57,14 +74,14 @@ public class ClientGUI implements ActionListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLayout(new BorderLayout());
 		
-		northTop.add(lTopicName);
-		northTop.add(tPlayer);
+		northTop.add(picLabel);
+		northCenter.add(lTopicName);
+		northCenter.add(tPlayer);
 		northCenter.add(lTopicHost);
 		northCenter.add(tHost);
 		northCenter.add(lTopicPort);
 		northCenter.add(tPort);
 		northBottom.add(bJoin);
-		
 		
 		north.add(northTop,BorderLayout.NORTH);
 		north.add(northCenter,BorderLayout.CENTER);
@@ -74,7 +91,7 @@ public class ClientGUI implements ActionListener {
 
 		f.add(north,BorderLayout.NORTH);
 		f.add(south,BorderLayout.SOUTH);
-		
+				
 		f.pack();
 		f.setVisible(true);
 	}
