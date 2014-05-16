@@ -297,9 +297,9 @@ public class Game extends BasicGame {
 			if(!isRunning) break;
 
 			//Kollisionsdetektion
-			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
+			/*if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
-			}
+			}*/
 
 			/*if (deathWorm.isAlive()) {
 				if (deathWorm.circle.intersects(player.circle)) {
