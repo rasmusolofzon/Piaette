@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -15,6 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.newdawn.slick.Image;
+
+import framtidensMenu.MainMenu.PNGFileFilter;
 
 public class ClientGUI implements ActionListener {
 	public static void main(String[] args) {
@@ -25,23 +31,16 @@ public class ClientGUI implements ActionListener {
 		init();
 	}
 	private JTextField tHost,tPort,tPlayer;
-	private JLabel lMessage,lTopicHost,lTopicPort,lTopicName, picLabel;
+	private JLabel lMessage,lTopicHost,lTopicPort,lTopicName, picLabel, sloganLabel;
 	private JButton bJoin;
-	private BufferedImage image;
+	private BufferedImage image, slogan;
+	private FileFilter filter;
 	
 	private void init() {
 		JPanel north = new JPanel();
 		north.setLayout(new BorderLayout());
 		
-		try {
-			image = ImageIO.read(new File("Graphics/menu/GameTitle.png"));
-			picLabel = new JLabel(new ImageIcon(image));
-			
-			
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
+		loadGraphics();
 		
 		
 		JPanel northTop = new JPanel();
@@ -52,7 +51,7 @@ public class ClientGUI implements ActionListener {
 		northBottom.setLayout(new FlowLayout());
 		
 		JPanel south = new JPanel();
-		south.setLayout(new BorderLayout());
+		south.setLayout(new FlowLayout());
 		
 		lTopicHost = new JLabel("Server address:");
 		lTopicPort = new JLabel("Server port:");
@@ -65,7 +64,7 @@ public class ClientGUI implements ActionListener {
 		
 		tHost.setText("localhost");
 		tPort.setText("22222");
-		tPlayer.setText("Blä");
+		tPlayer.setText("Axelander");
 		
 		bJoin = new JButton("Join game");
 		bJoin.addActionListener(this);
@@ -74,14 +73,17 @@ public class ClientGUI implements ActionListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLayout(new BorderLayout());
 		
+		
+		//north
 		northTop.add(picLabel);
-		northCenter.add(lTopicName);
-		northCenter.add(tPlayer);
-		northCenter.add(lTopicHost);
-		northCenter.add(tHost);
-		northCenter.add(lTopicPort);
-		northCenter.add(tPort);
-		northBottom.add(bJoin);
+		northCenter.add(sloganLabel);
+		northBottom.add(lTopicName);
+		northBottom.add(tPlayer);
+		northBottom.add(lTopicHost);
+		northBottom.add(tHost);
+		northBottom.add(lTopicPort);
+		northBottom.add(tPort);
+
 		
 		north.add(northTop,BorderLayout.NORTH);
 		north.add(northCenter,BorderLayout.CENTER);
@@ -90,10 +92,35 @@ public class ClientGUI implements ActionListener {
 		f.add(lMessage,BorderLayout.CENTER);
 
 		f.add(north,BorderLayout.NORTH);
+		
+		
+		//south
+		south.add(bJoin);
 		f.add(south,BorderLayout.SOUTH);
 				
 		f.pack();
 		f.setVisible(true);
+	}
+	private void loadGraphics() {
+		try {
+			//Gametitle generator
+			image = ImageIO.read(new File("Graphics/menu/GameTitle.png"));
+			picLabel = new JLabel(new ImageIcon(image));
+			
+			//slogan generator
+			Random generator = new Random();
+			filter = new PNGFileFilter();
+			int nbrOfSlogans = new File("Graphics/menu/slogan/").listFiles(filter).length;
+			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans)+1;
+			
+			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"+randomNbrOfSlogans+".png"));
+			sloganLabel = new JLabel(new ImageIcon(slogan));
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -121,6 +148,7 @@ public class ClientGUI implements ActionListener {
 			return;
 		}
 	}
+	
 	
 	private void enableAll(boolean flag) {
 		tHost.setEnabled(flag);
