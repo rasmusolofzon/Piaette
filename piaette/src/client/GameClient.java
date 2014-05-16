@@ -11,7 +11,7 @@ import utilities.PlayerDefinition;
 public class GameClient{
 	private DatagramSocket socket;
 	private InetAddress hostAddress;
-	private int hostPort;
+	private int hostPort,piaette;
 	private Game game;
 	private Player player;
 	private PlayerDefinition pDef;
@@ -65,5 +65,11 @@ public class GameClient{
 		pDef.updateTimer(player.score);
 		return pDef;
 	}
+
+	public void setChaser(int piaetteId) {
+		this.piaette = piaetteId;
+	}
+	
+	public int getChaser() {return piaette;}
 
 }
