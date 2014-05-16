@@ -126,6 +126,10 @@ public class Player{
 		return name;
 	}
 
+	public String debugPrint(){
+		return "Player-"+id+", "+name+", x:"+circle.getCenterX()+", y:"+circle.getCenterY()+", r:"+getDirection()+", score:"+score;
+	}
+	
 	public void freeze(){ //Frys spelaren när denne blir pjättad
 		frozenTime = System.currentTimeMillis();
 	}
@@ -186,4 +190,6 @@ public class Player{
 			}
 		}
 	}
+	
+
 }
