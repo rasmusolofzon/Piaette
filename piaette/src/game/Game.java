@@ -97,8 +97,17 @@ public class Game extends BasicGame {
 
 	public void updatePlayer(PlayerDefinition pDef){
 		if(pDef.getId()==playerId) return;
-		Player p = players.get(players.indexOf(pDef));
-		p.updateFromServer(pDef);
+		
+		for (Player p : players) {
+			if (p.id==pDef.getId()) {
+				p.updateFromServer(pDef);
+			}
+		}
+//		
+//		System.out.println(players.size() + "vs" + pDef);
+//		
+//		Player p = players.get(players.indexOf(pDef));
+//		p.updateFromServer(pDef);
 	}
 
 
