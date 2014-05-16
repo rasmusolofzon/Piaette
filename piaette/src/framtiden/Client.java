@@ -1,6 +1,8 @@
-package Client;
+package framtiden;
 
 import java.io.IOException;
+
+import Client.LobbyClient;
 
 public class Client {
 	public static void main(String[] args){

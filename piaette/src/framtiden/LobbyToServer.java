@@ -1,4 +1,4 @@
-package Client;
+package framtiden;
 
 import java.io.IOException;
 import java.io.OutputStream;

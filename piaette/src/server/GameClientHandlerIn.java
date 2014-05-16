@@ -3,6 +3,8 @@ package server;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import framtiden.GameMailBox;
+
 import main.Utility;
 
 public class GameClientHandlerIn extends Thread {

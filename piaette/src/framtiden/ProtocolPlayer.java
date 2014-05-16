@@ -1,4 +1,4 @@
-package protocol;
+package framtiden;
 
 public class ProtocolPlayer {
 	private int pid,tmr;

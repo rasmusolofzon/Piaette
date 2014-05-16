@@ -1,4 +1,9 @@
-package protocol;
+package framtiden;
+
+import protocol.ClientProtocol;
+import protocol.Protocol;
+import protocol.ProtocolParser;
+import protocol.ServerProtocol;
 
 public class TestProtocol {
 	public static void main(String[] args) {
