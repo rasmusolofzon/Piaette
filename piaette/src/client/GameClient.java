@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.util.Observable;
 import java.util.Observer;
 
-import server.PlayerDefinition;
+import utilties.PlayerDefinition;
 
 public class GameClient{
 	private DatagramSocket socket;

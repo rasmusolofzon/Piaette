@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import menu.MenuButton;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
@@ -21,8 +20,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import framtiden.DeathWorm;
+import framtidensMenu.MenuButton;
 
-import server.PlayerDefinition;
+import utilties.PlayerDefinition;
 
 
 public class Game extends BasicGame {

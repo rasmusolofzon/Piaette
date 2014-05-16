@@ -1,4 +1,4 @@
-package menu;
+package framtidensMenu;
 
 
 import org.newdawn.slick.GameContainer;

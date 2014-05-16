@@ -2,7 +2,6 @@ package utilties;
 
 import java.util.ArrayList;
 
-import server.PlayerDefinition;
 
 public class ProtocolParser {
 	

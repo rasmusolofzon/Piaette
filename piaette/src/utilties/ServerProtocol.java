@@ -2,7 +2,6 @@ package utilties;
 
 import java.util.ArrayList;
 
-import server.PlayerDefinition;
 
 public class ServerProtocol extends Protocol {
 	private int sequenceNbr,piaette;

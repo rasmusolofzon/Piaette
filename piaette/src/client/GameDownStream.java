@@ -1,7 +1,7 @@
 package client;
 
 
-import server.PlayerDefinition;
+import utilties.PlayerDefinition;
 import utilties.Protocol;
 import utilties.ProtocolParser;
 import utilties.ServerProtocol;

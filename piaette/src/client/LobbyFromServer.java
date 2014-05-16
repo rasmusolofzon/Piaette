@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 
-import server.PlayerDefinition;
+import utilties.PlayerDefinition;
 import utilties.Protocol;
 import utilties.ProtocolParser;
 import utilties.ServerProtocol;

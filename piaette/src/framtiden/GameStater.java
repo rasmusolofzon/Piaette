@@ -1,13 +1,14 @@
 package framtiden;
 
-import menu.JoinGameMenu;
-import menu.MainMenu;
-import menu.OnlineMenu;
-import menu.SettingsMenu;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import framtidensMenu.JoinGameMenu;
+import framtidensMenu.MainMenu;
+import framtidensMenu.OnlineMenu;
+import framtidensMenu.SettingsMenu;
 
 public class GameStater extends StateBasedGame {
 	

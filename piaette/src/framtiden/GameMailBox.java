@@ -6,7 +6,6 @@ import java.util.Observable;
 
 import server.GameClientHandlerIn;
 import server.GameClientHandlerOut;
-import server.PlayerDefinition;
 import utilties.*;
 
 public class GameMailBox extends Observable {

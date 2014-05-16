@@ -1,8 +1,8 @@
 package client;
 
 
-import server.PlayerDefinition;
 import utilties.ClientProtocol;
+import utilties.PlayerDefinition;
 import utilties.comUtility;
 
 public class GameUpStream extends Thread {

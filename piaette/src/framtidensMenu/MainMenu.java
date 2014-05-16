@@ -1,4 +1,4 @@
-package menu;
+package framtidensMenu;
 
 import java.io.File;
 import java.io.FileFilter;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import utilties.ClientProtocol;
+import utilties.PlayerDefinition;
 import utilties.Protocol;
 import utilties.ProtocolParser;
 import utilties.ServerProtocol;

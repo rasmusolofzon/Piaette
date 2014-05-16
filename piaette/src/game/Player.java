@@ -11,7 +11,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
-import server.PlayerDefinition;
+import utilties.PlayerDefinition;
 
 
 public class Player{

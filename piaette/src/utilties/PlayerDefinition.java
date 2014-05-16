@@ -1,4 +1,4 @@
-package server;
+package utilties;
 
 public class PlayerDefinition {
 

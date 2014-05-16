@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 
-import server.PlayerDefinition;
+import utilties.PlayerDefinition;
 import utilties.comUtility;
 
 public class LobbyClient {
