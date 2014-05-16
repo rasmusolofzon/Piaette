@@ -42,9 +42,9 @@ public class Game extends BasicGame {
 
 	public Game(ArrayList<PlayerDefinition> pDefs, int playerId) {
 		super("Piaette");
-		width = Main.width;
-		height = Main.height;
-		scale = Main.scale;
+		width = GameInstantiator.width;
+		height = GameInstantiator.height;
+		scale = GameInstantiator.scale;
 		this.playerId = playerId;
 
 		createPlayers(pDefs);

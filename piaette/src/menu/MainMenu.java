@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Random;
 
-import main.GameStater;
-import main.Main;
+import main.GameInstantiator;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,6 +12,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import framtiden.GameStater;
 
 public class MainMenu extends BasicGameState {
 	
@@ -25,7 +26,7 @@ public class MainMenu extends BasicGameState {
 	
 	public MainMenu(int id){
 		this.id = id;
-		width = Main.width;
+		width = GameInstantiator.width;
 	}
 	
 	@Override

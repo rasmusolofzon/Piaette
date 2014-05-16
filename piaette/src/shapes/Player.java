@@ -1,7 +1,7 @@
 package shapes;
 
 
-import main.Main;
+import main.GameInstantiator;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -34,8 +34,8 @@ public class Player{
 		direction = 0f;
 		movementSpeed = 4; // Tweak
 		freezeTime = 2000; // Tweak
-		width = Main.width;
-		height = Main.height;
+		width = GameInstantiator.width;
+		height = GameInstantiator.height;
 		frozenTime = System.currentTimeMillis();
 		score = 0;
 	}

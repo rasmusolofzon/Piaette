@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import server.PlayerDefinition;
 import shapes.Player;
 
-public class Main extends Thread {
+public class GameInstantiator extends Thread {
 	public static int width = 1000;
 	public static int height = 9 * width / 16;
 	public static float scale = 1f;
@@ -18,7 +18,7 @@ public class Main extends Thread {
 	private ArrayList<PlayerDefinition> pDefs;
 	private int playerId;
 
-	public Main(ArrayList<PlayerDefinition> pDefs, int playerId) {
+	public GameInstantiator(ArrayList<PlayerDefinition> pDefs, int playerId) {
 		this.pDefs = pDefs;
 		this.playerId = playerId;
 

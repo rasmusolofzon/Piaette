@@ -1,7 +1,6 @@
 package menu;
 
-import main.GameStater;
-import main.Main;
+import main.GameInstantiator;
 import main.Utility;
 
 import org.newdawn.slick.GameContainer;
@@ -10,6 +9,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import framtiden.GameStater;
 
 public class SettingsMenu extends BasicGameState {
 
@@ -28,7 +29,7 @@ public class SettingsMenu extends BasicGameState {
 		Image back = new Image("Graphics/menu/back.png");
 		Image backHover = new Image("Graphics/menu/back-hover.png");
 		backButton = new MenuButton(back, backHover,
-				(Main.width - back.getWidth()) / 2, Main.height - 100);
+				(GameInstantiator.width - back.getWidth()) / 2, GameInstantiator.height - 100);
 		
 		nameInput = new PiaetteTextField(gc,Utility.getNewFont("Futura", 20),250,"Player name:");
 		nameInput.deactivate();

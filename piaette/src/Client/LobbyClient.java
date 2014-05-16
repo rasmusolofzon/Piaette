@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import server.PlayerDefinition;
 import main.Game;
-import main.Main;
+import main.GameInstantiator;
 import main.Utility;
 
 public class LobbyClient {
@@ -57,7 +57,7 @@ public class LobbyClient {
 		System.out.println("Trying to start game");
 		try {
 			System.out.println("Recieved startgame");
-			Main main = new Main(pDefs,playerId); 
+			GameInstantiator main = new GameInstantiator(pDefs,playerId); 
 			Game game = main.getGame();
 			new GameClient(new DatagramSocket(),hostAddress,hostPort,game);
 		} catch (SocketException e) {

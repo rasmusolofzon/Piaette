@@ -1,6 +1,6 @@
 package menu;
 
-import main.Main;
+import main.GameInstantiator;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;
@@ -36,7 +36,7 @@ public class MenuButton {
 	 * Sets if the mouse is hovering and returns boolean if needed
 	 */
 	public boolean isHovering(float mouseX, float mouseY){
-		hovering = (mouseX>x && mouseX<getMaxX() && mouseY<(Main.height-y) && mouseY>(Main.height-getMaxY()));
+		hovering = (mouseX>x && mouseX<getMaxX() && mouseY<(GameInstantiator.height-y) && mouseY>(GameInstantiator.height-getMaxY()));
 		return hovering;
 	}
 	public boolean isHovering(){

@@ -1,6 +1,6 @@
 package menu;
 
-import main.Main;
+import main.GameInstantiator;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -23,7 +23,7 @@ public class PiaetteTextField extends TextField {
 	 * Centered, 300 wide, standard colours.
 	 */
 	public PiaetteTextField(GameContainer gc, UnicodeFont font, int y,String title){
-		this(gc,font,(Main.width-300)/2,y,300,32);
+		this(gc,font,(GameInstantiator.width-300)/2,y,300,32);
 		
 		setBackgroundColor(new Color(170, 170, 170));
 		setTextColor(Color.white);

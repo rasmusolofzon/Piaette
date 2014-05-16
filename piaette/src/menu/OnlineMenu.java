@@ -1,13 +1,14 @@
 package menu;
 
-import main.GameStater;
-import main.Main;
+import main.GameInstantiator;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import framtiden.GameStater;
 
 public class OnlineMenu extends BasicGameState {
 	
@@ -28,18 +29,18 @@ public class OnlineMenu extends BasicGameState {
 		//TODO Create game-menu
 		Image join = new Image("Graphics/menu/join.png");
 		Image joinHover = new Image("Graphics/menu/join-hover.png");
-		joinButton = new MenuButton(join,joinHover,(Main.width-join.getWidth())/2,MainMenu.topButton);
+		joinButton = new MenuButton(join,joinHover,(GameInstantiator.width-join.getWidth())/2,MainMenu.topButton);
 		
 		Image back = new Image("Graphics/menu/back.png");
 		Image backHover = new Image("Graphics/menu/back-hover.png");
-		backButton = new MenuButton(back,backHover,(Main.width-back.getWidth())/2,MainMenu.topButton+MainMenu.buttonSpacing);
+		backButton = new MenuButton(back,backHover,(GameInstantiator.width-back.getWidth())/2,MainMenu.topButton+MainMenu.buttonSpacing);
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		//TODO
-		g.drawImage(gameTitle,(Main.width-gameTitle.getWidth())/2,50);
+		g.drawImage(gameTitle,(GameInstantiator.width-gameTitle.getWidth())/2,50);
 		
 		backButton.draw(g);
 		joinButton.draw(g);

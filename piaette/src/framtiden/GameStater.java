@@ -1,4 +1,4 @@
-package main;
+package framtiden;
 
 import menu.JoinGameMenu;
 import menu.MainMenu;

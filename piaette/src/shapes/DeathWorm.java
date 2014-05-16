@@ -1,6 +1,6 @@
 package shapes;
 
-import main.Main;
+import main.GameInstantiator;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
@@ -17,8 +17,8 @@ public class DeathWorm {
 	private DeathWorm(float x, float y) throws SlickException {
 		direction = 0f;
 		movementSpeed = 5; // Tweak
-		width = Main.width;
-		height = Main.height;
+		width = GameInstantiator.width;
+		height = GameInstantiator.height;
 		circle = new Circle(x, y, 50);
 	}
 	
