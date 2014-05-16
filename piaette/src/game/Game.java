@@ -281,9 +281,9 @@ public class Game extends BasicGame {
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
 
 		//Preppar Death Worm
-		double deathWormVictimDistance = 0;
+		/*double deathWormVictimDistance = 0;
 		Player deathWormVictim = null;
-		deathWorm = new DeathWorm(50, 50, Color.red);
+		deathWorm = new DeathWorm(50, 50, Color.red);*/
 
 		//Spelares styrning
 		for(Player player : players){
@@ -301,7 +301,7 @@ public class Game extends BasicGame {
 				youreIt(player);
 			}
 
-			if (deathWorm.isAlive()) {
+			/*if (deathWorm.isAlive()) {
 				if (deathWorm.circle.intersects(player.circle)) {
 					youreIt(player);
 					deathWorm.slumber();
@@ -322,7 +322,7 @@ public class Game extends BasicGame {
 						player.getY()-deathWorm.getY());
 				if (deathWormDistance < deathWormVictimDistance) 
 					deathWormVictimDistance = deathWormDistance;
-			}
+			}*/
 
 			//När tiden rinner ut
 			if(player.score>gameLength){ 
@@ -341,16 +341,16 @@ public class Game extends BasicGame {
 					break;
 				}
 
-				//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
+				/*//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
 				else{
 					deathWorm.awaken();
-				}
+				}*/
 			}
 		}
 
-		if (deathWorm.isAlive()) {
+		/*if (deathWorm.isAlive()) {
 			deathWorm.hunt(deathWormVictim);
-		}
+		}*/
 
 		if(!isRunning){ //Game is over
 			if(backButton.clicked()){
