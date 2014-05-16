@@ -34,6 +34,7 @@ public class Game extends BasicGame {
 	private boolean boom,explode,isRunning = false;
 	private Player chaser;
 	private ArrayList<Player> players;
+	private ArrayList<PlayerDefinition> initialPlayerDefs;
 	private Animation boomAnimate,intro,explodeAnimate,winner;
 	private Audio ding,explosion;
 	private MenuButton backButton;
@@ -46,8 +47,8 @@ public class Game extends BasicGame {
 		height = GameInstantiator.height;
 		scale = GameInstantiator.scale;
 		this.playerId = playerId;
+		this.initialPlayerDefs = pDefs;
 
-		createPlayers(pDefs);
 		//Tweakvärde
 		gameLength = 30000;
 	}
@@ -95,7 +96,7 @@ public class Game extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-
+		createPlayers(initialPlayerDefs);
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
