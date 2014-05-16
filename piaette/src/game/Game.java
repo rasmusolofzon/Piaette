@@ -38,7 +38,7 @@ public class Game extends BasicGame {
 	private float scale, explX,explY,boomX,boomY;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
-	private Player chaser;
+	private Player chaser,local;
 	private ArrayList<Player> players;
 	private ArrayList<PlayerDefinition> initialPlayerDefs;
 	private Animation boomAnimate,intro,explodeAnimate,winner;
@@ -82,7 +82,10 @@ public class Game extends BasicGame {
 				//float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color,boolean first,int id
 				Player player = new Player(pDef.getX(), pDef.getY(), Input.KEY_UP, Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,
 						pDef.getName(), color, first, pDef.getId());
+				
 				players.add(player);
+				
+				if(pDef.getId()==playerId) local = player;
 
 			}
 
@@ -153,7 +156,7 @@ public class Game extends BasicGame {
 		
 
 		try {
-			this.gameClient = new GameClient(new DatagramSocket(),hostAddress,port,this);
+			this.gameClient = new GameClient(new DatagramSocket(),hostAddress,port,this,local);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -360,10 +363,6 @@ public class Game extends BasicGame {
 	}
 
 
-
-	public Player getPlayer() {
-		return players.get(players.indexOf(playerId));
-	}
 
 
 	//	@Override
