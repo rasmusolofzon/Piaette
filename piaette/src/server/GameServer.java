@@ -119,7 +119,7 @@ public class GameServer {
 			long lastSend = 0;
 			while (true) {
 				long now = System.currentTimeMillis();
-				if ((now - lastSend)>=200) {
+				if ((now - lastSend)>=50) {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,2).toString();
 					byte[] sndTemp = debugP.getBytes();
