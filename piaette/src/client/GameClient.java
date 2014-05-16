@@ -46,7 +46,6 @@ public class GameClient{
 	}
 	
 	public void updatePlayer(int id, float x, float y, float r, float timer) {
-		System.out.println("updatePlayer: " + id);
 		PlayerDefinition pDef = new PlayerDefinition(null,id);
 		pDef.updateX(x);
 		pDef.updateY(y);
