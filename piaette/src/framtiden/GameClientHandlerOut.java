@@ -3,8 +3,8 @@ package framtiden;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import utilties.PlayerDefinition;
-import utilties.comUtility;
+import utilities.PlayerDefinition;
+import utilities.comUtility;
 
 
 

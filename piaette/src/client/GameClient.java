@@ -6,7 +6,7 @@ import game.Player;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import utilties.PlayerDefinition;
+import utilities.PlayerDefinition;
 
 public class GameClient{
 	private DatagramSocket socket;

@@ -1,11 +1,11 @@
 package client;
 
 
-import utilties.PlayerDefinition;
-import utilties.Protocol;
-import utilties.ProtocolParser;
-import utilties.ServerProtocol;
-import utilties.comUtility;
+import utilities.PlayerDefinition;
+import utilities.Protocol;
+import utilities.ProtocolParser;
+import utilities.ServerProtocol;
+import utilities.comUtility;
 
 public class GameDownStream extends Thread {
 	private GameClient model;

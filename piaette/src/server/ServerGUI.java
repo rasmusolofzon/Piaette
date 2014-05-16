@@ -27,8 +27,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import utilties.PlayerDefinition;
-import utilties.ServerProtocol;
+import utilities.PlayerDefinition;
+import utilities.ServerProtocol;
 
 
 

@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 
 
-import utilties.PlayerDefinition;
-import utilties.comUtility;
+
+import utilities.PlayerDefinition;
+import utilities.comUtility;
 
 public class LobbyClient {
 	private OutputStream outputStream;

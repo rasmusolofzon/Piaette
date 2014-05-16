@@ -10,6 +10,7 @@ import java.util.Random;
 
 
 
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -28,7 +29,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import client.GameClient;
 import framtiden.DeathWorm;
 import framtidensMenu.MenuButton;
-import utilties.PlayerDefinition;
+import utilities.PlayerDefinition;
 
 
 public class Game extends BasicGame {

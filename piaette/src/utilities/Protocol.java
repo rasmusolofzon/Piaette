@@ -1,4 +1,4 @@
-package utilties;
+package utilities;
 
 public class Protocol {
 	public static int PROTOCOL_CLIENT = 0, PROTOCOL_SERVER = 1;

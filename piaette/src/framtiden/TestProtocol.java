@@ -1,9 +1,9 @@
 package framtiden;
 
-import utilties.ClientProtocol;
-import utilties.Protocol;
-import utilties.ProtocolParser;
-import utilties.ServerProtocol;
+import utilities.ClientProtocol;
+import utilities.Protocol;
+import utilities.ProtocolParser;
+import utilities.ServerProtocol;
 
 public class TestProtocol {
 	public static void main(String[] args) {

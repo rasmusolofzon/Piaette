@@ -8,11 +8,11 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import utilties.ClientProtocol;
-import utilties.PlayerDefinition;
-import utilties.Protocol;
-import utilties.ProtocolParser;
-import utilties.ServerProtocol;
+import utilities.ClientProtocol;
+import utilities.PlayerDefinition;
+import utilities.Protocol;
+import utilities.ProtocolParser;
+import utilities.ServerProtocol;
 
 
 import framtiden.ServerOffer;

@@ -1,9 +1,9 @@
 package client;
 
 
-import utilties.ClientProtocol;
-import utilties.PlayerDefinition;
-import utilties.comUtility;
+import utilities.ClientProtocol;
+import utilities.PlayerDefinition;
+import utilities.comUtility;
 
 public class GameUpStream extends Thread {
 	private GameClient model;

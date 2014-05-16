@@ -1,4 +1,4 @@
-package utilties;
+package utilities;
 
 public class PlayerDefinition {
 

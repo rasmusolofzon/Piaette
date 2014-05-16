@@ -6,12 +6,11 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-
-import utilties.PlayerDefinition;
-import utilties.Protocol;
-import utilties.ProtocolParser;
-import utilties.ServerProtocol;
-import utilties.comUtility;
+import utilities.PlayerDefinition;
+import utilities.Protocol;
+import utilities.ProtocolParser;
+import utilities.ServerProtocol;
+import utilities.comUtility;
 
 public class LobbyFromServer extends Thread {
 	private InputStream in;
@@ -55,7 +54,7 @@ public class LobbyFromServer extends Thread {
 			Protocol pp = parser.parse(input);
 			if (pp.getProtocol()==Protocol.PROTOCOL_SERVER) {
 				ServerProtocol srv = (ServerProtocol) pp;
-				System.out.println("Bäver: " + srv.getPlayers().size());
+				System.out.println("Bï¿½ver: " + srv.getPlayers().size());
 				return srv.getPlayers();
 			}else{
 				return receivePlayers();
