@@ -1,8 +1,9 @@
-package Client;
+package client;
 
-import main.Utility;
-import protocol.ClientProtocol;
+
 import server.PlayerDefinition;
+import utilties.ClientProtocol;
+import utilties.comUtility;
 
 public class GameUpStream extends Thread {
 	private GameClient model;
@@ -22,7 +23,7 @@ public class GameUpStream extends Thread {
 				PlayerDefinition p = model.getPlayerInfo();
 				String msg = new ClientProtocol(SEQ,p.getId(),p.getX(),p.getY(),p.getRotation()).toString();
 				System.out.println(model.getPlayerInfo().getId() + " sends [" + msg + "]");
-				Utility.sendUDP(msg, model.getSocket(), model.getHostAddress(), model.getHostPort());
+				comUtility.sendUDP(msg, model.getSocket(), model.getHostAddress(), model.getHostPort());
 				lastSend = now;
 				SEQ++;
 			}

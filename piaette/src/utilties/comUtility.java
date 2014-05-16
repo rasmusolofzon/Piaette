@@ -1,4 +1,4 @@
-package main;
+package utilties;
 
 import java.awt.Font;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import java.net.InetAddress;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-public class Utility {
+public class comUtility {
 
-
+//DENNA BORDE INTE FINNAS MEN OM DEN INTE FINNS BLIR FRAMTIDEN LEDSEN I ÖGAT
 	@SuppressWarnings("unchecked")
 	public static UnicodeFont getNewFont(String fontName , int fontSize) {
 		UnicodeFont font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));

@@ -27,7 +27,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import protocol.ServerProtocol;
+import utilties.ServerProtocol;
+
+
 
 public class ServerGUI extends JFrame implements ActionListener, Observer {
 	int height, width;

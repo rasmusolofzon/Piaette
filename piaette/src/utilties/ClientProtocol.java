@@ -1,4 +1,4 @@
-package protocol;
+package utilties;
 
 public class ClientProtocol extends Protocol {
 	private int sequenceNbr,playerId;

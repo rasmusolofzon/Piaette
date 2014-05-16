@@ -1,7 +1,5 @@
 package menu;
 
-import main.GameInstantiator;
-import main.Utility;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,7 +8,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utilties.comUtility;
+
+
+
 import framtiden.GameStater;
+import game.GameInstantiator;
 
 public class JoinGameMenu extends BasicGameState {
 	private int id;
@@ -29,7 +32,7 @@ public class JoinGameMenu extends BasicGameState {
 		
 	
 		
-		ipField = new PiaetteTextField(gc,Utility.getNewFont("Futura",20),MainMenu.topButton,"IP Address:");
+		ipField = new PiaetteTextField(gc,comUtility.getNewFont("Futura",20),MainMenu.topButton,"IP Address:");
 		
 		Image join = new Image("Graphics/menu/join.png");
 		Image joinHover = new Image("Graphics/menu/join-hover.png");

@@ -1,10 +1,11 @@
-package Client;
+package client;
 
-import main.Utility;
-import protocol.Protocol;
-import protocol.ProtocolParser;
-import protocol.ServerProtocol;
+
 import server.PlayerDefinition;
+import utilties.Protocol;
+import utilties.ProtocolParser;
+import utilties.ServerProtocol;
+import utilties.comUtility;
 
 public class GameDownStream extends Thread {
 	private GameClient model;
@@ -17,7 +18,7 @@ public class GameDownStream extends Thread {
 	public void run(){
 		ProtocolParser parser = ProtocolParser.getInstance();
 		while(true){
-			String receive = Utility.receiveUDP(model.getSocket());
+			String receive = comUtility.receiveUDP(model.getSocket());
 			Protocol rcvProtocol = parser.parse(receive);
 			
 			if (rcvProtocol.getProtocol()==Protocol.PROTOCOL_SERVER) {

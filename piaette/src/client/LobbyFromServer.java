@@ -1,15 +1,17 @@
-package Client;
+package client;
+
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import main.Utility;
-import protocol.Protocol;
-import protocol.ProtocolParser;
-import protocol.ServerProtocol;
+
 import server.PlayerDefinition;
+import utilties.Protocol;
+import utilties.ProtocolParser;
+import utilties.ServerProtocol;
+import utilties.comUtility;
 
 public class LobbyFromServer extends Thread {
 	private InputStream in;
@@ -28,7 +30,7 @@ public class LobbyFromServer extends Thread {
 	private void doCase() {
 		String input = "";
 		try {
-			input = Utility.receiveMessage(in);
+			input = comUtility.receiveMessage(in);
 
 			System.out.println("doCase returns: " + input);
 			if (input.equalsIgnoreCase("startGame")) {
@@ -49,7 +51,7 @@ public class LobbyFromServer extends Thread {
 	private ArrayList<PlayerDefinition> receivePlayers() {
 		try {
 			ProtocolParser parser = ProtocolParser.getInstance();
-			String input = Utility.receiveMessage(in);
+			String input = comUtility.receiveMessage(in);
 			Protocol pp = parser.parse(input);
 			if (pp.getProtocol()==Protocol.PROTOCOL_SERVER) {
 				ServerProtocol srv = (ServerProtocol) pp;

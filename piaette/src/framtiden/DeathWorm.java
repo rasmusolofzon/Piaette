@@ -1,11 +1,13 @@
-package shapes;
+package framtiden;
 
-import main.GameInstantiator;
+import game.GameInstantiator;
+import game.Player;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Circle;
+
 
 public class DeathWorm {
 	private float direction, movementSpeed, height, width;

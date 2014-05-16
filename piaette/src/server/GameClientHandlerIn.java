@@ -3,9 +3,12 @@ package server;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import utilties.comUtility;
+
+
+
 import framtiden.GameMailBox;
 
-import main.Utility;
 
 public class GameClientHandlerIn extends Thread {
 	private GameMailBox mailBox;
@@ -23,7 +26,7 @@ public class GameClientHandlerIn extends Thread {
 	}
 	
 	public void updatePlayer() {
-		String received = Utility.receiveUDP(socket);
+		String received = comUtility.receiveUDP(socket);
 		
 		
 		//Klient UDP: CLI:SEQ:PORT:X:Y

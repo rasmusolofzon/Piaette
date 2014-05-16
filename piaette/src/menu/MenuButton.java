@@ -1,6 +1,6 @@
 package menu;
 
-import main.GameInstantiator;
+import game.GameInstantiator;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;

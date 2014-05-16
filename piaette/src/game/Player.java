@@ -1,7 +1,6 @@
-package shapes;
+package game;
 
 
-import main.GameInstantiator;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;

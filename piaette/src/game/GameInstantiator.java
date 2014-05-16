@@ -1,4 +1,4 @@
-package main;
+package game;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,6 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 import server.PlayerDefinition;
-import shapes.Player;
 
 public class GameInstantiator extends Thread {
 	public static int width = 1000;

@@ -1,4 +1,4 @@
-package main;
+package game;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,9 +20,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
+import framtiden.DeathWorm;
+
 import server.PlayerDefinition;
-import shapes.Player;
-import shapes.DeathWorm;
 
 
 public class Game extends BasicGame {

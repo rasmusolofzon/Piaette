@@ -1,11 +1,15 @@
 package server;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import main.Utility;
+import utilties.comUtility;
+
+
+
 
 public class ClientHandler extends Thread {
 
@@ -63,7 +67,7 @@ public class ClientHandler extends Thread {
 		System.out.println("ClientHandler: " + msg);
 //		outputStream.write((msg+'\n').getBytes());
 		
-		Utility.sendMessage(outputStream, msg);
+		comUtility.sendMessage(outputStream, msg);
 	}
 
 	public String readNextMessage() throws IOException{

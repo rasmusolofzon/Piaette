@@ -1,4 +1,7 @@
-package Client;
+package client;
+
+import game.Game;
+import game.GameInstantiator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,10 +12,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+
+
 import server.PlayerDefinition;
-import main.Game;
-import main.GameInstantiator;
-import main.Utility;
+import utilties.comUtility;
 
 public class LobbyClient {
 	private OutputStream outputStream;
@@ -41,10 +44,10 @@ public class LobbyClient {
 	
 	private boolean handshake() {
 		try {
-			String initMessage = Utility.receiveMessage(inputStream);
+			String initMessage = comUtility.receiveMessage(inputStream);
 			if(!initMessage.startsWith("welcome")) return false;
-			Utility.sendMessage(outputStream,"playerName: "+playerName);
-			String idMessage = Utility.receiveMessage(inputStream);
+			comUtility.sendMessage(outputStream,"playerName: "+playerName);
+			String idMessage = comUtility.receiveMessage(inputStream);
 			playerId = Integer.parseInt(idMessage.substring(10));
 			System.out.println("Received id "+playerId+" from the server");
 		}catch(Exception e) {
@@ -69,7 +72,7 @@ public class LobbyClient {
 	
 	public void disconnectByClient(){
 		try {
-			Utility.sendMessage(outputStream,"leaveGame");
+			comUtility.sendMessage(outputStream,"leaveGame");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

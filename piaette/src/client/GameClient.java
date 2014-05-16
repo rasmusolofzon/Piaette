@@ -1,13 +1,14 @@
-package Client;
+package client;
+
+import game.Game;
+import game.Player;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Observable;
 import java.util.Observer;
 
-import main.Game;
 import server.PlayerDefinition;
-import shapes.Player;
 
 public class GameClient{
 	private DatagramSocket socket;
