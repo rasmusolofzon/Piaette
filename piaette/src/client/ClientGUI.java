@@ -8,9 +8,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.newdawn.slick.Image;
 
 import framtidensMenu.MainMenu.PNGFileFilter;
 
@@ -112,7 +117,7 @@ public class ClientGUI implements ActionListener {
 			filter = new PNGFileFilter();
 			int nbrOfSlogans = new File("Graphics/menu/slogan/").listFiles(filter).length;
 			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans)+1;
-			
+			if (randomNbrOfSlogans == 8)loadMusic();
 			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"+randomNbrOfSlogans+".png"));
 			sloganLabel = new JLabel(new ImageIcon(slogan));
 			
@@ -121,6 +126,29 @@ public class ClientGUI implements ActionListener {
 			e.printStackTrace();
 		}
 	
+	}
+	private void loadMusic() {
+		try{
+			String url = "sounds/clientMusic.wav";
+			
+		    File yourFile = new File(url);
+		    AudioInputStream stream;
+		    AudioFormat format;
+		    DataLine.Info info;
+		    Clip clip;
+
+		    stream = AudioSystem.getAudioInputStream(yourFile);
+		    format = stream.getFormat();
+		    info = new DataLine.Info(Clip.class, format);
+		    clip = (Clip) AudioSystem.getLine(info);
+		    clip.open(stream);
+		    clip.start();
+			
+		    }
+		   catch(Exception e){
+			   e.printStackTrace();
+		   }
+
 	}
 
 	public void actionPerformed(ActionEvent event) {
