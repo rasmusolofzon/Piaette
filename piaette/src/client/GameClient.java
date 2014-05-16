@@ -5,8 +5,6 @@ import game.Player;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Observable;
-import java.util.Observer;
 
 import utilties.PlayerDefinition;
 
@@ -17,11 +15,11 @@ public class GameClient{
 	private Game game;
 	private Player player;
 	private PlayerDefinition pDef;
-	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort,Game game){
+	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort,Game game,Player player){
 		System.out.println("Starting sending all that shit!");
 		
 		this.game = game;
-		this.player = game.getPlayer();
+		this.player = player;
 		this.pDef = new PlayerDefinition(player.name,player.id);
 		
 		this.socket = socket;
