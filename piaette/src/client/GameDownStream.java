@@ -30,6 +30,7 @@ public class GameDownStream extends Thread {
 				for (PlayerDefinition p : sp.getPlayers()) {
 					model.updatePlayer(p.getId(), p.getX(), p.getY(), p.getRotation(), p.getTimer());
 				}
+				model.setChaser(sp.getPiaetteId());
 				SEQ=sp.getSequenceNumber();
 			}
 		}

@@ -6,7 +6,10 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
+
+import org.newdawn.slick.geom.Circle;
 
 import utilities.ClientProtocol;
 import utilities.PlayerDefinition;
@@ -15,24 +18,18 @@ import utilities.ProtocolParser;
 import utilities.ServerProtocol;
 
 
-import framtiden.ServerOffer;
-
-
 
 
 
 public class GameServer {
-	Thread serverOffer, clientAdder;
+	Thread  clientAdder;
 	private DatagramSocket udpSocket;
 	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
-	
+	public static int chaser = 0;
 	public GameServer(int serverPort, String serverName){
 		
-		Thread serverOffer = new ServerOffer(serverPort);
-		serverOffer.start();
-		
-		Thread clientAdder = new ServerLobby(serverPort);
+		clientAdder = new ServerLobby(serverPort);
 		clientAdder.start();
 		udpSocket = null;
 		try {
@@ -53,7 +50,6 @@ public class GameServer {
 	}
 	
 	public void close() {
-		serverOffer.interrupt();
 		clientAdder.interrupt();
 		return;
 	}
@@ -98,6 +94,29 @@ public class GameServer {
 							break;
 						}
 					}
+					
+					PlayerDefinition chas = null;
+					Circle chasC = null;
+					for (PlayerDefinition p : players) {
+						if (p.getId()==chaser) {
+							chas = p;
+							chasC = new Circle(chas.getX(),chas.getY(),32);
+						}
+					}
+					
+					if (chas==null) {
+						continue;
+					}
+					
+					for (PlayerDefinition p : players) {
+						if (p.getId()!=chaser) {
+							Circle c = new Circle(p.getX(),p.getY(),32);
+							if (c.intersects(chasC)) {
+								chaser=p.getId();
+								break;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -114,14 +133,16 @@ public class GameServer {
 			this.SEQ = 0;
 			this.players = players;
 		}
-		
 		public void run() {
 			long lastSend = 0;
+			
+			Random rand = new Random();
+			chaser = rand.nextInt(players.size())+1;
 			while (true) {
 				long now = System.currentTimeMillis();
-				if ((now - lastSend)>=100) {
+				if ((now - lastSend)>=50) {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
-					String debugP = new ServerProtocol(SEQ,arrPlayers,2).toString();
+					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
 					byte[] sndTemp = debugP.getBytes();
 					System.out.println("Sending updates: " + debugP);
 					for (SocketAddress sa : udpClients) {

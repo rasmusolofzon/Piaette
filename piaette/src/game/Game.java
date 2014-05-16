@@ -97,8 +97,17 @@ public class Game extends BasicGame {
 
 	public void updatePlayer(PlayerDefinition pDef){
 		if(pDef.getId()==playerId) return;
-		Player p = players.get(players.indexOf(pDef));
-		p.updateFromServer(pDef);
+		
+		for (Player p : players) {
+			if (p.id==pDef.getId()) {
+				p.updateFromServer(pDef);
+			}
+		}
+//		
+//		System.out.println(players.size() + "vs" + pDef);
+//		
+//		Player p = players.get(players.indexOf(pDef));
+//		p.updateFromServer(pDef);
 	}
 
 
@@ -161,6 +170,8 @@ public class Game extends BasicGame {
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
+		
+		chaser = players.get(0);
 	}
 
 	/*
@@ -183,7 +194,7 @@ public class Game extends BasicGame {
 				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
 				i++;
 			}
-
+			
 			//Rita och animera spelarna
 			for(Player p : players){
 				p.draw(g,chaser);
@@ -260,21 +271,30 @@ public class Game extends BasicGame {
 			ding.playAsSoundEffect(1f, 0.5f, false);
 		} 
 		//Vem som börjar pjätta. Övre gränsen är för att undvika omstart av pjättande när spelet är över
-		else if(chaser==null && elapsedTime>5000){
-			Random generator = new Random();
-			youreIt(players.get(generator.nextInt(players.size())));
-		}
-
+//		else if(chaser==null && elapsedTime>5000){
+//			Random generator = new Random();
+//			youreIt(players.get(generator.nextInt(players.size())));
+//		}
+		
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
+		
+		if (chaser.id!=gameClient.getChaser()) {
+			for (Player p : players) {
+				if (p.id==gameClient.getChaser()) {
+					chaser = p;
+					break;
+				}
+			}
+		}
 
 		//Pjättarn förlorar poäng
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
 
 		//Preppar Death Worm
-		double deathWormVictimDistance = 0;
+		/*double deathWormVictimDistance = 0;
 		Player deathWormVictim = null;
-		deathWorm = new DeathWorm(50, 50, Color.red);
+		deathWorm = new DeathWorm(50, 50, Color.red);*/
 
 		//Spelares styrning
 		for(Player player : players){
@@ -288,11 +308,11 @@ public class Game extends BasicGame {
 			if(!isRunning) break;
 
 			//Kollisionsdetektion
-			if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
+			/*if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
-			}
+			}*/
 
-			if (deathWorm.isAlive()) {
+			/*if (deathWorm.isAlive()) {
 				if (deathWorm.circle.intersects(player.circle)) {
 					youreIt(player);
 					deathWorm.slumber();
@@ -313,7 +333,7 @@ public class Game extends BasicGame {
 						player.getY()-deathWorm.getY());
 				if (deathWormDistance < deathWormVictimDistance) 
 					deathWormVictimDistance = deathWormDistance;
-			}
+			}*/
 
 			//När tiden rinner ut
 			if(player.score>gameLength){ 
@@ -332,16 +352,16 @@ public class Game extends BasicGame {
 					break;
 				}
 
-				//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
+				/*//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
 				else{
 					deathWorm.awaken();
-				}
+				}*/
 			}
 		}
 
-		if (deathWorm.isAlive()) {
+		/*if (deathWorm.isAlive()) {
 			deathWorm.hunt(deathWormVictim);
-		}
+		}*/
 
 		if(!isRunning){ //Game is over
 			if(backButton.clicked()){
