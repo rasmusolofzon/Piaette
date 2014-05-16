@@ -1,4 +1,4 @@
-package server;
+package framtiden;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -8,28 +8,25 @@ import utilties.comUtility;
 
 
 
-import framtiden.GameMailBox;
 
 
-public class GameClientHandlerIn extends Thread {
+public class GameClientHandlerOut extends Thread {
 	private GameMailBox mailBox;
 	private PlayerDefinition pDef;
 	private DatagramSocket socket;
 	private InetAddress IPAddress;
 	private int port;
 	
-	public GameClientHandlerIn(GameMailBox mailBox, DatagramSocket socket, InetAddress IPAddress, int port, 
+	public GameClientHandlerOut(GameMailBox mailBox, DatagramSocket socket, InetAddress IPAddress, int port, 
 			PlayerDefinition pDef) {
+		this.mailBox = mailBox;
 		this.socket = socket;
 		this.IPAddress = IPAddress;
 		this.port = port;
 		this.pDef = pDef;
 	}
 	
-	public void updatePlayer() {
-		String received = comUtility.receiveUDP(socket);
-		
-		
-		//Klient UDP: CLI:SEQ:PORT:X:Y
+	public void updateClient(String message) {
+		comUtility.sendUDP(message, socket, IPAddress, port);
 	}
 }

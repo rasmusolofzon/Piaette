@@ -3,9 +3,6 @@ package framtiden;
 import java.util.ArrayList;
 import java.util.Observable;
 
-
-import server.GameClientHandlerIn;
-import server.GameClientHandlerOut;
 import utilties.*;
 
 public class GameMailBox extends Observable {
