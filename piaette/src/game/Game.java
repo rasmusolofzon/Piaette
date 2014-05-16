@@ -192,7 +192,7 @@ public class Game extends BasicGame {
 				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
 				i++;
 			}
-
+			
 			//Rita och animera spelarna
 			for(Player p : players){
 				p.draw(g,chaser);
@@ -269,13 +269,22 @@ public class Game extends BasicGame {
 			ding.playAsSoundEffect(1f, 0.5f, false);
 		} 
 		//Vem som börjar pjätta. Övre gränsen är för att undvika omstart av pjättande när spelet är över
-		else if(chaser==null && elapsedTime>5000){
-			Random generator = new Random();
-			youreIt(players.get(generator.nextInt(players.size())));
-		}
-
+//		else if(chaser==null && elapsedTime>5000){
+//			Random generator = new Random();
+//			youreIt(players.get(generator.nextInt(players.size())));
+//		}
+		
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
+		
+		if (chaser.id!=gameClient.getChaser()) {
+			for (Player p : players) {
+				if (p.id==gameClient.getChaser()) {
+					chaser = p;
+					break;
+				}
+			}
+		}
 
 		//Pjättarn förlorar poäng
 		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
