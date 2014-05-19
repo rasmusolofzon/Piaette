@@ -1,4 +1,4 @@
-package framtiden;
+package zframtiden;
 
 import utilities.ClientProtocol;
 import utilities.Protocol;

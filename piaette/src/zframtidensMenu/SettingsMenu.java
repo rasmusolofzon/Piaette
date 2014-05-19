@@ -1,4 +1,4 @@
-package framtidensMenu;
+package zframtidensMenu;
 
 
 import org.newdawn.slick.GameContainer;
@@ -12,7 +12,7 @@ import utilities.comUtility;
 
 
 
-import framtiden.GameStater;
+import zframtiden.GameStater;
 import game.GameInstantiator;
 
 public class SettingsMenu extends BasicGameState {

@@ -25,7 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-import framtidensMenu.MainMenu.PNGFileFilter;
+
+import zframtidensMenu.MainMenu.PNGFileFilter;
 
 public class ClientGUI implements ActionListener {
 	public static void main(String[] args) {

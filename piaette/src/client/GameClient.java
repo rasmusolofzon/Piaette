@@ -72,4 +72,9 @@ public class GameClient{
 	
 	public int getChaser() {return piaette;}
 
+	public void youreIt(Player player) {
+		setChaser(player.id);
+		
+	}
+
 }

@@ -1,4 +1,4 @@
-package framtiden;
+package zframtiden;
 
 import game.GameInstantiator;
 import game.Player;

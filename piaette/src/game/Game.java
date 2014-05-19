@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 
 
+
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -24,9 +26,9 @@ import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import client.GameClient;
-import framtiden.DeathWorm;
-import framtidensMenu.MenuButton;
 import utilities.PlayerDefinition;
+import zframtiden.DeathWorm;
+import zframtidensMenu.MenuButton;
 
 
 public class Game extends BasicGame {
@@ -305,9 +307,9 @@ public class Game extends BasicGame {
 			if(!isRunning) break;
 
 			//Kollisionsdetektion
-			/*if(chaser!=null && player!= chaser && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
+			if(chaser!=null && player!= chaser && local.equals(chaser) && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
 				youreIt(player);
-			}*/
+			}
 
 			/*if (deathWorm.isAlive()) {
 				if (deathWorm.circle.intersects(player.circle)) {
@@ -378,6 +380,7 @@ public class Game extends BasicGame {
 		boomAnimate.restart();
 		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
 		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
+		this.gameClient.youreIt(player);
 	}
 
 

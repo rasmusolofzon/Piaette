@@ -1,4 +1,4 @@
-package framtiden;
+package zframtiden;
 
 import java.util.ArrayList;
 import java.util.Observable;

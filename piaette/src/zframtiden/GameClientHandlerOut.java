@@ -1,4 +1,4 @@
-package framtiden;
+package zframtiden;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;

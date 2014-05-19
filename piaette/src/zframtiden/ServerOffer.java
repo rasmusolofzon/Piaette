@@ -1,4 +1,4 @@
-package framtiden;
+package zframtiden;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

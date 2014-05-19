@@ -1,4 +1,4 @@
-package framtidensMenu;
+package zframtidensMenu;
 
 import game.GameInstantiator;
 
