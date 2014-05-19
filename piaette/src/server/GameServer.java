@@ -27,6 +27,9 @@ public class GameServer {
 	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
 	public static int chaser = 0;
+	
+	
+	
 	public GameServer(int serverPort, String serverName){
 		
 		clientAdder = new ServerLobby(serverPort);
@@ -50,6 +53,10 @@ public class GameServer {
 	}
 	
 	public void close() {
+		chaser=0;
+		udpClients.clear();
+		udpSocket.disconnect();
+		udpSocket.close();
 		clientAdder.interrupt();
 		return;
 	}
