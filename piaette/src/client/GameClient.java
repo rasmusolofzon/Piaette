@@ -53,7 +53,6 @@ public class GameClient{
 		pDef.updateRotation(r);
 		pDef.updateTimer(timer);
 		
-		System.out.println("älgkuk");
 		
 		game.updatePlayer(pDef);
 	}
