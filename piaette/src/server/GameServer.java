@@ -22,7 +22,7 @@ import utilities.ServerProtocol;
 
 
 public class GameServer {
-	Thread  clientAdder;
+	private ServerLobby  clientAdder;
 	private DatagramSocket udpSocket;
 	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
@@ -58,6 +58,7 @@ public class GameServer {
 		udpClients.clear();
 		udpSocket.disconnect();
 		udpSocket.close();
+		clientAdder.closeSocket();
 		clientAdder.interrupt();
 		return;
 	}
