@@ -12,7 +12,7 @@ Servern beräknar kollision och skickar ut informationen till samtliga deltagare
 Protokollspec:
 
 Klient UDP:
-CLI:SEQ:PORT:X:Y
+CLI:SEQ:PORT:X:Y:TMR
 
 Serv UDP/MC:
 
