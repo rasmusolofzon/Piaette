@@ -26,6 +26,7 @@ public class GameServer {
 	private DatagramSocket udpSocket;
 	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
+	private long lastIntersect;
 	public static int chaser = 0;
 	
 	
@@ -88,13 +89,13 @@ public class GameServer {
 				}
 				
 				String rawData = new String(rcvPacket.getData()).trim();
-				System.out.println("getting: " + rawData);
+				//System.out.println("getting: " + rawData);
 				Protocol fromClient = parser.parse(rawData);
 				if (fromClient.getProtocol()==Protocol.PROTOCOL_CLIENT) {
 					ClientProtocol cP = (ClientProtocol) fromClient;
 					for (PlayerDefinition p : players) {
 						if (p.getId()==cP.getPlayerID()) {
-							System.out.println("Updating " + p.getId() + " [" + cP.toString() + "]");
+							//System.out.println("Updating " + p.getId() + " [" + cP.toString() + "]");
 							p.updateX(cP.getX());
 							p.updateY(cP.getY());
 							p.updateRotation(cP.getRotation());
@@ -115,10 +116,12 @@ public class GameServer {
 						continue;
 					}
 					
+					if(System.currentTimeMillis()-lastIntersect<3000) continue;
 					for (PlayerDefinition p : players) {
 						if (p.getId()!=chaser) {
 							Circle c = new Circle(p.getX(),p.getY(),32);
 							if (c.intersects(chasC)) {
+								lastIntersect = System.currentTimeMillis();
 								chaser=p.getId();
 								break;
 							}
@@ -151,7 +154,7 @@ public class GameServer {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
 					byte[] sndTemp = debugP.getBytes();
-					System.out.println("Sending updates: " + debugP);
+					//System.out.println("Sending updates: " + debugP);
 					for (SocketAddress sa : udpClients) {
 						try {
 							DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);

@@ -62,6 +62,7 @@ public class GameClient{
 		pDef.updateX(player.getX());
 		pDef.updateY(player.getY());
 		pDef.updateRotation(player.getDirection());
+		System.out.println("Player score is "+player.score);
 		pDef.updateTimer(player.score);
 		return pDef;
 	}

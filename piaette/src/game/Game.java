@@ -281,6 +281,7 @@ public class Game extends BasicGame {
 		
 		//Set the chaser from server
 		if (chaser==null || chaser.id!=gameClient.getChaser()) {
+			System.out.println("Chaser id in game: "+chaser.id+", gameclients chaser id: "+gameClient.getChaser());
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
 					youreIt(p);
@@ -290,7 +291,7 @@ public class Game extends BasicGame {
 		}
 
 		//Pjättarn förlorar poäng
-		if(chaser!=null && elapsedTime>5000) chaser.score+=delta;
+		if(chaser!=null && elapsedTime>3000) chaser.score+=delta;
 
 		//Preppar Death Worm
 		/*double deathWormVictimDistance = 0;
@@ -309,9 +310,9 @@ public class Game extends BasicGame {
 			if(!isRunning) break;
 
 			//Kollisionsdetektion
-			if(chaser!=null && player!= chaser && local.equals(chaser) && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
-				youreIt(player);
-			}
+//			if(chaser!=null && player!= chaser && local.equals(chaser) && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
+//				youreIt(player);
+//			}
 
 			/*if (deathWorm.isAlive()) {
 				if (deathWorm.circle.intersects(player.circle)) {

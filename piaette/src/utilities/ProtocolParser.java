@@ -62,7 +62,7 @@ public class ProtocolParser {
 			rVal = new ServerProtocol(SEQ, pp, PIAETTE);
 		}
 		
-		System.out.println(s);
+//		System.out.println(s);
 		return rVal;
 	}
 	
@@ -80,6 +80,7 @@ public class ProtocolParser {
 		try {
 			return Integer.parseInt(raw);
 		}catch(Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 	}

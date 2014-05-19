@@ -47,7 +47,7 @@ public class comUtility {
 			DatagramPacket receivePacket = new DatagramPacket(receiveData,
 					receiveData.length);
 			socket.receive(receivePacket);
-			String message = new String(receivePacket.getData());
+			String message = new String(receivePacket.getData(),receivePacket.getOffset(),receivePacket.getLength(),"UTF-8");
 			return message;
 		} catch (IOException e) {
 			e.printStackTrace();
