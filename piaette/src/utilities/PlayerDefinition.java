@@ -4,7 +4,8 @@ public class PlayerDefinition {
 
 	private int id;
 	private String playerName;
-	private float rotation, x, y, tmr;
+	private float rotation, x, y;
+	private long timer;
 
 	public PlayerDefinition(String playerName, int i) {
 		this.id = i;
@@ -30,8 +31,8 @@ public class PlayerDefinition {
 		return y;
 	}
 	
-	public float getTimer() {
-		return tmr;
+	public long getTimer() {
+		return timer;
 	}
 
 	public void updateX(float x) {
@@ -43,16 +44,17 @@ public class PlayerDefinition {
 	}
 	
 	public void updateRotation(float rotation) {
-		this.rotation = rotation;
+		this.rotation = (rotation % 360f) + 360f;
+		System.out.println("Rotattion: "+rotation+", mod360:" +(rotation % 360.0));
 	}
 	
-	public void updateTimer(float tmr) {
-		this.tmr = tmr;
+	public void updateTimer(long tmr) {
+		this.timer = tmr;
 	}
 	
 	public boolean equals(PlayerDefinition p) {
 		return this.id == p.id;
 	}
 	
-	public String toString() {return id + "-" + x + "-" + y + "-" + rotation + "-" + tmr;}
+	public String toString() {return id + "-" + x + "-" + y + "-" + rotation + "-" + timer;}
 }

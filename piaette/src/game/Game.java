@@ -291,7 +291,7 @@ public class Game extends BasicGame {
 		}
 
 		//Pjättarn förlorar poäng
-		if(chaser!=null && elapsedTime>3000) chaser.score+=delta;
+		if(chaser!=null && elapsedTime>3000 && chaser.equals(local)) chaser.score+=delta;
 
 		//Preppar Death Worm
 		/*double deathWormVictimDistance = 0;

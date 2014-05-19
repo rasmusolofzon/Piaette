@@ -21,7 +21,7 @@ public class GameUpStream extends Thread {
 			
 			if (now - lastSend >= (long) 50) {
 				PlayerDefinition p = model.getPlayerInfo();
-				String msg = new ClientProtocol(SEQ,p.getId(),p.getX(),p.getY(),p.getRotation()).toString();
+				String msg = new ClientProtocol(SEQ,p.getId(),p.getX(),p.getY(),p.getRotation(),p.getTimer()).toString();
 				System.out.println(model.getPlayerInfo().getId() + " sends [" + msg + "]");
 				comUtility.sendUDP(msg, model.getSocket(), model.getHostAddress(), model.getHostPort());
 				lastSend = now;

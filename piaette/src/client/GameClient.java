@@ -46,23 +46,22 @@ public class GameClient{
 		return hostPort;
 	}
 	
-	public void updatePlayer(int id, float x, float y, float r, float timer) {
+	public void updatePlayer(int id, float x, float y, float r, long timer) {
 		PlayerDefinition pDef = new PlayerDefinition(null,id);
 		pDef.updateX(x);
 		pDef.updateY(y);
 		pDef.updateRotation(r);
 		pDef.updateTimer(timer);
 		
+		System.out.println("timer val: "+timer+", for player "+pDef.getId()+", timer is "+pDef.getTimer());
 		
 		game.updatePlayer(pDef);
 	}
 	
 	public PlayerDefinition getPlayerInfo() {
-		System.out.println(player.debugPrint());
 		pDef.updateX(player.getX());
 		pDef.updateY(player.getY());
 		pDef.updateRotation(player.getDirection());
-		System.out.println("Player score is "+player.score);
 		pDef.updateTimer(player.score);
 		return pDef;
 	}

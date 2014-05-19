@@ -155,7 +155,7 @@ public class GameServer {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
 					byte[] sndTemp = debugP.getBytes();
-					//System.out.println("Sending updates: " + debugP);
+					System.out.println("Sending updates: " + debugP);
 					for (SocketAddress sa : udpClients) {
 						try {
 							DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);

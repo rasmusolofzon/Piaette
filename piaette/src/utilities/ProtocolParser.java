@@ -36,8 +36,9 @@ public class ProtocolParser {
 			float X = toFloat(p[3]);
 			float Y = toFloat(p[4]);
 			float ROT = toFloat(p[5]);
+			long TMR = toLong(p[6]);
 			
-			rVal = new ClientProtocol(SEQ, PID, X, Y,ROT);
+			rVal = new ClientProtocol(SEQ, PID, X, Y,ROT,TMR);
 		}
 		
 		if (pType==Protocol.PROTOCOL_SERVER) {
@@ -50,7 +51,7 @@ public class ProtocolParser {
 				float PX = toFloat(playerInfo[1]);
 				float PY = toFloat(playerInfo[2]);
 				float PR = toFloat(playerInfo[3]);
-				float PT = toFloat(playerInfo[4]);
+				long PT = toLong(playerInfo[4]);
 				PlayerDefinition pd = new PlayerDefinition("na",PID);
 				pd.updateX(PX);
 				pd.updateY(PY);
@@ -90,6 +91,13 @@ public class ProtocolParser {
 			return Float.parseFloat(raw);
 		}catch(Exception e) {
 			return -1;
+		}
+	}
+	private long toLong(String raw){
+		try{
+			return Long.parseLong(raw);
+		} catch(Exception e){
+			return -1l;
 		}
 	}
 	
