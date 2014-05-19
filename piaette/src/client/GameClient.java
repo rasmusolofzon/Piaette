@@ -7,6 +7,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import utilities.PlayerDefinition;
+import utilities.comUtility;
 
 public class GameClient{
 	private DatagramSocket socket;
@@ -72,9 +73,5 @@ public class GameClient{
 	
 	public int getChaser() {return piaette;}
 
-	public void youreIt(Player player) {
-		setChaser(player.id);
-		
-	}
 
 }

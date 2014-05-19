@@ -278,10 +278,12 @@ public class Game extends BasicGame {
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
 		
-		if (chaser.id!=gameClient.getChaser()) {
+		
+		//Set the chaser from server
+		if (chaser==null || chaser.id!=gameClient.getChaser()) {
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
-					chaser = p;
+					youreIt(p);
 					break;
 				}
 			}
@@ -380,7 +382,6 @@ public class Game extends BasicGame {
 		boomAnimate.restart();
 		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
 		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
-		this.gameClient.youreIt(player);
 	}
 
 
