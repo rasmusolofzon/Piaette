@@ -131,6 +131,8 @@ public class GameServer {
 							//randomize new chaser
 							Random rand = new Random();
 							chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
+							chaser = chas.getId();
+							System.out.println("named new chaser to be: "+chas.getId());
 						}
 					}
 					
