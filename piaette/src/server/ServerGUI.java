@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -59,6 +61,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		ServerLobby.getMailBox().addObserver(this);
 		initUI();
 		players = new Vector<PlayerDefinition>();
+		this.addWindowListener(new WindowCloser());
 	}
 
 	private void initUI() {
@@ -156,11 +159,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 			 
 		 }else if(e.getSource() == stopButton){
 			 if(running){
-				 displayMessage("Pressed Stop!");
-				 pListModel.removeAllElements();
-				 portMSGField.setEnabled(true);
-				 running = false;
-				 gs.close();
+				 closeServer();
 			 } else{
 				 displayMessage("Server not yet started.");
 			 }
@@ -226,6 +225,14 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 
 		}
 	}
+	
+	public void closeServer(){
+		displayMessage("Pressed Stop!");
+		 pListModel.removeAllElements();
+		 portMSGField.setEnabled(true);
+		 running = false;
+		 gs.close();
+	}
 
 
 	public static void main(String[] args) {
@@ -245,6 +252,29 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		for(ClientHandler cH : playerHanList){
 			pListModel.addElement(cH.getPlayer().getName());
 		}	
+		
+	}
+	
+	private class WindowCloser implements WindowListener{
+
+		@Override
+		public void windowOpened(WindowEvent e) {}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			closeServer();
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {}
+		@Override
+		public void windowIconified(WindowEvent e) {}
+		@Override
+		public void windowDeiconified(WindowEvent e) {}
+		@Override
+		public void windowActivated(WindowEvent e) {}
+		@Override
+		public void windowDeactivated(WindowEvent e) {}
 		
 	}
 
