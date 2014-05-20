@@ -12,7 +12,7 @@ public class ClientProtocol extends Protocol {
 		this.y = y;
 		this.rot = rot;
 		if (timer>30000) {
-			this.timer = 30000;
+			this.timer = 300000;
 		}else{
 			this.timer = timer;
 		}
