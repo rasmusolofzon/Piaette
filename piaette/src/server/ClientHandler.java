@@ -1,6 +1,5 @@
 package server;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,9 +7,6 @@ import java.net.Socket;
 
 import utilities.PlayerDefinition;
 import utilities.comUtility;
-
-
-
 
 public class ClientHandler extends Thread {
 
@@ -26,17 +22,17 @@ public class ClientHandler extends Thread {
 	}
 
 	@Override
-	public void run(){
-		try{
-			if(handShake()){
+	public void run() {
+		try {
+			if (handShake()) {
 				boolean run = true;
-				while(run){
+				while (run) {
 					String command = readNextMessage();
 					run = parseCommand(command);
 				}
 			}
 
-		} catch(IOException e){
+		} catch (IOException e) {
 			System.err.println("IOException: " + e.getMessage());
 			return;
 		}
@@ -45,12 +41,12 @@ public class ClientHandler extends Thread {
 	private boolean handShake() throws IOException {
 		sendMessage("welcome");
 		String response1 = readNextMessage();
-		if(response1.startsWith("playerName:")){
+		if (response1.startsWith("playerName:")) {
 			String playerName = response1.substring(12);
-			System.out.println("Found "+playerName);
+			System.out.println("Found " + playerName);
 			int id = mailBox.addClient(this);
-			pDef = new PlayerDefinition(playerName,id);
-			sendMessage("playerId: "+pDef.getId());
+			pDef = new PlayerDefinition(playerName, id);
+			sendMessage("playerId: " + pDef.getId());
 			mailBox.notifyObservers();
 			return true;
 		}
@@ -58,7 +54,7 @@ public class ClientHandler extends Thread {
 	}
 
 	private boolean parseCommand(String command) {
-		if(command.equals("leaveGame")){
+		if (command.equals("leaveGame")) {
 			ServerLobby.getMailBox().removeClient(this);
 			return false;
 		}
@@ -67,12 +63,11 @@ public class ClientHandler extends Thread {
 
 	public void sendMessage(String msg) throws IOException {
 		System.out.println("ClientHandler: " + msg);
-//		outputStream.write((msg+'\n').getBytes());
-		
+
 		comUtility.sendMessage(outputStream, msg);
 	}
 
-	public String readNextMessage() throws IOException{
+	public String readNextMessage() throws IOException {
 		int readByte;
 		StringBuilder sb = new StringBuilder();
 		do {
@@ -86,8 +81,8 @@ public class ClientHandler extends Thread {
 
 		return sb.toString().trim();
 	}
-	
-	public PlayerDefinition getPlayer(){
+
+	public PlayerDefinition getPlayer() {
 		return pDef;
 	}
 

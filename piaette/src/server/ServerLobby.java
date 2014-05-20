@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 public class ServerLobby extends Thread {
 
 	private int serverPort;
@@ -14,37 +13,37 @@ public class ServerLobby extends Thread {
 	public ServerLobby(int serverPort) {
 		this.serverPort = serverPort;
 	}
-	
+
 	@Override
-	public void run(){
+	public void run() {
 		try {
 			System.out.println("Starting server");
 			serverSocket = new ServerSocket(serverPort);
 			while (true) {
-				if(!(serverSocket.isClosed())){
-				Socket socket = serverSocket.accept();
-				ClientHandler cH = new ClientHandler(socket);
-				cH.start();
-			}else{ return;}
+				if (!(serverSocket.isClosed())) {
+					Socket socket = serverSocket.accept();
+					ClientHandler cH = new ClientHandler(socket);
+					cH.start();
+				} else {
+					return;
 				}
+			}
 		} catch (Exception e) {
-			//e.printStackTrace();  hehehe
+			System.out.println(e.getMessage());
 		}
 	}
-	
-	public static LobbyMailBox getMailBox(){
-		if(mailBox==null) mailBox = new LobbyMailBox();
+
+	public static LobbyMailBox getMailBox() {
+		if (mailBox == null)
+			mailBox = new LobbyMailBox();
 		return mailBox;
 	}
+
 	public void closeSocket() {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args){
-		ServerLobby lobby = new ServerLobby(22222);
-		lobby.start();
 	}
 }

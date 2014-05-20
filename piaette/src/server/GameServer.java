@@ -19,25 +19,23 @@ import utilities.ProtocolParser;
 import utilities.ServerProtocol;
 
 public class GameServer {
-	private ServerLobby  clientAdder;
+	private ServerLobby clientAdder;
 	private DatagramSocket udpSocket;
-	private Vector<PlayerDefinition> players,alivePlayers;
+	private Vector<PlayerDefinition> alivePlayers;
 	private Vector<SocketAddress> udpClients;
 	private ServerUDPReceiver receive;
 	private ServerUDPSender send;
 	private long lastIntersect;
-	private static final long TIMEOUT=5000;
+	private static final long TIMEOUT = 5000;
 	public static int chaser = 0;
 
-
-
-	public GameServer(int serverPort, String serverName){
+	public GameServer(int serverPort, String serverName) {
 
 		clientAdder = new ServerLobby(serverPort);
 		clientAdder.start();
 		udpSocket = null;
 		try {
-			udpSocket = new DatagramSocket(serverPort+1);
+			udpSocket = new DatagramSocket(serverPort + 1);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -48,17 +46,17 @@ public class GameServer {
 
 	@SuppressWarnings("unchecked")
 	public void startGame(Vector<PlayerDefinition> players) {
-		this.players = players;
+
 		this.alivePlayers = (Vector<PlayerDefinition>) players.clone();
-		receive = new ServerUDPReceiver(udpSocket,udpClients,players);
+		receive = new ServerUDPReceiver(udpSocket, udpClients, players);
 		receive.start();
-		send = new ServerUDPSender(udpSocket,udpClients,players);
+		send = new ServerUDPSender(udpSocket, udpClients, players);
 		send.start();
 		System.out.println(players.size());
 	}
 
 	public void close() {
-		chaser=0;
+		chaser = 0;
 		udpClients.clear();
 		udpSocket.disconnect();
 		udpSocket.close();
@@ -71,7 +69,10 @@ public class GameServer {
 		private DatagramSocket udpSock;
 		private Vector<SocketAddress> udpClients;
 		private Vector<PlayerDefinition> players;
-		public ServerUDPReceiver(DatagramSocket udpSock,Vector<SocketAddress> udpClients, Vector<PlayerDefinition> players) {
+
+		public ServerUDPReceiver(DatagramSocket udpSock,
+				Vector<SocketAddress> udpClients,
+				Vector<PlayerDefinition> players) {
 			this.udpSock = udpSock;
 			this.udpClients = udpClients;
 			this.players = players;
@@ -80,11 +81,12 @@ public class GameServer {
 		public void run() {
 			ProtocolParser parser = ProtocolParser.getInstance();
 			long startTime = System.currentTimeMillis();
-			while(true) {
+			while (true) {
 				long now = System.currentTimeMillis();
-				long elapsedTime = now-startTime;
+				long elapsedTime = now - startTime;
 				byte[] rcvBuffer = new byte[65000];
-				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,rcvBuffer.length);
+				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,
+						rcvBuffer.length);
 				try {
 					udpSock.receive(rcvPacket);
 				} catch (IOException e) {
@@ -98,10 +100,10 @@ public class GameServer {
 
 				String rawData = new String(rcvPacket.getData()).trim();
 				Protocol fromClient = parser.parse(rawData);
-				if (fromClient.getProtocol()==Protocol.PROTOCOL_CLIENT) {
+				if (fromClient.getProtocol() == Protocol.PROTOCOL_CLIENT) {
 					ClientProtocol cP = (ClientProtocol) fromClient;
 					for (PlayerDefinition p : players) {
-						if (p.getId()==cP.getPlayerID()) {
+						if (p.getId() == cP.getPlayerID()) {
 							p.updateX(cP.getX());
 							p.updateY(cP.getY());
 							p.updateRotation(cP.getRotation());
@@ -114,44 +116,47 @@ public class GameServer {
 					PlayerDefinition chas = null;
 					Circle chasC = null;
 					for (PlayerDefinition p : players) {
-						if (p.getId()==chaser) {
+						if (p.getId() == chaser) {
 							chas = p;
-							chasC = new Circle(chas.getX(),chas.getY(),32);
+							chasC = new Circle(chas.getX(), chas.getY(), 32);
 						}
 					}
 
-					if (chas==null) {
+					if (chas == null) {
 						continue;
 					}
 
 					/*
-					 * WARNING! UNTESTED!
+					 * WARNING! TESTED!
 					 */
-					if(elapsedTime>5000 && chas.getTimer()>=30000 ){ //chaser is dead
+					if (elapsedTime > 5000 && chas.getTimer() >= 30000) {
 						alivePlayers.remove(chas);
-						//randomize new chaser
+						// randomize new chaser
 						Random rand = new Random();
-						System.out.println("size of alive players "+alivePlayers.size());
-						for(PlayerDefinition pDef:alivePlayers){
-							System.out.println("\t"+pDef.getName());
+						System.out.println("size of alive players "
+								+ alivePlayers.size());
+						for (PlayerDefinition pDef : alivePlayers) {
+							System.out.println("\t" + pDef.getName());
 						}
-						if(alivePlayers.size()>0){
-							chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
+						if (alivePlayers.size() > 0) {
+							chas = alivePlayers.get(rand.nextInt(alivePlayers
+									.size()));
 							chaser = chas.getId();
-							System.out.println("named new chaser to be: "+chas.getName());
+							System.out.println("named new chaser to be: "
+									+ chas.getName());
 							lastIntersect = System.currentTimeMillis();
 						}
 					}
 
-
-					if(System.currentTimeMillis()-lastIntersect<3000) continue;
+					if (System.currentTimeMillis() - lastIntersect < 3000)
+						continue;
 					for (PlayerDefinition p : players) {
-						if (p.getId()!=chaser) {
-							Circle c = new Circle(p.getX(),p.getY(),32);
+						if (p.getId() != chaser) {
+							Circle c = new Circle(p.getX(), p.getY(), 32);
 							if (c.intersects(chasC)) {
 								lastIntersect = System.currentTimeMillis();
-								chaser=p.getId();
-								System.out.println("Collision! "+p.getId());
+								chaser = p.getId();
+								System.out.println("Collision! " + p.getId());
 								break;
 							}
 						}
@@ -161,7 +166,7 @@ public class GameServer {
 				Iterator<PlayerDefinition> itr = players.iterator();
 				while (itr.hasNext()) {
 					PlayerDefinition p = itr.next();
-					if (now-p.getLastHeartbeat()>TIMEOUT) {
+					if (now - p.getLastHeartbeat() > TIMEOUT) {
 						p.updateTimer(500000);
 					}
 				}
@@ -174,27 +179,33 @@ public class GameServer {
 		private Vector<SocketAddress> udpClients;
 		private Vector<PlayerDefinition> players;
 		private int SEQ;
-		public ServerUDPSender(DatagramSocket udpSock,Vector<SocketAddress> udpClients, Vector<PlayerDefinition> players) {
+
+		public ServerUDPSender(DatagramSocket udpSock,
+				Vector<SocketAddress> udpClients,
+				Vector<PlayerDefinition> players) {
 			this.udpSock = udpSock;
 			this.udpClients = udpClients;
 			this.SEQ = 0;
 			this.players = players;
 		}
+
 		public void run() {
 			long lastSend = 0;
 
 			Random rand = new Random();
-			chaser = rand.nextInt(players.size())+1;
+			chaser = rand.nextInt(players.size()) + 1;
 			while (true) {
 				long now = System.currentTimeMillis();
-				if ((now - lastSend)>=25) {
-					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
-					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
-//					System.out.println(debugP);
+				if ((now - lastSend) >= 25) {
+					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(
+							players);
+					String debugP = new ServerProtocol(SEQ, arrPlayers, chaser)
+					.toString();
 					byte[] sndTemp = debugP.getBytes();
 					for (SocketAddress sa : udpClients) {
 						try {
-							DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);
+							DatagramPacket snd = new DatagramPacket(sndTemp,
+									sndTemp.length, sa);
 							udpSock.send(snd);
 						} catch (IOException e) {
 							e.printStackTrace();

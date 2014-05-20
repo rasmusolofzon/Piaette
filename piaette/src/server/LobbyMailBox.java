@@ -2,12 +2,12 @@ package server;
 
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
-public class LobbyMailBox extends Observable{
+public class LobbyMailBox extends Observable {
 	static ArrayList<ClientHandler> players;
 	private final int MAX_PLAYERS = 4;
-	public LobbyMailBox(){
+
+	public LobbyMailBox() {
 		players = new ArrayList<ClientHandler>();
 	}
 
@@ -16,19 +16,19 @@ public class LobbyMailBox extends Observable{
 		setChanged();
 		return players.size();
 	}
-	
-	public void removeClient(ClientHandler clientHandler){
+
+	public void removeClient(ClientHandler clientHandler) {
 		players.remove(clientHandler);
 		setChanged();
 		notifyObservers();
 	}
-	
-	public boolean isServerFull(){
-		return players.size()==MAX_PLAYERS;
+
+	public boolean isServerFull() {
+		return players.size() == MAX_PLAYERS;
 	}
-	
-	public static ArrayList<ClientHandler> getClients(){
+
+	public static ArrayList<ClientHandler> getClients() {
 		return players;
 	}
-	
+
 }

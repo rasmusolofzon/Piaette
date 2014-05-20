@@ -26,8 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import utilities.PlayerDefinition;
 import utilities.ServerProtocol;
@@ -47,7 +45,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 	protected JTextField portMSGField;
 	private GameServer gs;
 	private boolean running;
-	
+
 	private JButton startServerButton, stopButton, startGameButton;
 
 	private JList<String> pList;
@@ -78,31 +76,28 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		stopButton = new JButton("Stop");
 		stopButton.setToolTipText("Stoppes dat Server!");
 		stopButton.addActionListener(this);
-		
+
 		startGameButton = new JButton("Start game");
 		startGameButton.setToolTipText("Starts da game!");
 		startGameButton.addActionListener(this);
-		
 
-		
 		msgLabel = new JLabel("Messages:");
 		msgLabel = new JLabel(" msgLabel");
-		
+
 		JPanel welcomePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		welcomePanel.add(startServerButton);
 		welcomePanel.add(stopButton);
 		welcomePanel.add(startGameButton);
 		northPanel.add(msgLabel);
 		northPanel.add(welcomePanel);
-		
+
 		JPanel middlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		pListModel = new DefaultListModel<String>();
 		pList = new JList<String>(pListModel);
 		pList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		pList.setPrototypeCellValue("123456789012");
-		pList.addListSelectionListener(new pSelectionListener());
 		JScrollPane p1 = new JScrollPane(pList);
-		
+
 		middlePanel.add(p1);
 
 		JPanel southPanel = new JPanel(new GridLayout(2, 2));
@@ -120,92 +115,90 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		southPanel.add(portLabel);
 		southPanel.add(portMSGField);
 
-
 		frame.add(northPanel, BorderLayout.NORTH);
 		frame.add(middlePanel, BorderLayout.CENTER);
 		frame.add(southPanel, BorderLayout.SOUTH);
 
 		frame.setTitle("Server");
 
-	
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(width,height);
+		frame.setSize(width, height);
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);		
+		frame.setVisible(true);
 
 	}
-	
-	public void actionPerformed(ActionEvent e)
-     {
-		 if(e.getSource() == startServerButton){
-			 if(!running){
-				 displayMessage("Attempting to start Server!");
-				 int port = Integer.parseInt(portMSGField.getText());
-				 portMSGField.setEnabled(false);
-			 gs = new GameServer(port,"Kyckling");
-			 try {
-				sMSGLabel.setText(InetAddress.getLocalHost().getHostAddress());
-			} catch (UnknownHostException e1) {
-				e1.printStackTrace();
-			}
-			 running = true;
-			 }else{
-				 displayMessage("Server is runnig around!");
-				 return;
-			 }
 
-			 
-			 
-		 }else if(e.getSource() == stopButton){
-			 if(running){
-				 closeServer();
-			 } else{
-				 displayMessage("Server not yet started.");
-			 }
-		 } else if(e.getSource() == startGameButton){
-			 if(running){
-				
-				 ArrayList<ClientHandler> clients = ServerLobby.getMailBox().getClients();
-				 if(clients.size()==0){
-					 displayMessage("No players in the server");
-					 return;
-				 }
-				 displayMessage("Starting game");
-				 for (ClientHandler ch : clients) {
-					 PlayerDefinition pd = ch.getPlayer();
-					 
-					 Random rand = new Random();
-					 pd.updateX((float)rand.nextInt(900)+50);
-					 pd.updateY((float)rand.nextInt(463)+50);
-					 players.add(pd);				 
-				 }
-				 			 
-				 Random rand = new Random();
-				 int start = rand.nextInt(players.size())+1;
-				 
-				 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
-				 StringBuilder sb = new StringBuilder();
-				 for (PlayerDefinition p : players) {
-					 sb.append(p.getId() + "#" + p.getName() + ":");
-				 }
-				 				 
-				 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
-					 try {
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == startServerButton) {
+			if (!running) {
+				displayMessage("Attempting to start Server!");
+				int port = Integer.parseInt(portMSGField.getText());
+				portMSGField.setEnabled(false);
+				gs = new GameServer(port, "Kyckling");
+				try {
+					sMSGLabel.setText(InetAddress.getLocalHost()
+							.getHostAddress());
+				} catch (UnknownHostException e1) {
+					e1.printStackTrace();
+				}
+				running = true;
+			} else {
+				displayMessage("Server is runnig around!");
+				return;
+			}
+
+		} else if (e.getSource() == stopButton) {
+			if (running) {
+				closeServer();
+			} else {
+				displayMessage("Server not yet started.");
+			}
+		} else if (e.getSource() == startGameButton) {
+			if (running) {
+
+				ArrayList<ClientHandler> clients = ServerLobby.getMailBox()
+						.getClients();
+				if (clients.size() == 0) {
+					displayMessage("No players in the server");
+					return;
+				}
+				displayMessage("Starting game");
+				for (ClientHandler ch : clients) {
+					PlayerDefinition pd = ch.getPlayer();
+
+					Random rand = new Random();
+					pd.updateX((float) rand.nextInt(900) + 50);
+					pd.updateY((float) rand.nextInt(463) + 50);
+					players.add(pd);
+				}
+
+				Random rand = new Random();
+				int start = rand.nextInt(players.size()) + 1;
+
+				ServerProtocol initProtocol = new ServerProtocol(0,
+						new ArrayList<PlayerDefinition>(players), start);
+				StringBuilder sb = new StringBuilder();
+				for (PlayerDefinition p : players) {
+					sb.append(p.getId() + "#" + p.getName() + ":");
+				}
+
+				for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
+					try {
 						ch.sendMessage("startGame");
-						ch.sendMessage(sb.toString());						
+						ch.sendMessage(sb.toString());
 						ch.sendMessage(initProtocol.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-				 }
-				 gs.startGame(players);
-			 } else{
-				 displayMessage("Server not running");
-			 }
-		 }
-		
-     }
+				}
+				gs.startGame(players);
+			} else {
+				displayMessage("Server not running");
+			}
+		}
+
+	}
 
 	/**
 	 * Display a message.
@@ -224,23 +217,13 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		msgLabel.setText(" ");
 	}
 
-	//On�dig eftersom den v�ntar p� klickningar i listan...
-	class pSelectionListener implements ListSelectionListener {
-
-		@Override
-		public void valueChanged(ListSelectionEvent arg0) {
-
-		}
-	}
-	
-	public void closeServer(){
+	public void closeServer() {
 		displayMessage("Pressed Stop!");
-		 pListModel.removeAllElements();
-		 portMSGField.setEnabled(true);
-		 running = false;
-		 gs.close();
+		pListModel.removeAllElements();
+		portMSGField.setEnabled(true);
+		running = false;
+		gs.close();
 	}
-
 
 	public static void main(String[] args) {
 
@@ -256,35 +239,45 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 	public void update(Observable o, Object arg) {
 		pListModel.removeAllElements();
 		ArrayList<ClientHandler> playerHanList = LobbyMailBox.getClients();
-		for(ClientHandler cH : playerHanList){
-			String playerName= cH.getPlayer().getName();
+		for (ClientHandler cH : playerHanList) {
+			String playerName = cH.getPlayer().getName();
 			pListModel.addElement(playerName);
-			displayMessage("Player: "+ playerName + " joinade servern");
-		}	
-		
+			displayMessage("Player: " + playerName + " joinade servern");
+		}
+
 	}
-	
-	private class WindowCloser implements WindowListener{
+
+	private class WindowCloser implements WindowListener {
 
 		@Override
-		public void windowOpened(WindowEvent e) {}
-		
+		public void windowOpened(WindowEvent e) {
+		}
+
 		@Override
 		public void windowClosing(WindowEvent e) {
 			closeServer();
 		}
-		
+
 		@Override
-		public void windowClosed(WindowEvent e) {}
+		public void windowClosed(WindowEvent e) {
+		}
+
 		@Override
-		public void windowIconified(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {
+		}
+
 		@Override
-		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {
+		}
+
 		@Override
-		public void windowActivated(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {
+		}
+
 		@Override
-		public void windowDeactivated(WindowEvent e) {}
-		
+		public void windowDeactivated(WindowEvent e) {
+		}
+
 	}
 
 }
