@@ -185,10 +185,15 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 				 int start = rand.nextInt(players.size())+1;
 				 
 				 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
-				 
+				 StringBuilder sb = new StringBuilder();
+				 for (PlayerDefinition p : players) {
+					 sb.append(p.getId() + "#" + p.getName());
+				 }
+				 				 
 				 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
 					 try {
 						ch.sendMessage("startGame");
+						ch.sendMessage(sb.toString());						
 						ch.sendMessage(initProtocol.toString());
 					} catch (IOException e1) {
 						e1.printStackTrace();
