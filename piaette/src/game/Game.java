@@ -330,7 +330,7 @@ public class Game extends BasicGame {
 
 		if(!isRunning){ //Game is over
 			if(backButton.clicked()){
-				System.exit(0);
+				gc.exit();
 			}
 		}
 	}
