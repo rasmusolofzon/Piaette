@@ -88,7 +88,7 @@ public class GameServer {
 				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,
 						rcvBuffer.length);
 				try {
-					if(udpSock.isClosed())
+
 					udpSock.receive(rcvPacket);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -205,10 +205,10 @@ public class GameServer {
 					byte[] sndTemp = debugP.getBytes();
 					for (SocketAddress sa : udpClients) {
 						try {
-							if(!udpSock.isClosed()){
-							DatagramPacket snd = new DatagramPacket(sndTemp,
-									sndTemp.length, sa);
-							udpSock.send(snd);
+							if (!udpSock.isClosed()) {
+								DatagramPacket snd = new DatagramPacket(
+										sndTemp, sndTemp.length, sa);
+								udpSock.send(snd);
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
