@@ -46,9 +46,10 @@ public class GameServer {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void startGame(Vector<PlayerDefinition> players) {
 		this.players = players;
-		this.alivePlayers = players;
+		this.alivePlayers = (Vector<PlayerDefinition>) players.clone();
 		receive = new ServerUDPReceiver(udpSocket,udpClients,players);
 		receive.start();
 		send = new ServerUDPSender(udpSocket,udpClients,players);
