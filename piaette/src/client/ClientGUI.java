@@ -23,8 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import zframtidensMenu.MainMenu.PNGFileFilter;
-
 public class ClientGUI implements ActionListener {
 	public static void main(String[] args) {
 		new ClientGUI();
@@ -36,7 +34,7 @@ public class ClientGUI implements ActionListener {
 
 	private JTextField tHost, tPort, tPlayer;
 	private JLabel lMessage, lTopicHost, lTopicPort, lTopicName, picLabel,
-	sloganLabel;
+			sloganLabel;
 	private JButton bJoin;
 	private BufferedImage image, slogan;
 	private FileFilter filter;
@@ -111,7 +109,7 @@ public class ClientGUI implements ActionListener {
 			Random generator = new Random();
 			filter = new PNGFileFilter();
 			int nbrOfSlogans = new File("Graphics/menu/slogan/")
-			.listFiles(filter).length;
+					.listFiles(filter).length;
 			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans) + 1;
 			if (randomNbrOfSlogans == 8)
 				vladislavIChooseYou();
@@ -182,5 +180,19 @@ public class ClientGUI implements ActionListener {
 		tPort.setEnabled(flag);
 		tPlayer.setEnabled(flag);
 		bJoin.setEnabled(flag);
+	}
+
+	// Returnerar true f�r alla .png-filer
+	public static class PNGFileFilter implements FileFilter {
+
+		@Override
+		public boolean accept(File pathname) {
+			String suffix = ".png";
+			if (pathname.getName().toLowerCase().endsWith(suffix)) {
+				return true;
+			}
+			return false;
+		}
+
 	}
 }

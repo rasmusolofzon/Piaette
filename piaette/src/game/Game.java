@@ -21,7 +21,6 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import client.GameClient;
 import utilities.PlayerDefinition;
-import zframtidensMenu.MenuButton;
 
 public class Game extends BasicGame {
 
