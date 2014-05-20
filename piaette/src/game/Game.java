@@ -26,7 +26,7 @@ public class Game extends BasicGame {
 
 	// Soooo many attributes
 	private int width, height, dingCounter, playerId, port;
-	private float scale, explX, explY, boomX, boomY, playerDeath;
+	private float explX, explY, boomX, boomY;
 	private long elapsedTime, gameLength;
 	private boolean boom, explode, isRunning = false;
 	private Player chaser, local;
@@ -45,14 +45,12 @@ public class Game extends BasicGame {
 		super("Piaette");
 		width = GameInstantiator.width;
 		height = GameInstantiator.height;
-		scale = GameInstantiator.scale;
+//		scale = GameInstantiator.scale;
 		this.playerId = playerId;
 		this.initialPlayerDefs = pDefs;
-		playerDeath = System.currentTimeMillis();
 		this.hostAddress = hostAddress;
 		this.port = port;
 
-		// Tweakvärde
 		gameLength = 30000;
 	}
 
