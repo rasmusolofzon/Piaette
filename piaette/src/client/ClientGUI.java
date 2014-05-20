@@ -118,7 +118,7 @@ public class ClientGUI implements ActionListener {
 					.listFiles(filter).length;
 			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans) + 1;
 			if (randomNbrOfSlogans == 8)
-				loadMusic();
+				vladislavIChooseYou();
 			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"
 					+ randomNbrOfSlogans + ".png"));
 			sloganLabel = new JLabel(new ImageIcon(slogan));
@@ -156,7 +156,7 @@ public class ClientGUI implements ActionListener {
 		}
 
 	}
-	private void loadMusic() {
+	private void vladislavIChooseYou() {
 		try {
 			tPlayer.setText("Vladislav");
 			tPlayer.setEditable(false);
