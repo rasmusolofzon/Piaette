@@ -159,8 +159,8 @@ public class Game extends BasicGame {
 		winner = new Animation(new SpriteSheet("Graphics/animations/winner.png",512,128),100);
 
 		//Knapp
-		Image back = new Image("Graphics/menu/quit.png");
-		Image backHover = new Image("Graphics/menu/quit-hover.png");
+		Image back = new Image("Graphics/menu/exit.png");
+		Image backHover = new Image("Graphics/menu/exit-hover.png");
 		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
 		
 		
