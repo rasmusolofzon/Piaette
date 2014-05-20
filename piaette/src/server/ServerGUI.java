@@ -158,6 +158,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		 }else if(e.getSource() == stopButton){
 			 if(running){
 				 displayMessage("Pressed Stop!");
+				 pListModel.removeAllElements();
 				 portMSGField.setEnabled(true);
 				 running = false;
 				 gs.close();
