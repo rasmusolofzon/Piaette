@@ -158,7 +158,7 @@ public class ClientGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		enableAll(false);
 
-		String host = tHost.getText();
+		String host = tHost.getText().replace("#", "");
 		String player = tPlayer.getText();
 
 		int port = 0;
