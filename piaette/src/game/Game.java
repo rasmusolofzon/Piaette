@@ -281,7 +281,6 @@ public class Game extends BasicGame {
 		
 		//Set the chaser from server
 		if (chaser==null || chaser.id!=gameClient.getChaser()) {
-			System.out.println("Chaser id in game: "+chaser.id+", gameclients chaser id: "+gameClient.getChaser());
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
 					youreIt(p);
