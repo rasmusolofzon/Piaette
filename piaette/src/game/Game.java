@@ -126,7 +126,7 @@ public class Game extends BasicGame {
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
-		gameBackground = new Image("Graphics/game/background2.png");
+		gameBackground = new Image("Graphics/game/background.png");
 
 		g.setBackground(Color.black);
 
