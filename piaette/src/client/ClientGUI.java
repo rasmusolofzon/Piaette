@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -38,7 +37,7 @@ public class ClientGUI implements ActionListener {
 	private JTextField tHost, tPort, tPlayer;
 	private JLabel lMessage, lTopicHost, lTopicPort, lTopicName, picLabel,
 			sloganLabel;
-	private JButton bJoin, bCancel;
+	private JButton bJoin;
 	private BufferedImage image, slogan;
 	private FileFilter filter;
 
@@ -73,9 +72,6 @@ public class ClientGUI implements ActionListener {
 
 		bJoin = new JButton("Join game");
 		bJoin.addActionListener(this);
-		bCancel = new JButton("Cancel");
-		bCancel.addActionListener(this);
-		bCancel.setEnabled(false);
 
 		JFrame f = new JFrame("Join game");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,7 +96,6 @@ public class ClientGUI implements ActionListener {
 
 		// south
 		south.add(bJoin);
-		south.add(bCancel);
 		f.add(south, BorderLayout.SOUTH);
 
 		f.pack();
@@ -155,7 +150,6 @@ public class ClientGUI implements ActionListener {
 
 	}
 
-	private LobbyClient lc;
 	public void actionPerformed(ActionEvent e) {
 		enableAll(false);
 
@@ -172,7 +166,7 @@ public class ClientGUI implements ActionListener {
 		}
 
 		try {
-			lc = new LobbyClient(host, port, player);
+			new LobbyClient(host, port, player);
 			lMessage.setText("Waiting for game to start");
 		} catch (Exception ex) {
 			lMessage.setText("Could not connect to server: " + ex.getMessage()
