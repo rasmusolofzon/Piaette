@@ -216,15 +216,7 @@ public class Game extends BasicGame {
 		else { //it's over. Show dah winner
 
 			for(Player p : players){ //Finns bara en player i loopen, men orka.
-				g.setColor(p.color);
-				g.fill(p.circle);
-				if(p.isRunning){
-					p.playerAnimation.getCurrentFrame().setRotation(-p.getDirection()-90);
-					p.playerAnimation.draw(p.circle.getMinX(),p.circle.getMinY());
-				} else {
-					p.playerAnimation.getImage(0).setRotation(-p.getDirection()-90);
-					p.playerAnimation.getImage(0).draw(p.circle.getMinX(),p.circle.getMinY());
-				}
+				p.draw(g, chaser);
 			}
 
 			//WINNER! animation
