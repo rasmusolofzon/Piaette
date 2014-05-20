@@ -99,13 +99,11 @@ public class GameServer {
 				}
 				
 				String rawData = new String(rcvPacket.getData()).trim();
-				//System.out.println("getting: " + rawData);
 				Protocol fromClient = parser.parse(rawData);
 				if (fromClient.getProtocol()==Protocol.PROTOCOL_CLIENT) {
 					ClientProtocol cP = (ClientProtocol) fromClient;
 					for (PlayerDefinition p : players) {
 						if (p.getId()==cP.getPlayerID()) {
-							//System.out.println("Updating " + p.getId() + " [" + cP.toString() + "]");
 							p.updateX(cP.getX());
 							p.updateY(cP.getY());
 							p.updateRotation(cP.getRotation());
@@ -158,6 +156,7 @@ public class GameServer {
 				while (itr.hasNext()) {
 					PlayerDefinition p = itr.next();
 					if (now-p.getLastHeartbeat()>TIMEOUT) {
+						System.out.println("Removing player " + p.getId());
 						itr.remove();
 					}
 				}
@@ -187,7 +186,6 @@ public class GameServer {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
 					byte[] sndTemp = debugP.getBytes();
-					System.out.println("Sending updates: " + debugP);
 					for (SocketAddress sa : udpClients) {
 						try {
 							DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);

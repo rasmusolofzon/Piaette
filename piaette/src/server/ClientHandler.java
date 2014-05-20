@@ -37,7 +37,8 @@ public class ClientHandler extends Thread {
 			}
 
 		} catch(IOException e){
-			e.printStackTrace();
+			System.err.println("IOException: " + e.getMessage());
+			return;
 		}
 	}
 

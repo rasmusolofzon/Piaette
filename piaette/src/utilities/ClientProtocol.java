@@ -11,7 +11,11 @@ public class ClientProtocol extends Protocol {
 		this.x = x;
 		this.y = y;
 		this.rot = rot;
-		this.timer = timer;
+		if (timer>30000) {
+			this.timer = 30000;
+		}else{
+			this.timer = timer;
+		}
 	}
 	public int getSequenceNumber() {return sequenceNbr;}
 	public int getPlayerID() {return playerId;}

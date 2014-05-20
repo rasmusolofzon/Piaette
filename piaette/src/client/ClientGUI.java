@@ -157,38 +157,36 @@ public class ClientGUI implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == bJoin) {
-			//bCancel.setEnabled(true);
-			bJoin.setEnabled(false);
-			enableAll(false);
-
-			String host = tHost.getText();
-			String player = tPlayer.getText();
-
-			int port = 0;
-			try {
-				port = Integer.parseInt(tPort.getText());
-			} catch (Exception ex) {
-				enableAll(true);
-				lMessage.setText("You must specify a valid port number");
-				return;
-			}
-
-			try {
-				new LobbyClient(host, port, player);
-				lMessage.setText("Waiting for game to start");
-			} catch (Exception ex) {
-				lMessage.setText("Could not connect to server: "
-						+ ex.getMessage() + " on " + host + ":" + port);
-				enableAll(true);
-				return;
-			}
-		}else if(e.getSource() == bCancel){
-			bJoin.setEnabled(true);
-			bCancel.setEnabled(false);
+		if (e.getSource() == bCancel) {
 			enableAll(true);
-			
+			bCancel.setEnabled(false);
+			return;
 		}
+
+		enableAll(false);
+
+		String host = tHost.getText();
+		String player = tPlayer.getText();
+
+		int port = 0;
+		try {
+			port = Integer.parseInt(tPort.getText());
+		} catch (Exception ex) {
+			enableAll(true);
+			lMessage.setText("You must specify a valid port number");
+			return;
+		}
+
+		try {
+			new LobbyClient(host, port, player);
+			lMessage.setText("Waiting for game to start");
+		} catch (Exception ex) {
+			lMessage.setText("Could not connect to server: " + ex.getMessage()
+					+ " on " + host + ":" + port);
+			enableAll(true);
+			return;
+		}
+
 	}
 
 	private void enableAll(boolean flag) {
