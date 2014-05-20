@@ -129,8 +129,8 @@ public class GameServer {
 						alivePlayers.remove(chas);
 						if(alivePlayers.size()>1){
 							//randomize new chaser
-							Random rand = new Random(alivePlayers.size());
-							chas = alivePlayers.get(rand.nextInt());
+							Random rand = new Random();
+							chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
 						}
 					}
 					
