@@ -165,7 +165,8 @@ public class ClientGUI implements ActionListener {
 			info = new DataLine.Info(Clip.class, format);
 			clip = (Clip) AudioSystem.getLine(info);
 			clip.open(stream);
-			clip.loop(5000);
+			clip.start();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
