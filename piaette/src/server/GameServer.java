@@ -88,6 +88,7 @@ public class GameServer {
 				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,
 						rcvBuffer.length);
 				try {
+					if(udpSock.isClosed())
 					udpSock.receive(rcvPacket);
 				} catch (IOException e) {
 					e.printStackTrace();

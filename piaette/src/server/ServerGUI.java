@@ -133,6 +133,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		if (e.getSource() == startServerButton) {
 			if (!running) {
 				displayMessage("Attempting to start Server!");
+				LobbyMailBox.flush();
 				int port = Integer.parseInt(portMSGField.getText());
 				portMSGField.setEnabled(false);
 				gs = new GameServer(port, "Kyckling");
