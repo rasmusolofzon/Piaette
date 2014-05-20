@@ -12,6 +12,10 @@ public class PlayerDefinition {
 		this.playerName = playerName;
 	}
 	
+	public void setName(String name) {
+		this.playerName = name;
+	}
+	
 	public String getName(){
 		return playerName;
 	}

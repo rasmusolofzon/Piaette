@@ -187,7 +187,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 				 ServerProtocol initProtocol = new ServerProtocol(0,new ArrayList<PlayerDefinition>(players),start);
 				 StringBuilder sb = new StringBuilder();
 				 for (PlayerDefinition p : players) {
-					 sb.append(p.getId() + "#" + p.getName());
+					 sb.append(p.getId() + "#" + p.getName() + ":");
 				 }
 				 				 
 				 for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
