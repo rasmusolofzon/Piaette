@@ -10,6 +10,10 @@ public class LobbyMailBox extends Observable {
 	public LobbyMailBox() {
 		players = new ArrayList<ClientHandler>();
 	}
+	
+	public static void flush() {
+		players.clear();
+	}
 
 	public synchronized int addClient(ClientHandler clientHandler) {
 		players.add(clientHandler);
