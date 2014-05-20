@@ -154,7 +154,7 @@ public class Player{
 	}
 	
 	public void updateSpeed(){ //Run faster the less life you has
-		//this.movementSpeed = score/8000 +4;
+		this.movementSpeed = score/8000 +4;
 	}
 	@Override
 	public boolean equals(Object o){
