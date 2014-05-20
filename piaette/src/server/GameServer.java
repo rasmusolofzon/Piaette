@@ -24,8 +24,10 @@ import utilities.ServerProtocol;
 public class GameServer {
 	private ServerLobby  clientAdder;
 	private DatagramSocket udpSocket;
-	private Vector<PlayerDefinition> players;
+	private Vector<PlayerDefinition> players,alivePlayers;
 	private Vector<SocketAddress> udpClients;
+	private ServerUDPReceiver receive;
+	private ServerUDPSender send;
 	private long lastIntersect;
 	public static int chaser = 0;
 	
@@ -48,8 +50,11 @@ public class GameServer {
 	
 	public void startGame(Vector<PlayerDefinition> players) {
 		this.players = players;
-		new ServerUDPReceiver(udpSocket,udpClients,players).start();
-		new ServerUDPSender(udpSocket,udpClients,players).start();
+		this.alivePlayers = players;
+		receive = new ServerUDPReceiver(udpSocket,udpClients,players);
+		receive.start();
+		send = new ServerUDPSender(udpSocket,udpClients,players);
+		send.start();
 		System.out.println(players.size());
 	}
 	
@@ -107,7 +112,7 @@ public class GameServer {
 					
 					PlayerDefinition chas = null;
 					Circle chasC = null;
-					for (PlayerDefinition p : players) {
+					for (PlayerDefinition p : alivePlayers) {
 						if (p.getId()==chaser) {
 							chas = p;
 							chasC = new Circle(chas.getX(),chas.getY(),32);
@@ -118,8 +123,21 @@ public class GameServer {
 						continue;
 					}
 					
+					
+					/*
+					 * WARNING! UNTESTED!
+					 */
+					if(chas.getTimer()==30000){ //chaser is dead
+						alivePlayers.remove(chas);
+						if(alivePlayers.size()>1){
+							//randomize new chaser
+							Random rand = new Random(alivePlayers.size());
+							chas = alivePlayers.get(rand.nextInt());
+						}
+					}
+					
 					if(System.currentTimeMillis()-lastIntersect<3000) continue;
-					for (PlayerDefinition p : players) {
+					for (PlayerDefinition p : alivePlayers) {
 						if (p.getId()!=chaser) {
 							Circle c = new Circle(p.getX(),p.getY(),32);
 							if (c.intersects(chasC)) {
