@@ -49,10 +49,27 @@ public class Player{
 		this.color = color;
 		this.first = first;
 		this.id = id;
-		if(first)
-			playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer1.png",64,64),250);
-		else
-			playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer2.png",64,64),250);
+		switch(id){
+		case 1:
+		case 5:
+			this.color = Color.green;
+			break;
+		case 2:
+		case 6:
+			this.color = Color.red;
+			break;
+		case 3:
+		case 7:
+			this.color = new Color(153,86,150);
+			break;
+			
+		case 4:
+		case 8:
+			this.color = new Color(184,134,11);
+			break;
+			
+		}
+			playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer"+id+".png",64,64),250);
 	}
 
 

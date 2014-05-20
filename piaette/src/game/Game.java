@@ -321,7 +321,7 @@ public class Game extends BasicGame {
 				playerDeath = System.currentTimeMillis();
 				
 				//Om spelaren är den sista kvar = WINNER!
-				if(players.size()+1==1) {
+				if(players.size()<2) {
 					isRunning = false;
 				}
 				players.remove(player);

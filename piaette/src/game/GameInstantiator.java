@@ -28,6 +28,7 @@ public class GameInstantiator extends Thread {
 			AppGameContainer app = new AppGameContainer(game);
 			app.setDisplayMode((int) (width * scale), (int) (height * scale),
 					false);
+			app.setShowFPS(false);
 			app.setTargetFrameRate(fpsLimit);
 			app.start();
 		} catch (SlickException e) {
