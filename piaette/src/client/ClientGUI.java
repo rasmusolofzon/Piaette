@@ -66,7 +66,7 @@ public class ClientGUI implements ActionListener {
 		tPort = new JTextField(4);
 		tPlayer = new JTextField(8);
 
-		tHost.setText("localhost");
+		tHost.setText("192.168.1.83");
 		tPort.setText("22222");
 		tPlayer.setText("Axelander");
 
