@@ -155,11 +155,17 @@ public class ClientGUI implements ActionListener {
 
 	}
 
+	private LobbyClient lc;
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == bCancel) {
-			enableAll(true);
-			bCancel.setEnabled(false);
+			
+			if (lc!=null) {
+				lc.disconnectByClient();
+				lc = null;
+				lMessage.setText("Cancelled game");
+			}
+			enableAll(true);	
 			return;
 		}
 
@@ -178,7 +184,7 @@ public class ClientGUI implements ActionListener {
 		}
 
 		try {
-			new LobbyClient(host, port, player);
+			lc = new LobbyClient(host, port, player);
 			lMessage.setText("Waiting for game to start");
 		} catch (Exception ex) {
 			lMessage.setText("Could not connect to server: " + ex.getMessage()
@@ -194,5 +200,6 @@ public class ClientGUI implements ActionListener {
 		tPort.setEnabled(flag);
 		tPlayer.setEnabled(flag);
 		bJoin.setEnabled(flag);
+		bCancel.setEnabled(!flag);
 	}
 }
