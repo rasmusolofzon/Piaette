@@ -81,6 +81,8 @@ public class GameServer {
 		public void run() {
 			ProtocolParser parser = ProtocolParser.getInstance();
 			while(true) {
+				long now = System.currentTimeMillis();
+				
 				byte[] rcvBuffer = new byte[65000];
 				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,rcvBuffer.length);
 				try {
@@ -106,6 +108,7 @@ public class GameServer {
 							p.updateY(cP.getY());
 							p.updateRotation(cP.getRotation());
 							p.updateTimer(cP.getTimer());
+							p.setHeartbeat(now);
 							break;
 						}
 					}
