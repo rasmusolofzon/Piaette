@@ -18,10 +18,6 @@ import utilities.Protocol;
 import utilities.ProtocolParser;
 import utilities.ServerProtocol;
 
-
-
-
-
 public class GameServer {
 	private ServerLobby  clientAdder;
 	private DatagramSocket udpSocket;
