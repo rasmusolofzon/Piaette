@@ -1,16 +1,10 @@
 package game;
+
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
-
-
-
-
-
-
-
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
@@ -27,29 +21,28 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import client.GameClient;
 import utilities.PlayerDefinition;
-import zframtiden.DeathWorm;
 import zframtidensMenu.MenuButton;
-
 
 public class Game extends BasicGame {
 
-	//Soooo many attributes
-	private int width,height,dingCounter,playerId,port;
-	private float scale, explX,explY,boomX,boomY,playerDeath;
-	private long elapsedTime,gameLength;
-	private boolean boom,explode,isRunning = false;
-	private Player chaser,local;
+	// Soooo many attributes
+	private int width, height, dingCounter, playerId, port;
+	private float scale, explX, explY, boomX, boomY, playerDeath;
+	private long elapsedTime, gameLength;
+	private boolean boom, explode, isRunning = false;
+	private Player chaser, local;
 	private ArrayList<Player> players;
 	private ArrayList<PlayerDefinition> initialPlayerDefs;
-	private Animation boomAnimate,intro,explodeAnimate,winner;
-	private Audio ding,explosion;
+	private Animation boomAnimate, intro, explodeAnimate, winner;
+	private Audio ding, explosion;
 	private MenuButton backButton;
-	private DeathWorm deathWorm;
 	private Image gameBackground;
 	private GameClient gameClient;
 	private InetAddress hostAddress;
 	private GameContainer gc;
-	public Game(ArrayList<PlayerDefinition> pDefs, int playerId,InetAddress hostAddress,int port) {
+
+	public Game(ArrayList<PlayerDefinition> pDefs, int playerId,
+			InetAddress hostAddress, int port) {
 		super("Piaette");
 		width = GameInstantiator.width;
 		height = GameInstantiator.height;
@@ -59,34 +52,35 @@ public class Game extends BasicGame {
 		playerDeath = System.currentTimeMillis();
 		this.hostAddress = hostAddress;
 		this.port = port;
-		
-		//Tweakvärde
+
+		// Tweakvärde
 		gameLength = 30000;
 	}
 
-
-
-	private void createPlayers(ArrayList<PlayerDefinition> pDefs)  {
-		// TODO Auto-generated method stub
+	private void createPlayers(ArrayList<PlayerDefinition> pDefs) {
 		players = new ArrayList<Player>();
 		Color color;
 		try {
 
-			for(PlayerDefinition pDef : pDefs){
+			for (PlayerDefinition pDef : pDefs) {
 				boolean first = false;
 				color = Color.red;
-				if(pDef.getId() == playerId){
+				if (pDef.getId() == playerId) {
 					color = Color.green;
 					first = true;
 				}
 
-				//float x, float y, int keyUp,int keyDown,int keyLeft,int keyRight,String name,Color color,boolean first,int id
-				Player player = new Player(pDef.getX(), pDef.getY(), Input.KEY_UP, Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,
-						pDef.getName(), color, first, pDef.getId());
-				
+				// float x, float y, int keyUp,int keyDown,int keyLeft,int
+				// keyRight,String name,Color color,boolean first,int id
+				Player player = new Player(pDef.getX(), pDef.getY(),
+						Input.KEY_UP, Input.KEY_DOWN, Input.KEY_LEFT,
+						Input.KEY_RIGHT, pDef.getName(), color, first,
+						pDef.getId());
+
 				players.add(player);
-				
-				if(pDef.getId()==playerId) local = player;
+
+				if (pDef.getId() == playerId)
+					local = player;
 
 			}
 
@@ -95,22 +89,17 @@ public class Game extends BasicGame {
 		}
 	}
 
-	public void updatePlayer(PlayerDefinition pDef){
-		if(pDef.getId()==playerId) return;
-		
+	public void updatePlayer(PlayerDefinition pDef) {
+		if (pDef.getId() == playerId)
+			return;
+
 		for (Player p : players) {
-			if (p.id==pDef.getId()) {
+			if (p.id == pDef.getId()) {
 				p.updateFromServer(pDef);
 			}
 		}
-//		
-//		System.out.println(players.size() + "vs" + pDef);
-//		
-//		Player p = players.get(players.indexOf(pDef));
-//		p.updateFromServer(pDef);
+
 	}
-
-
 
 	/*
 	 * Ladda upp spelet (init' = initialize)
@@ -120,199 +109,206 @@ public class Game extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		createPlayers(initialPlayerDefs);
-		
 
 		this.gc = gc;
-		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
 		gameBackground = new Image("Graphics/game/background.png");
 
 		g.setBackground(Color.black);
 
-
-		//Init players. Testing
-		//		players.add(new Player(width/2*scale,height/2*scale,
-		//				Input.KEY_UP,Input.KEY_DOWN,Input.KEY_LEFT,Input.KEY_RIGHT,"Sad player",Color.green, true));
-		//		players.add(new Player(width/2*scale,height/2*scale+100,
-		//				Input.KEY_W,Input.KEY_S,Input.KEY_A,Input.KEY_D,"Sexy Player",Color.red, false));
-
-		//Ladda litta ljud
+		// Ladda litta ljud
 		try {
-			explosion = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sounds/smallBomb.wav"));
-			ding = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sounds/ding.wav"));
+			explosion = AudioLoader.getAudio("WAV",
+					ResourceLoader.getResourceAsStream("sounds/smallBomb.wav"));
+			ding = AudioLoader.getAudio("WAV",
+					ResourceLoader.getResourceAsStream("sounds/ding.wav"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-
-		//Ladda animationer
-		boomAnimate = new Animation(new SpriteSheet("Graphics/animations/boom.png",128,128,Color.black),50);
+		// Ladda animationer
+		boomAnimate = new Animation(new SpriteSheet(
+				"Graphics/animations/boom.png", 128, 128, Color.black), 50);
 		boomAnimate.setLooping(false);
 
-		explodeAnimate = new Animation(new SpriteSheet("Graphics/animations/explosion.png",128,128,Color.black),50);
+		explodeAnimate = new Animation(new SpriteSheet(
+				"Graphics/animations/explosion.png", 128, 128, Color.black), 50);
 		explodeAnimate.setLooping(false);
 
-		intro = new Animation(new SpriteSheet("Graphics/animations/intro.png",128,128),250);
+		intro = new Animation(new SpriteSheet("Graphics/animations/intro.png",
+				128, 128), 250);
 		intro.setLooping(false);
 
-		winner = new Animation(new SpriteSheet("Graphics/animations/winner.png",512,128),100);
+		winner = new Animation(new SpriteSheet(
+				"Graphics/animations/winner.png", 512, 128), 100);
 
-		//Knapp
+		// Knapp
 		Image back = new Image("Graphics/menu/exit.png");
 		Image backHover = new Image("Graphics/menu/exit-hover.png");
-		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
-		
-		
+		backButton = new MenuButton(back, backHover,
+				(width - back.getWidth()) / 2, height - 100);
 
 		try {
-			this.gameClient = new GameClient(new DatagramSocket(),hostAddress,port,this,local);
+			this.gameClient = new GameClient(new DatagramSocket(), hostAddress,
+					port, this, local);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		
+
 		chaser = players.get(0);
 	}
 
 	/*
-	 * Rita maddafukkas
+	 * Rita players
 	 * 
-	 * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
+	 * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer,
+	 * org.newdawn.slick.Graphics)
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		//Under gameplay
-		g.drawImage(gameBackground,0,0);
-		if(elapsedTime<4000 || isRunning){
+		// Under gameplay
+		g.drawImage(gameBackground, 0, 0);
+		if (elapsedTime < 4000 || isRunning) {
 
-			//Score at the bottom of everything
+			// Score at the bottom of everything
 			int i = 0;
-			for(Player p:players){
+			for (Player p : players) {
 				g.setColor(p.color);
-				g.drawRect(20, 20+i*30, 100, 20);
-				g.fillRect(20, 20+i*30, (gameLength - p.score)/(gameLength/100),20);
-				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
-				g.drawString(p.name, 150, 23+i*30);
+				g.drawRect(20, 20 + i * 30, 100, 20);
+				g.fillRect(20, 20 + i * 30, (gameLength - p.score)
+						/ (gameLength / 100), 20);
+				g.drawString((gameLength - p.score) / 1000 + "", 125,
+						23 + i * 30);
+				g.drawString(p.name, 150, 23 + i * 30);
 				i++;
 			}
-			
-			//Rita och animera spelarna
-			for(Player p : players){
-				p.draw(g,chaser);
-			}
 
-
-			//esssplosions
-			if(explode) {
-				explodeAnimate.draw(explX,explY);
-			} if(boom) {
-				boomAnimate.draw(boomX,boomY);
-			}
-
-			//För att rita ut introt
-			if(elapsedTime<4000) intro.draw(width/2-64, height/2-64);
-		} 
-
-		else { //it's over. Show dah winner
-
-			for(Player p : players){ //Finns bara en player i loopen, men orka.
+			// Rita och animera spelarna
+			for (Player p : players) {
 				p.draw(g, chaser);
 			}
 
-			//WINNER! animation
-			winner.draw(width/2-256,height/2-64);
-
-			//Behövs för att låta losern explodera
-			if(explode) {
-				explodeAnimate.draw(explX,explY);
+			// esssss$$$$ssssssplosions
+			if (explode) {
+				explodeAnimate.draw(explX, explY);
+			}
+			if (boom) {
+				boomAnimate.draw(boomX, boomY);
 			}
 
-			g.drawImage(backButton.getImage(), backButton.getMinX(), backButton.getMinY());
+			// För att rita ut introt
+			if (elapsedTime < 4000)
+				intro.draw(width / 2 - 64, height / 2 - 64);
+		}
 
+		else { // it's over. Show dah winner
 
-		}	
+			for (Player p : players) { // Finns bara en player i loopen.
+				p.draw(g, chaser);
+			}
+
+			// WINNER! animation
+			winner.draw(width / 2 - 256, height / 2 - 64);
+
+			// Behövs för att låta losern explodera
+			if (explode) {
+				explodeAnimate.draw(explX, explY);
+			}
+
+			g.drawImage(backButton.getImage(), backButton.getMinX(),
+					backButton.getMinY());
+
+		}
 	}
 
 	/*
 	 * körs varje frame. Logik som behöver uppdateras i realtid.
 	 * 
-	 * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer, int)
+	 * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer,
+	 * int)
 	 */
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 
-		//Räknar total tid
-		elapsedTime+=delta;
+		// Räknar total tid
+		elapsedTime += delta;
 
-		//Mouse & tangentbord input
+		// Mouse & tangentbord input
 		Input i = gc.getInput();
 
-		//Animationslogik
+		// Animationslogik
 		boomAnimate.update(delta);
 		explodeAnimate.update(delta);
-		if(boomAnimate.isStopped()) boom = false;
-		if(explodeAnimate.isStopped()) explode = false;
+		if (boomAnimate.isStopped())
+			boom = false;
+		if (explodeAnimate.isStopped())
+			explode = false;
 
-		//Introanimationer
-		if(!isRunning && elapsedTime>3000 && elapsedTime<5000) {
+		// Introanimationer
+		if (!isRunning && elapsedTime > 3000 && elapsedTime < 5000) {
 			ding.playAsSoundEffect(2f, 0.7f, false);
 			isRunning = true;
-		} 
-		//Ljudeffekter under introt
-		else if(!isRunning && elapsedTime/1000>=dingCounter && elapsedTime<5000){
+		}
+		// Ljudeffekter under introt
+		else if (!isRunning && elapsedTime / 1000 >= dingCounter
+				&& elapsedTime < 5000) {
 			dingCounter++;
 			ding.playAsSoundEffect(1f, 0.5f, false);
-		} 
-		
-		//Låt inte spelare styra under tiden introt körs
-		if(elapsedTime<3000) return;
-		
-		
-		//Set the chaser from server
-		if (chaser==null || chaser.id!=gameClient.getChaser()) {
+		}
+
+		// Låt inte spelare styra under tiden introt körs
+		if (elapsedTime < 3000)
+			return;
+
+		// Set the chaser from server
+		if (chaser == null || chaser.id != gameClient.getChaser()) {
 			for (Player p : players) {
-				if (p.id==gameClient.getChaser()) {
-//					if(System.currentTimeMillis()-playerDeath > 3000){
-						youreIt(p);
-//					}
+				if (p.id == gameClient.getChaser()) {
+					// if(System.currentTimeMillis()-playerDeath > 3000){
+					youreIt(p);
+					// }
 					break;
 				}
 			}
 		}
 
-		//Pjättarn förlorar poäng
-		if(chaser!=null && elapsedTime>3000 && chaser.equals(local)){
-			chaser.score+=delta;
-			if(chaser.score>gameLength) chaser.score = gameLength;
+		// Pjättarn förlorar poäng
+		if (chaser != null && elapsedTime > 3000 && chaser.equals(local)) {
+			chaser.score += delta;
+			if (chaser.score > gameLength)
+				chaser.score = gameLength;
 		}
 
-
-		//Spelares styrning
-		for(Player player : players){
-			//Player-objektet hanterar input själv
-			if(player.id == playerId) player.handleInput(i);
-			//Animation
+		// Spelares styrning
+		for (Player player : players) {
+			// Player-objektet hanterar input själv
+			if (player.id == playerId)
+				player.handleInput(i);
+			// Animation
 			player.playerAnimation.update(delta);
 			player.updateSpeed();
 
-			//Om spelet är över, så kolla inte efter kollisioner
-			if(!isRunning) break;
+			// Om spelet är över, så kolla inte efter kollisioner
+			if (!isRunning)
+				break;
 
-			//När tiden rinner ut
-			//System.out.println(player.id+" has score "+player.score);
-			if(player.score>=gameLength){ 
+			// När tiden rinner ut
+			// System.out.println(player.id+" has score "+player.score);
+			if (player.score >= gameLength) {
 				System.out.println("Found dead player");
 				player.die();
 				explode = true;
 				explodeAnimate.restart();
 				explosion.playAsSoundEffect(0.5f, 0.5f, false);
-				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
-				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
+				explX = player.circle.getCenterX() - explodeAnimate.getWidth()
+						/ 2;
+				explY = player.circle.getCenterY() - explodeAnimate.getWidth()
+						/ 2;
 				chaser = null;
-				
-				
-				//Om spelaren är den sista kvar = WINNER!
-				if(players.size()==2) {
+
+				// Om spelaren är den sista kvar = WINNER!
+				if (players.size() == 2) {
 					isRunning = false;
 				}
 				players.remove(player);
@@ -320,27 +316,27 @@ public class Game extends BasicGame {
 			}
 		}
 
-		if(!isRunning){ //Game is over
-			if(backButton.clicked()){
+		if (!isRunning) { // Game is over
+			if (backButton.clicked()) {
 				gc.exit();
 			}
 		}
 	}
 
-	//Animationer och ljud för att bli pjättad
+	// Animationer och ljud för att bli pjättad
 	private void youreIt(Player player) {
 		ding.playAsSoundEffect(0.5f, 0.5f, false);
 		chaser = player;
 		chaser.freeze();
 		boom = true;
 		boomAnimate.restart();
-		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
-		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
+		boomX = player.circle.getCenterX() - boomAnimate.getWidth() / 2;
+		boomY = player.circle.getCenterY() - boomAnimate.getWidth() / 2;
 	}
-	
+
 	@Override
-	public boolean closeRequested(){
-		//Not working properly yet
+	public boolean closeRequested() {
+		// Not working properly yet
 		gameClient.close();
 		ding.stop();
 		explosion.stop();
@@ -350,13 +346,5 @@ public class Game extends BasicGame {
 		System.out.println("Trying to clean up");
 		return true;
 	}
-
-
-
-
-	//	@Override
-	//	public int getID() {
-	//		return id;
-	//	}
 
 }
