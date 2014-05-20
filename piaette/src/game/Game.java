@@ -291,7 +291,10 @@ public class Game extends BasicGame {
 		}
 
 		//Pjättarn förlorar poäng
-		if(chaser!=null && elapsedTime>3000 && chaser.equals(local)) chaser.score+=delta;
+		if(chaser!=null && elapsedTime>3000 && chaser.equals(local)){
+			chaser.score+=delta;
+			if(chaser.score>gameLength) chaser.score = gameLength;
+		}
 
 		//Preppar Death Worm
 		/*double deathWormVictimDistance = 0;
@@ -338,7 +341,7 @@ public class Game extends BasicGame {
 			}*/
 
 			//När tiden rinner ut
-			if(player.score>gameLength){ 
+			if(player.score>=gameLength){ 
 				player.die();
 				explode = true;
 				explodeAnimate.restart();
