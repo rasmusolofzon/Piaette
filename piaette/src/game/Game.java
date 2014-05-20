@@ -126,7 +126,7 @@ public class Game extends BasicGame {
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
-		gameBackground = new Image("Graphics/game/background.png");
+		gameBackground = new Image("Graphics/game/background2.png");
 
 		g.setBackground(Color.black);
 
@@ -159,8 +159,8 @@ public class Game extends BasicGame {
 		winner = new Animation(new SpriteSheet("Graphics/animations/winner.png",512,128),100);
 
 		//Knapp
-		Image back = new Image("Graphics/menu/back.png");
-		Image backHover = new Image("Graphics/menu/back-hover.png");
+		Image back = new Image("Graphics/menu/quit.png");
+		Image backHover = new Image("Graphics/menu/quit-hover.png");
 		backButton = new MenuButton(back,backHover,(width-back.getWidth())/2,height-100);
 		
 		
@@ -322,7 +322,7 @@ public class Game extends BasicGame {
 				playerDeath = System.currentTimeMillis();
 				
 				//Om spelaren är den sista kvar = WINNER!
-				if(players.size()==1) {
+				if(players.size()+1==1) {
 					isRunning = false;
 				}
 				players.remove(player);
@@ -332,7 +332,7 @@ public class Game extends BasicGame {
 
 		if(!isRunning){ //Game is over
 			if(backButton.clicked()){
-				//TODO
+				System.exit(0);
 			}
 		}
 	}
