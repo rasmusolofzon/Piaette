@@ -1,6 +1,5 @@
 package client;
 
-
 import utilities.PlayerDefinition;
 import utilities.Protocol;
 import utilities.ProtocolParser;
@@ -10,26 +9,29 @@ import utilities.comUtility;
 public class GameDownStream extends Thread {
 	private GameClient model;
 	private int SEQ;
-	public GameDownStream(GameClient model){
+
+	public GameDownStream(GameClient model) {
 		this.model = model;
 		this.SEQ = -1;
 	}
+
 	@Override
-	public void run(){
+	public void run() {
 		ProtocolParser parser = ProtocolParser.getInstance();
-		while(true){
+		while (true) {
 			String receive = comUtility.receiveUDP(model.getSocket());
 			Protocol rcvProtocol = parser.parse(receive);
-			if (rcvProtocol.getProtocol()==Protocol.PROTOCOL_SERVER) {
+			if (rcvProtocol.getProtocol() == Protocol.PROTOCOL_SERVER) {
 				ServerProtocol sp = (ServerProtocol) rcvProtocol;
-				if (sp.getSequenceNumber()<=SEQ) {
+				if (sp.getSequenceNumber() <= SEQ) {
 					continue;
 				}
 				for (PlayerDefinition p : sp.getPlayers()) {
-					model.updatePlayer(p.getId(), p.getX(), p.getY(), p.getRotation(), p.getTimer());
+					model.updatePlayer(p.getId(), p.getX(), p.getY(),
+							p.getRotation(), p.getTimer());
 				}
 				model.setChaser(sp.getPiaetteId());
-				SEQ=sp.getSequenceNumber();
+				SEQ = sp.getSequenceNumber();
 			}
 		}
 	}

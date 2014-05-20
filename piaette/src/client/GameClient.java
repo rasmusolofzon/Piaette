@@ -8,54 +8,56 @@ import java.net.InetAddress;
 
 import utilities.PlayerDefinition;
 
-public class GameClient{
+public class GameClient {
 	private DatagramSocket socket;
 	private InetAddress hostAddress;
-	private int hostPort,piaette;
+	private int hostPort, piaette;
 	private Game game;
 	private Player player;
 	private GameDownStream down;
 	private GameUpStream up;
 	private PlayerDefinition pDef;
-	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort,Game game,Player player){
+
+	public GameClient(DatagramSocket socket, InetAddress hostAddress,
+			int hostPort, Game game, Player player) {
 		System.out.println("Starting sending all that shit!");
-		
+
 		this.game = game;
 		this.player = player;
-		this.pDef = new PlayerDefinition(player.name,player.id);
-		
+		this.pDef = new PlayerDefinition(player.name, player.id);
+
 		this.socket = socket;
 		this.hostAddress = hostAddress;
 		this.hostPort = hostPort;
-		
+
 		down = new GameDownStream(this);
 		up = new GameUpStream(this);
-		
+
 		down.start();
 		up.start();
 	}
-	
-	public DatagramSocket getSocket(){
+
+	public DatagramSocket getSocket() {
 		return socket;
 	}
-	
+
 	public InetAddress getHostAddress() {
 		return hostAddress;
 	}
-	
+
 	public int getHostPort() {
 		return hostPort;
 	}
-	
+
 	public void updatePlayer(int id, float x, float y, float r, long timer) {
-		PlayerDefinition pDef = new PlayerDefinition(null,id);
+		PlayerDefinition pDef = new PlayerDefinition(null, id);
 		pDef.updateX(x);
 		pDef.updateY(y);
 		pDef.updateRotation(r);
 		pDef.updateTimer(timer);
 		game.updatePlayer(pDef);
 	}
-	
+
 	public PlayerDefinition getPlayerInfo() {
 		pDef.updateX(player.getX());
 		pDef.updateY(player.getY());
@@ -67,10 +69,12 @@ public class GameClient{
 	public void setChaser(int piaetteId) {
 		this.piaette = piaetteId;
 	}
-	
-	public int getChaser() {return piaette;}
 
-	public void close(){
+	public int getChaser() {
+		return piaette;
+	}
+
+	public void close() {
 		down.interrupt();
 		up.interrupt();
 	}
