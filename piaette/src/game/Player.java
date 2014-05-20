@@ -128,13 +128,15 @@ public class Player{
 		float newX = circle.getCenterX()+(float) ((float) forward*Math.sin(direction)*movementSpeed);
 		float newY = circle.getCenterY()+(float) ((float) forward*Math.cos(direction)*movementSpeed);
 
-		if(newX>0 && newX<width && newY>0 && newY<height){
+		if(newX>=0 && newX<=width && newY>=0 && newY<=height){
 			circle.setCenterX(newX);
 			circle.setCenterY(newY);
-		} else if(!(newX>0 && newX<width)){ //Spegling höger/vänster
+		} 
+		if(!(newX>=0 && newX<=width)){ //Spegling höger/vänster
 			circle.setCenterX(width-newX);
 			circle.setCenterY(newY);
-		} else { //Spegling upp/ner
+		} 
+		if(!(newY>=0 && newY<=height)) { //Spegling upp/ner
 			circle.setCenterX(newX);
 			circle.setCenterY(height-newY);
 		}
