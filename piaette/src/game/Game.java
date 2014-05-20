@@ -314,15 +314,15 @@ public class Game extends BasicGame {
 				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
 				chaser = null;
-				players.remove(player);
 				
 				playerDeath = System.currentTimeMillis();
-
+				
 				//Om spelaren är den sista kvar = WINNER!
-				if(players.size()-1==1) {
+				if(players.size()==1) {
 					isRunning = false;
-					break;
 				}
+				players.remove(player);
+				break;
 			}
 		}
 
