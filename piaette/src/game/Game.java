@@ -299,7 +299,7 @@ public class Game extends BasicGame {
 			if(!isRunning) break;
 
 			//När tiden rinner ut
-			System.out.println(player.id+" has score "+player.score);
+			//System.out.println(player.id+" has score "+player.score);
 			if(player.score>=gameLength){ 
 				System.out.println("Found dead player");
 				player.die();
