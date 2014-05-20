@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
@@ -29,6 +30,7 @@ public class GameServer {
 	private ServerUDPReceiver receive;
 	private ServerUDPSender send;
 	private long lastIntersect;
+	private static final long TIMEOUT=5000;
 	public static int chaser = 0;
 	
 	
