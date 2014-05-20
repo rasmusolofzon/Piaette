@@ -2,7 +2,7 @@ package client;
 
 import utilities.ClientProtocol;
 import utilities.PlayerDefinition;
-import utilities.comUtility;
+import utilities.ComUtility;
 
 public class GameUpStream extends Thread {
 	private GameClient model;
@@ -22,7 +22,7 @@ public class GameUpStream extends Thread {
 				PlayerDefinition p = model.getPlayerInfo();
 				String msg = new ClientProtocol(SEQ, p.getId(), p.getX(),
 						p.getY(), p.getRotation(), p.getTimer()).toString();
-				comUtility.sendUDP(msg, model.getSocket(),
+				ComUtility.sendUDP(msg, model.getSocket(),
 						model.getHostAddress(), model.getHostPort());
 				lastSend = now;
 				SEQ++;

@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import utilities.PlayerDefinition;
-import utilities.comUtility;
+import utilities.ComUtility;
 
 
 
@@ -69,7 +69,7 @@ public class ClientHandler extends Thread {
 		System.out.println("ClientHandler: " + msg);
 //		outputStream.write((msg+'\n').getBytes());
 		
-		comUtility.sendMessage(outputStream, msg);
+		ComUtility.sendMessage(outputStream, msg);
 	}
 
 	public String readNextMessage() throws IOException{
