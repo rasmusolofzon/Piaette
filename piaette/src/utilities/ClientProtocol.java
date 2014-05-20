@@ -18,5 +18,6 @@ public class ClientProtocol extends Protocol {
 	public float getX() {return x;}
 	public float getY() {return y;}
 	public float getRotation() {return rot;}
+	public long getTimer() {return timer;}
 	public String toString() {return "CLI:" + sequenceNbr + ":" + playerId + ":" + x + ":" + y + ":" + rot+":"+timer;}
 }

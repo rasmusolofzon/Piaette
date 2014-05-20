@@ -100,6 +100,7 @@ public class GameServer {
 							p.updateX(cP.getX());
 							p.updateY(cP.getY());
 							p.updateRotation(cP.getRotation());
+							p.updateTimer(cP.getTimer());
 							break;
 						}
 					}

@@ -36,8 +36,7 @@ public class ProtocolParser {
 			float X = toFloat(p[3]);
 			float Y = toFloat(p[4]);
 			float ROT = toFloat(p[5]);
-			long TMR = toLong(p[6]);
-			
+			long TMR = toLong(p[6]);//seems to work
 			rVal = new ClientProtocol(SEQ, PID, X, Y,ROT,TMR);
 		}
 		

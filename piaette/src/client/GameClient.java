@@ -52,9 +52,6 @@ public class GameClient{
 		pDef.updateY(y);
 		pDef.updateRotation(r);
 		pDef.updateTimer(timer);
-		
-		System.out.println("timer val: "+timer+", for player "+pDef.getId()+", timer is "+pDef.getTimer());
-		
 		game.updatePlayer(pDef);
 	}
 	
