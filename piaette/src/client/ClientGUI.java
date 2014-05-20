@@ -45,6 +45,13 @@ public class ClientGUI implements ActionListener {
 		JPanel north = new JPanel();
 		north.setLayout(new BorderLayout());
 
+		tHost = new JTextField(10);
+		tPort = new JTextField(4);
+		tPlayer = new JTextField(8);
+		tHost.setText("192.168.1.83");
+		tPort.setText("22222");
+		tPlayer.setText("Axelander");
+		
 		loadGraphics();
 
 		JPanel northTop = new JPanel();
@@ -62,13 +69,9 @@ public class ClientGUI implements ActionListener {
 		lTopicName = new JLabel("Player name:");
 		lMessage = new JLabel("\r\n\r\n\r\n");
 
-		tHost = new JTextField(10);
-		tPort = new JTextField(4);
-		tPlayer = new JTextField(8);
 
-		tHost.setText("192.168.1.83");
-		tPort.setText("22222");
-		tPlayer.setText("Axelander");
+
+
 
 		bJoin = new JButton("Join game");
 		bJoin.addActionListener(this);
@@ -129,6 +132,7 @@ public class ClientGUI implements ActionListener {
 
 	private void loadMusic() {
 		try {
+			tPlayer.setText("Vladislav");
 			String url = "sounds/clientMusic.wav";
 
 			File yourFile = new File(url);
