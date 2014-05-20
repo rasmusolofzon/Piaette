@@ -44,8 +44,6 @@ public class LobbyFromServer extends Thread {
 				}
 
 				LobbyClient.startGame(pDefs);
-			} else if (input.equals("serverClosed")) {
-				LobbyClient.disconnectedByServer();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

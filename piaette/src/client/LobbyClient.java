@@ -58,10 +58,6 @@ public class LobbyClient {
 		System.out.println("Recieved startgame");
 		new GameInstantiator(pDefs, playerId, hostAddress, hostPort);
 	}
-
-	public static void disconnectedByServer() {
-	}
-
 	public void disconnectByClient() {
 		try {
 			ComUtility.sendMessage(outputStream, "leaveGame");

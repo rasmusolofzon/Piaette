@@ -15,7 +15,6 @@ public class GameDownStream extends Thread {
 		this.SEQ = -1;
 	}
 
-	@Override
 	public void run() {
 		ProtocolParser parser = ProtocolParser.getInstance();
 		while (true) {

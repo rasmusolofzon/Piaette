@@ -91,7 +91,6 @@ public class ClientGUI implements ActionListener {
 		f.add(lMessage, BorderLayout.CENTER);
 		f.add(north, BorderLayout.NORTH);
 
-		// south
 		south.add(bJoin);
 		f.add(south, BorderLayout.SOUTH);
 
@@ -101,11 +100,9 @@ public class ClientGUI implements ActionListener {
 
 	private void loadGraphics() {
 		try {
-			// Gametitle generator
 			image = ImageIO.read(new File("Graphics/menu/GameTitle.png"));
 			picLabel = new JLabel(new ImageIcon(image));
 
-			// slogan generator
 			Random generator = new Random();
 			filter = new PNGFileFilter();
 			int nbrOfSlogans = new File("Graphics/menu/slogan/")
@@ -182,10 +179,8 @@ public class ClientGUI implements ActionListener {
 		bJoin.setEnabled(flag);
 	}
 
-	// Returnerar true f�r alla .png-filer
 	public static class PNGFileFilter implements FileFilter {
 
-		@Override
 		public boolean accept(File pathname) {
 			String suffix = ".png";
 			if (pathname.getName().toLowerCase().endsWith(suffix)) {
