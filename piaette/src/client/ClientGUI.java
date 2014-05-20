@@ -160,7 +160,7 @@ public class ClientGUI implements ActionListener {
 		try {
 			tPlayer.setText("Vladislav");
 			tPlayer.setEditable(false);
-			String url = "sounds/clientMusic.wav";
+			String url = "sounds/clientMusic2.wav";
 
 			File yourFile = new File(url);
 			AudioInputStream stream;
