@@ -126,13 +126,20 @@ public class GameServer {
 					/*
 					 * WARNING! UNTESTED!
 					 */
-					if(chas.getTimer()>=30000){ //chaser is dead
+					if(chas.getTimer()>=30000 ){ //chaser is dead
 						alivePlayers.remove(chas);
 						//randomize new chaser
 						Random rand = new Random();
-						chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
-						chaser = chas.getId();
-						System.out.println("named new chaser to be: "+chas.getName());
+						System.out.println("size of alive players "+alivePlayers.size());
+						for(PlayerDefinition pDef:alivePlayers){
+							System.out.println("\t"+pDef.getName());
+						}
+						if(alivePlayers.size()>0){
+							chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
+							chaser = chas.getId();
+							System.out.println("named new chaser to be: "+chas.getName());
+							lastIntersect = System.currentTimeMillis();
+						}
 					}
 
 
@@ -143,6 +150,7 @@ public class GameServer {
 							if (c.intersects(chasC)) {
 								lastIntersect = System.currentTimeMillis();
 								chaser=p.getId();
+								System.out.println("Collision! "+p.getId());
 								break;
 							}
 						}

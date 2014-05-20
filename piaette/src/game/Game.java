@@ -318,10 +318,9 @@ public class Game extends BasicGame {
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
 				chaser = null;
 				
-				playerDeath = System.currentTimeMillis();
 				
 				//Om spelaren är den sista kvar = WINNER!
-				if(players.size()<2) {
+				if(players.size()==2) {
 					isRunning = false;
 				}
 				players.remove(player);
