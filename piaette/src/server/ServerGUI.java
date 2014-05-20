@@ -250,7 +250,9 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		pListModel.removeAllElements();
 		ArrayList<ClientHandler> playerHanList = LobbyMailBox.getClients();
 		for(ClientHandler cH : playerHanList){
-			pListModel.addElement(cH.getPlayer().getName());
+			String playerName= cH.getPlayer().getName();
+			pListModel.addElement(playerName);
+			displayMessage(playerName);
 		}	
 		
 	}
