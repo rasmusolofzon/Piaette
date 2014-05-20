@@ -7,7 +7,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import utilities.PlayerDefinition;
-import utilities.comUtility;
 
 public class GameClient{
 	private DatagramSocket socket;
@@ -15,6 +14,8 @@ public class GameClient{
 	private int hostPort,piaette;
 	private Game game;
 	private Player player;
+	private GameDownStream down;
+	private GameUpStream up;
 	private PlayerDefinition pDef;
 	public GameClient(DatagramSocket socket, InetAddress hostAddress, int hostPort,Game game,Player player){
 		System.out.println("Starting sending all that shit!");
@@ -27,8 +28,8 @@ public class GameClient{
 		this.hostAddress = hostAddress;
 		this.hostPort = hostPort;
 		
-		Thread down = new GameDownStream(this);
-		Thread up = new GameUpStream(this);
+		down = new GameDownStream(this);
+		up = new GameUpStream(this);
 		
 		down.start();
 		up.start();
@@ -69,5 +70,8 @@ public class GameClient{
 	
 	public int getChaser() {return piaette;}
 
-
+	public void close(){
+		down.interrupt();
+		up.interrupt();
+	}
 }

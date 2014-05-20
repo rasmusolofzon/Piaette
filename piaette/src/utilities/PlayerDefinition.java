@@ -5,7 +5,7 @@ public class PlayerDefinition {
 	private int id;
 	private String playerName;
 	private float rotation, x, y;
-	private long timer;
+	private long timer,heartbeat;
 
 	public PlayerDefinition(String playerName, int i) {
 		this.id = i;
@@ -54,6 +54,9 @@ public class PlayerDefinition {
 	public boolean equals(PlayerDefinition p) {
 		return this.id == p.id;
 	}
+	
+	public long getLastHeartbeat() {return heartbeat;}
+	public void setHeartbeat(long now) {this.heartbeat = now;}
 	
 	public String toString() {return id + "-" + x + "-" + y + "-" + rotation + "-" + timer;}
 }

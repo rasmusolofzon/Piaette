@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
@@ -17,10 +18,6 @@ import utilities.Protocol;
 import utilities.ProtocolParser;
 import utilities.ServerProtocol;
 
-
-
-
-
 public class GameServer {
 	private ServerLobby  clientAdder;
 	private DatagramSocket udpSocket;
@@ -29,6 +26,7 @@ public class GameServer {
 	private ServerUDPReceiver receive;
 	private ServerUDPSender send;
 	private long lastIntersect;
+	private static final long TIMEOUT=5000;
 	public static int chaser = 0;
 	
 	
@@ -81,6 +79,8 @@ public class GameServer {
 		public void run() {
 			ProtocolParser parser = ProtocolParser.getInstance();
 			while(true) {
+				long now = System.currentTimeMillis();
+				
 				byte[] rcvBuffer = new byte[65000];
 				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,rcvBuffer.length);
 				try {
@@ -95,17 +95,16 @@ public class GameServer {
 				}
 				
 				String rawData = new String(rcvPacket.getData()).trim();
-				//System.out.println("getting: " + rawData);
 				Protocol fromClient = parser.parse(rawData);
 				if (fromClient.getProtocol()==Protocol.PROTOCOL_CLIENT) {
 					ClientProtocol cP = (ClientProtocol) fromClient;
 					for (PlayerDefinition p : players) {
 						if (p.getId()==cP.getPlayerID()) {
-							//System.out.println("Updating " + p.getId() + " [" + cP.toString() + "]");
 							p.updateX(cP.getX());
 							p.updateY(cP.getY());
 							p.updateRotation(cP.getRotation());
 							p.updateTimer(cP.getTimer());
+							p.setHeartbeat(now);
 							break;
 						}
 					}
@@ -130,8 +129,10 @@ public class GameServer {
 						alivePlayers.remove(chas);
 						if(alivePlayers.size()>1){
 							//randomize new chaser
-							Random rand = new Random(alivePlayers.size());
-							chas = alivePlayers.get(rand.nextInt());
+							Random rand = new Random();
+							chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
+							chaser = chas.getId();
+							System.out.println("named new chaser to be: "+chas.getId());
 						}
 					}
 					
@@ -146,6 +147,14 @@ public class GameServer {
 								break;
 							}
 						}
+					}
+				}
+				
+				Iterator<PlayerDefinition> itr = players.iterator();
+				while (itr.hasNext()) {
+					PlayerDefinition p = itr.next();
+					if (now-p.getLastHeartbeat()>TIMEOUT) {
+						p.updateTimer(500000);
 					}
 				}
 			}
@@ -170,11 +179,10 @@ public class GameServer {
 			chaser = rand.nextInt(players.size())+1;
 			while (true) {
 				long now = System.currentTimeMillis();
-				if ((now - lastSend)>=50) {
+	if ((now - lastSend)>=50) {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
 					byte[] sndTemp = debugP.getBytes();
-					System.out.println("Sending updates: " + debugP);
 					for (SocketAddress sa : udpClients) {
 						try {
 							DatagramPacket snd = new DatagramPacket(sndTemp,sndTemp.length,sa);

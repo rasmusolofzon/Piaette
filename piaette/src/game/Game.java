@@ -35,7 +35,7 @@ public class Game extends BasicGame {
 
 	//Soooo many attributes
 	private int width,height,dingCounter,playerId,port;
-	private float scale, explX,explY,boomX,boomY;
+	private float scale, explX,explY,boomX,boomY,playerDeath;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
 	private Player chaser,local;
@@ -48,6 +48,7 @@ public class Game extends BasicGame {
 	private Image gameBackground;
 	private GameClient gameClient;
 	private InetAddress hostAddress;
+	private GameContainer gc;
 	public Game(ArrayList<PlayerDefinition> pDefs, int playerId,InetAddress hostAddress,int port) {
 		super("Piaette");
 		width = GameInstantiator.width;
@@ -55,7 +56,7 @@ public class Game extends BasicGame {
 		scale = GameInstantiator.scale;
 		this.playerId = playerId;
 		this.initialPlayerDefs = pDefs;
-
+		playerDeath = System.currentTimeMillis();
 		this.hostAddress = hostAddress;
 		this.port = port;
 		
@@ -121,7 +122,7 @@ public class Game extends BasicGame {
 		createPlayers(initialPlayerDefs);
 		
 
-		
+		this.gc = gc;
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
@@ -283,14 +284,17 @@ public class Game extends BasicGame {
 		if (chaser==null || chaser.id!=gameClient.getChaser()) {
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
-					youreIt(p);
+					if(System.currentTimeMillis()-playerDeath>3000) youreIt(p);
 					break;
 				}
 			}
 		}
 
 		//Pjättarn förlorar poäng
-		if(chaser!=null && elapsedTime>3000 && chaser.equals(local)) chaser.score+=delta;
+		if(chaser!=null && elapsedTime>3000 && chaser.equals(local)){
+			chaser.score+=delta;
+			if(chaser.score>gameLength) chaser.score = gameLength;
+		}
 
 		//Preppar Death Worm
 		/*double deathWormVictimDistance = 0;
@@ -337,7 +341,8 @@ public class Game extends BasicGame {
 			}*/
 
 			//När tiden rinner ut
-			if(player.score>gameLength){ 
+			if(player.score>=gameLength){ 
+				System.out.println("Found dead player");
 				player.die();
 				explode = true;
 				explodeAnimate.restart();
@@ -345,6 +350,7 @@ public class Game extends BasicGame {
 				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
 				chaser = null;
+				playerDeath = System.currentTimeMillis();
 
 				//Om spelaren är den sista kvar = WINNER!
 				if(players.size()-1==1) {
@@ -382,6 +388,19 @@ public class Game extends BasicGame {
 		boomAnimate.restart();
 		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
 		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
+	}
+	
+	@Override
+	public boolean closeRequested(){
+		//Not working properly yet
+		gameClient.close();
+		ding.stop();
+		explosion.stop();
+		ding = null;
+		explosion = null;
+		gc.exit();
+		System.out.println("Trying to clean up");
+		return true;
 	}
 
 

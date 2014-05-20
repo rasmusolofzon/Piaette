@@ -174,8 +174,10 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 				 displayMessage("Starting game");
 				 for (ClientHandler ch : clients) {
 					 PlayerDefinition pd = ch.getPlayer();
-					 pd.updateX(10*pd.getId());
-					 pd.updateY(10*pd.getId());
+					 
+					 Random rand = new Random();
+					 pd.updateX((float)rand.nextInt(1000));
+					 pd.updateY((float)rand.nextInt(563));
 					 players.add(pd);				 
 				 }
 				 			 
