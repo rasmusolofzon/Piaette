@@ -15,12 +15,7 @@ public class GameInstantiator extends Thread {
 	public static int fpsLimit = 60;
 	private Game game;
 
-	private ArrayList<PlayerDefinition> pDefs;
-	private int playerId;
-
 	public GameInstantiator(ArrayList<PlayerDefinition> pDefs, int playerId,InetAddress hostAddress, int port) {
-		this.pDefs = pDefs;
-		this.playerId = playerId;
 
 		try {
 			System.setProperty("org.newdawn.slick.pngloader", "false");
