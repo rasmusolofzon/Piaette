@@ -30,8 +30,6 @@ import javax.swing.event.ListSelectionListener;
 import utilities.PlayerDefinition;
 import utilities.ServerProtocol;
 
-
-
 public class ServerGUI extends JFrame implements ActionListener, Observer {
 	int height, width;
 	/**
@@ -134,7 +132,8 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		frame.setVisible(true);		
 
 	}
-	 public void actionPerformed(ActionEvent e)
+	
+	public void actionPerformed(ActionEvent e)
      {
 		 if(e.getSource() == startServerButton){
 			 if(!running){
@@ -229,13 +228,12 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 	}
 
 
-
 	public static void main(String[] args) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				ServerGUI ex = new ServerGUI();
+				new ServerGUI();
 			}
 		});
 	}
@@ -246,8 +244,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		ArrayList<ClientHandler> playerHanList = LobbyMailBox.getClients();
 		for(ClientHandler cH : playerHanList){
 			pListModel.addElement(cH.getPlayer().getName());
-		}
-				
+		}	
 		
 	}
 

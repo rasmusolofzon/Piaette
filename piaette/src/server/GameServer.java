@@ -24,7 +24,7 @@ import utilities.ServerProtocol;
 public class GameServer {
 	private ServerLobby  clientAdder;
 	private DatagramSocket udpSocket;
-	private Vector<PlayerDefinition> players,alivePlayers;
+	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
 	private ServerUDPReceiver receive;
 	private ServerUDPSender send;
@@ -50,7 +50,6 @@ public class GameServer {
 	
 	public void startGame(Vector<PlayerDefinition> players) {
 		this.players = players;
-		this.alivePlayers = players;
 		receive = new ServerUDPReceiver(udpSocket,udpClients,players);
 		receive.start();
 		send = new ServerUDPSender(udpSocket,udpClients,players);
@@ -112,7 +111,7 @@ public class GameServer {
 					
 					PlayerDefinition chas = null;
 					Circle chasC = null;
-					for (PlayerDefinition p : alivePlayers) {
+					for (PlayerDefinition p : players) {
 						if (p.getId()==chaser) {
 							chas = p;
 							chasC = new Circle(chas.getX(),chas.getY(),32);
@@ -123,21 +122,8 @@ public class GameServer {
 						continue;
 					}
 					
-					
-					/*
-					 * WARNING! UNTESTED!
-					 */
-					if(chas.getTimer()==30000){ //chaser is dead
-						alivePlayers.remove(chas);
-						if(alivePlayers.size()>1){
-							//randomize new chaser
-							Random rand = new Random(alivePlayers.size());
-							chas = alivePlayers.get(rand.nextInt());
-						}
-					}
-					
 					if(System.currentTimeMillis()-lastIntersect<3000) continue;
-					for (PlayerDefinition p : alivePlayers) {
+					for (PlayerDefinition p : players) {
 						if (p.getId()!=chaser) {
 							Circle c = new Circle(p.getX(),p.getY(),32);
 							if (c.intersects(chasC)) {
