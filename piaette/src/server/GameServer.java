@@ -204,9 +204,11 @@ public class GameServer {
 					byte[] sndTemp = debugP.getBytes();
 					for (SocketAddress sa : udpClients) {
 						try {
+							if(!udpSock.isClosed()){
 							DatagramPacket snd = new DatagramPacket(sndTemp,
 									sndTemp.length, sa);
 							udpSock.send(snd);
+							}
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
