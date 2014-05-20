@@ -192,6 +192,7 @@ public class Game extends BasicGame {
 				g.drawRect(20, 20+i*30, 100, 20);
 				g.fillRect(20, 20+i*30, (gameLength - p.score)/(gameLength/100),20);
 				g.drawString((gameLength-p.score)/1000+"", 125, 23+i*30);
+				g.drawString(p.name, 150, 23+i*30);
 				i++;
 			}
 			

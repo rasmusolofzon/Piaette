@@ -188,6 +188,8 @@ public class Player{
 				circle.setCenterX(newX);
 				circle.setCenterY(height-newY);
 			}
+		} else{
+			isRunning = false;
 		}
 	}
 	
