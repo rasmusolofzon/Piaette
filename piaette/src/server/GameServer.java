@@ -156,8 +156,7 @@ public class GameServer {
 				while (itr.hasNext()) {
 					PlayerDefinition p = itr.next();
 					if (now-p.getLastHeartbeat()>TIMEOUT) {
-						System.out.println("Removing player " + p.getId());
-						itr.remove();
+						p.updateTimer(500000);
 					}
 				}
 			}
