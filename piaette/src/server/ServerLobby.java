@@ -21,16 +21,16 @@ public class ServerLobby extends Thread {
 		try {
 			System.out.println("Starting server");
 			serverSocket = new ServerSocket(serverPort);
-			System.out.println("Created ChatServer");
+			System.out.println("Created ChatServer? WTF");
 			while (true) {
-				if(!serverSocket.isClosed()){
+				if(!(serverSocket.isClosed())){
 				Socket socket = serverSocket.accept();
 				ClientHandler cH = new ClientHandler(socket);
 				cH.start();
 			}else{ return;}
 				}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();  hehehe
 		}
 	}
 	

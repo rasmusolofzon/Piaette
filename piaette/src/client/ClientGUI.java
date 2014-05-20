@@ -24,63 +24,64 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
-
 import zframtidensMenu.MainMenu.PNGFileFilter;
 
 public class ClientGUI implements ActionListener {
 	public static void main(String[] args) {
 		new ClientGUI();
 	}
-	
+
 	public ClientGUI() {
 		init();
 	}
-	private JTextField tHost,tPort,tPlayer;
-	private JLabel lMessage,lTopicHost,lTopicPort,lTopicName, picLabel, sloganLabel;
-	private JButton bJoin;
+
+	private JTextField tHost, tPort, tPlayer;
+	private JLabel lMessage, lTopicHost, lTopicPort, lTopicName, picLabel,
+			sloganLabel;
+	private JButton bJoin, bCancel;
 	private BufferedImage image, slogan;
 	private FileFilter filter;
-	
+
 	private void init() {
 		JPanel north = new JPanel();
 		north.setLayout(new BorderLayout());
-		
+
 		loadGraphics();
-		
-		
+
 		JPanel northTop = new JPanel();
 		northTop.setLayout(new FlowLayout());
 		JPanel northCenter = new JPanel();
 		northCenter.setLayout(new FlowLayout());
 		JPanel northBottom = new JPanel();
 		northBottom.setLayout(new FlowLayout());
-		
+
 		JPanel south = new JPanel();
 		south.setLayout(new FlowLayout());
-		
+
 		lTopicHost = new JLabel("Server address:");
 		lTopicPort = new JLabel("Server port:");
 		lTopicName = new JLabel("Player name:");
 		lMessage = new JLabel("\r\n\r\n\r\n");
-		
+
 		tHost = new JTextField(10);
 		tPort = new JTextField(4);
 		tPlayer = new JTextField(8);
-		
+
 		tHost.setText("localhost");
 		tPort.setText("22222");
 		tPlayer.setText("Axelander");
-		
+
 		bJoin = new JButton("Join game");
 		bJoin.addActionListener(this);
-		
+		bCancel = new JButton("Cancel");
+		bCancel.addActionListener(this);
+		bCancel.setEnabled(false);
+
 		JFrame f = new JFrame("Join game");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLayout(new BorderLayout());
-		
-		
-		//north
+
+		// north
 		northTop.add(picLabel);
 		northCenter.add(sloganLabel);
 		northBottom.add(lTopicName);
@@ -90,99 +91,107 @@ public class ClientGUI implements ActionListener {
 		northBottom.add(lTopicPort);
 		northBottom.add(tPort);
 
-		
-		north.add(northTop,BorderLayout.NORTH);
-		north.add(northCenter,BorderLayout.CENTER);
-		north.add(northBottom,BorderLayout.SOUTH);
+		north.add(northTop, BorderLayout.NORTH);
+		north.add(northCenter, BorderLayout.CENTER);
+		north.add(northBottom, BorderLayout.SOUTH);
 
-		f.add(lMessage,BorderLayout.CENTER);
+		f.add(lMessage, BorderLayout.CENTER);
+		f.add(north, BorderLayout.NORTH);
 
-		f.add(north,BorderLayout.NORTH);
-		
-		
-		//south
+		// south
 		south.add(bJoin);
-		f.add(south,BorderLayout.SOUTH);
-				
+		south.add(bCancel);
+		f.add(south, BorderLayout.SOUTH);
+
 		f.pack();
 		f.setVisible(true);
 	}
+
 	private void loadGraphics() {
 		try {
-			//Gametitle generator
+			// Gametitle generator
 			image = ImageIO.read(new File("Graphics/menu/GameTitle.png"));
 			picLabel = new JLabel(new ImageIcon(image));
-			
-			//slogan generator
+
+			// slogan generator
 			Random generator = new Random();
 			filter = new PNGFileFilter();
-			int nbrOfSlogans = new File("Graphics/menu/slogan/").listFiles(filter).length;
-			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans)+1;
-			if (randomNbrOfSlogans == 8)loadMusic();
-			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"+randomNbrOfSlogans+".png"));
+			int nbrOfSlogans = new File("Graphics/menu/slogan/")
+					.listFiles(filter).length;
+			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans) + 1;
+			if (randomNbrOfSlogans == 8)
+				loadMusic();
+			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"
+					+ randomNbrOfSlogans + ".png"));
 			sloganLabel = new JLabel(new ImageIcon(slogan));
-			
+
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-	
+
 	}
+
 	private void loadMusic() {
-		try{
+		try {
 			String url = "sounds/clientMusic.wav";
-			
-		    File yourFile = new File(url);
-		    AudioInputStream stream;
-		    AudioFormat format;
-		    DataLine.Info info;
-		    Clip clip;
 
-		    stream = AudioSystem.getAudioInputStream(yourFile);
-		    format = stream.getFormat();
-		    info = new DataLine.Info(Clip.class, format);
-		    clip = (Clip) AudioSystem.getLine(info);
-		    clip.open(stream);
-		    clip.start();
-			
-		    }
-		   catch(Exception e){
-			   e.printStackTrace();
-		   }
+			File yourFile = new File(url);
+			AudioInputStream stream;
+			AudioFormat format;
+			DataLine.Info info;
+			Clip clip;
+
+			stream = AudioSystem.getAudioInputStream(yourFile);
+			format = stream.getFormat();
+			info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
+			clip.open(stream);
+			clip.start();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public void actionPerformed(ActionEvent event) {
-		enableAll(false);
-		
-		String host = tHost.getText();
-		String player = tPlayer.getText();
-		
-		int port = 0;
-		try {
-			port = Integer.parseInt(tPort.getText());
-		}catch(Exception e) {
-			enableAll(true);
-			lMessage.setText("You must specify a valid port number");
-			return;
-		}
-		
-		try {
-			enableAll(false);
-			new LobbyClient(host,port,player);
-			lMessage.setText("Waiting for game to start");
-		}catch(Exception e) {
-			lMessage.setText("Could not connect to server: " + e.getMessage() + " on " + host + ":" + port);
-			enableAll(true);
-			return;
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getSource() == bJoin) {
+			bCancel.setEnabled(true);
+			bJoin.setEnabled(false);
+
+			String host = tHost.getText();
+			String player = tPlayer.getText();
+
+			int port = 0;
+			try {
+				port = Integer.parseInt(tPort.getText());
+			} catch (Exception ex) {
+				enableAll(true);
+				lMessage.setText("You must specify a valid port number");
+				return;
+			}
+
+			try {
+				new LobbyClient(host, port, player);
+				lMessage.setText("Waiting for game to start");
+			} catch (Exception ex) {
+				lMessage.setText("Could not connect to server: "
+						+ ex.getMessage() + " on " + host + ":" + port);
+				enableAll(true);
+				return;
+			}
+		}else if(e.getSource() == bCancel){
+			bJoin.setEnabled(true);
+			bCancel.setEnabled(false); 
+			
 		}
 	}
-	
-	
+
 	private void enableAll(boolean flag) {
 		tHost.setEnabled(flag);
 		tPort.setEnabled(flag);
-		bJoin.setEnabled(flag);
 		tPlayer.setEnabled(flag);
 	}
 }
