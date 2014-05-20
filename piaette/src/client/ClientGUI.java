@@ -133,6 +133,7 @@ public class ClientGUI implements ActionListener {
 	private void loadMusic() {
 		try {
 			tPlayer.setText("Vladislav");
+			tPlayer.setEditable(false);
 			String url = "sounds/clientMusic.wav";
 
 			File yourFile = new File(url);
