@@ -48,7 +48,7 @@ public class PlayerDefinition {
 	}
 	
 	public void updateRotation(float rotation) {
-		this.rotation = (rotation % 360f) + 360f;//works
+		this.rotation = (rotation % 360f) + 360f;
 	}
 	
 	public void updateTimer(long tmr) {

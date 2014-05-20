@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import utilities.PlayerDefinition;
-import utilities.comUtility;
+import utilities.ComUtility;
 
 public class LobbyClient {
 	private OutputStream outputStream;
@@ -40,11 +40,11 @@ public class LobbyClient {
 
 	private boolean handshake() {
 		try {
-			String initMessage = comUtility.receiveMessage(inputStream);
+			String initMessage = ComUtility.receiveMessage(inputStream);
 			if (!initMessage.startsWith("welcome"))
 				return false;
-			comUtility.sendMessage(outputStream, "playerName: " + playerName);
-			String idMessage = comUtility.receiveMessage(inputStream);
+			ComUtility.sendMessage(outputStream, "playerName: " + playerName);
+			String idMessage = ComUtility.receiveMessage(inputStream);
 			playerId = Integer.parseInt(idMessage.substring(10));
 			System.out.println("Received id " + playerId + " from the server");
 		} catch (Exception e) {
@@ -58,13 +58,9 @@ public class LobbyClient {
 		System.out.println("Recieved startgame");
 		new GameInstantiator(pDefs, playerId, hostAddress, hostPort);
 	}
-
-	public static void disconnectedByServer() {
-	}
-
 	public void disconnectByClient() {
 		try {
-			comUtility.sendMessage(outputStream, "leaveGame");
+			ComUtility.sendMessage(outputStream, "leaveGame");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -6,7 +6,11 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import utilities.PlayerDefinition;
-import utilities.comUtility;
+
+import utilities.ComUtility;
+
+
+
 
 public class ClientHandler extends Thread {
 
@@ -62,9 +66,12 @@ public class ClientHandler extends Thread {
 	}
 
 	public void sendMessage(String msg) throws IOException {
-		System.out.println("ClientHandler: " + msg);
 
-		comUtility.sendMessage(outputStream, msg);
+
+
+
+		ComUtility.sendMessage(outputStream, msg);
+
 	}
 
 	public String readNextMessage() throws IOException {

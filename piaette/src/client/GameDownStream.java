@@ -4,7 +4,7 @@ import utilities.PlayerDefinition;
 import utilities.Protocol;
 import utilities.ProtocolParser;
 import utilities.ServerProtocol;
-import utilities.comUtility;
+import utilities.ComUtility;
 
 public class GameDownStream extends Thread {
 	private GameClient model;
@@ -15,11 +15,10 @@ public class GameDownStream extends Thread {
 		this.SEQ = -1;
 	}
 
-	@Override
 	public void run() {
 		ProtocolParser parser = ProtocolParser.getInstance();
 		while (true) {
-			String receive = comUtility.receiveUDP(model.getSocket());
+			String receive = ComUtility.receiveUDP(model.getSocket());
 			Protocol rcvProtocol = parser.parse(receive);
 			if (rcvProtocol.getProtocol() == Protocol.PROTOCOL_SERVER) {
 				ServerProtocol sp = (ServerProtocol) rcvProtocol;

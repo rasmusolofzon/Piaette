@@ -10,7 +10,7 @@ import utilities.PlayerDefinition;
 import utilities.Protocol;
 import utilities.ProtocolParser;
 import utilities.ServerProtocol;
-import utilities.comUtility;
+import utilities.ComUtility;
 
 public class LobbyFromServer extends Thread {
 	private InputStream in;
@@ -29,7 +29,7 @@ public class LobbyFromServer extends Thread {
 	private void doCase() {
 		String input = "";
 		try {
-			input = comUtility.receiveMessage(in);
+			input = ComUtility.receiveMessage(in);
 
 	
 			if (input.equalsIgnoreCase("startGame")) {
@@ -44,8 +44,6 @@ public class LobbyFromServer extends Thread {
 				}
 
 				LobbyClient.startGame(pDefs);
-			} else if (input.equals("serverClosed")) {
-				LobbyClient.disconnectedByServer();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -56,7 +54,7 @@ public class LobbyFromServer extends Thread {
 		HashMap<Integer, String> players = new HashMap<Integer, String>();
 		String input;
 		try {
-			input = comUtility.receiveMessage(in);
+			input = ComUtility.receiveMessage(in);
 			String[] pNames = input.split(":");
 			for (int i = 0; i < pNames.length; i++) {
 				int pID = Integer.parseInt(pNames[i].split("#")[0]);
@@ -73,7 +71,7 @@ public class LobbyFromServer extends Thread {
 	private ArrayList<PlayerDefinition> receivePlayers() {
 		try {
 			ProtocolParser parser = ProtocolParser.getInstance();
-			String input = comUtility.receiveMessage(in);
+			String input = ComUtility.receiveMessage(in);
 			Protocol pp = parser.parse(input);
 			if (pp.getProtocol() == Protocol.PROTOCOL_SERVER) {
 				ServerProtocol srv = (ServerProtocol) pp;
