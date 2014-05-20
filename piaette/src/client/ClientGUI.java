@@ -158,8 +158,9 @@ public class ClientGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == bJoin) {
-			bCancel.setEnabled(true);
+			//bCancel.setEnabled(true);
 			bJoin.setEnabled(false);
+			enableAll(false);
 
 			String host = tHost.getText();
 			String player = tPlayer.getText();
@@ -184,7 +185,8 @@ public class ClientGUI implements ActionListener {
 			}
 		}else if(e.getSource() == bCancel){
 			bJoin.setEnabled(true);
-			bCancel.setEnabled(false); 
+			bCancel.setEnabled(false);
+			enableAll(true);
 			
 		}
 	}
