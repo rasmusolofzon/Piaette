@@ -187,7 +187,7 @@ public class GameServer {
 			chaser = rand.nextInt(players.size())+1;
 			while (true) {
 				long now = System.currentTimeMillis();
-				if ((now - lastSend)>=50) {
+				if ((now - lastSend)>=25) {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
 //					System.out.println(debugP);

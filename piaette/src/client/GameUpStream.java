@@ -19,7 +19,7 @@ public class GameUpStream extends Thread {
 		while(true) {
 			long now = System.currentTimeMillis();
 			
-			if (now - lastSend >= (long) 50) {
+			if (now - lastSend >= (long) 25) {
 				PlayerDefinition p = model.getPlayerInfo();
 				String msg = new ClientProtocol(SEQ,p.getId(),p.getX(),p.getY(),p.getRotation(),p.getTimer()).toString();
 //				System.out.println(model.getPlayerInfo().getId() + " sends [" + msg + "]");
