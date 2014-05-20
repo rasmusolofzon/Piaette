@@ -270,11 +270,6 @@ public class Game extends BasicGame {
 			dingCounter++;
 			ding.playAsSoundEffect(1f, 0.5f, false);
 		} 
-		//Vem som börjar pjätta. Övre gränsen är för att undvika omstart av pjättande när spelet är över
-//		else if(chaser==null && elapsedTime>5000){
-//			Random generator = new Random();
-//			youreIt(players.get(generator.nextInt(players.size())));
-//		}
 		
 		//Låt inte spelare styra under tiden introt körs
 		if(elapsedTime<3000) return;
@@ -312,35 +307,8 @@ public class Game extends BasicGame {
 			//Om spelet är över, så kolla inte efter kollisioner
 			if(!isRunning) break;
 
-			//Kollisionsdetektion
-//			if(chaser!=null && player!= chaser && local.equals(chaser) && chaser.circle.intersects(player.circle) && !chaser.isFrozen()){
-//				youreIt(player);
-//			}
-
-			/*if (deathWorm.isAlive()) {
-				if (deathWorm.circle.intersects(player.circle)) {
-					youreIt(player);
-					deathWorm.slumber();
-				} else {
-					//avgöra om current player är den player som är närmast Death Worm 2000
-					double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
-							player.getY()-deathWorm.getY());
-					if (deathWormDistance < deathWormVictimDistance) { 
-						deathWormVictimDistance = deathWormDistance;
-						deathWormVictim = player;
-					}
-				}
-			}
-
-			if (deathWorm.isAlive()) {
-				//avgöra om current player är den player som är närmast Death Worm 2000
-				double deathWormDistance = Math.hypot(player.getX()-deathWorm.getY(), 
-						player.getY()-deathWorm.getY());
-				if (deathWormDistance < deathWormVictimDistance) 
-					deathWormVictimDistance = deathWormDistance;
-			}*/
-
 			//När tiden rinner ut
+			System.out.println(player.id+" has score "+player.score);
 			if(player.score>=gameLength){ 
 				System.out.println("Found dead player");
 				player.die();
@@ -359,23 +327,13 @@ public class Game extends BasicGame {
 					break;
 				}
 
-				/*//annars väcks missilen Death Worm 2000 för att så småningom utse nästa pjättare
-				else{
-					deathWorm.awaken();
-				}*/
 			}
 		}
-
-		/*if (deathWorm.isAlive()) {
-			deathWorm.hunt(deathWormVictim);
-		}*/
 
 		if(!isRunning){ //Game is over
 			if(backButton.clicked()){
 				//TODO
 			}
-
-			//sbg.enterState(GameStater.mainMenu);
 		}
 	}
 
