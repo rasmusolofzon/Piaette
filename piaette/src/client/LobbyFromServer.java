@@ -32,7 +32,7 @@ public class LobbyFromServer extends Thread {
 		try {
 			input = comUtility.receiveMessage(in);
 
-			System.out.println("doCase returns: " + input);
+			//System.out.println("doCase returns: " + input);
 			if (input.equalsIgnoreCase("startGame")) {
 				System.out.println("Recieved startgame in doCase()");
 				
