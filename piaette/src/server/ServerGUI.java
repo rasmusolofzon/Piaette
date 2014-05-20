@@ -157,8 +157,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 			}
 		} else if (e.getSource() == startGameButton) {
 			if (running) {
-
-				ServerLobby.getMailBox();
+				LobbyMailBox.flush();
 				ArrayList<ClientHandler> clients = LobbyMailBox
 						.getClients();
 				if (clients.size() == 0) {
