@@ -254,7 +254,7 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		for(ClientHandler cH : playerHanList){
 			String playerName= cH.getPlayer().getName();
 			pListModel.addElement(playerName);
-			displayMessage(playerName);
+			displayMessage("Player: "+ playerName + "joinade servern");
 		}	
 		
 	}
