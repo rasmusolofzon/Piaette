@@ -157,7 +157,8 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 		} else if (e.getSource() == startGameButton) {
 			if (running) {
 
-				ArrayList<ClientHandler> clients = ServerLobby.getMailBox()
+				ServerLobby.getMailBox();
+				ArrayList<ClientHandler> clients = LobbyMailBox
 						.getClients();
 				if (clients.size() == 0) {
 					displayMessage("No players in the server");
@@ -183,7 +184,8 @@ public class ServerGUI extends JFrame implements ActionListener, Observer {
 					sb.append(p.getId() + "#" + p.getName() + ":");
 				}
 
-				for (ClientHandler ch : ServerLobby.getMailBox().getClients()) {
+				ServerLobby.getMailBox();
+				for (ClientHandler ch : LobbyMailBox.getClients()) {
 					try {
 						ch.sendMessage("startGame");
 						ch.sendMessage(sb.toString());
