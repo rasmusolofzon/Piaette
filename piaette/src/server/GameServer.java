@@ -79,9 +79,10 @@ public class GameServer {
 
 		public void run() {
 			ProtocolParser parser = ProtocolParser.getInstance();
+			long startTime = System.currentTimeMillis();
 			while(true) {
 				long now = System.currentTimeMillis();
-
+				long elapsedTime = now-startTime;
 				byte[] rcvBuffer = new byte[65000];
 				DatagramPacket rcvPacket = new DatagramPacket(rcvBuffer,rcvBuffer.length);
 				try {
@@ -126,7 +127,7 @@ public class GameServer {
 					/*
 					 * WARNING! UNTESTED!
 					 */
-					if(chas.getTimer()>=30000 ){ //chaser is dead
+					if(elapsedTime>5000 && chas.getTimer()>=30000 ){ //chaser is dead
 						alivePlayers.remove(chas);
 						//randomize new chaser
 						Random rand = new Random();
