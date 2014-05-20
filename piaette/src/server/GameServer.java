@@ -26,6 +26,8 @@ public class GameServer {
 	private DatagramSocket udpSocket;
 	private Vector<PlayerDefinition> players;
 	private Vector<SocketAddress> udpClients;
+	private ServerUDPReceiver receive;
+	private ServerUDPSender send;
 	private long lastIntersect;
 	public static int chaser = 0;
 	
@@ -48,8 +50,10 @@ public class GameServer {
 	
 	public void startGame(Vector<PlayerDefinition> players) {
 		this.players = players;
-		new ServerUDPReceiver(udpSocket,udpClients,players).start();
-		new ServerUDPSender(udpSocket,udpClients,players).start();
+		receive = new ServerUDPReceiver(udpSocket,udpClients,players);
+		receive.start();
+		send = new ServerUDPSender(udpSocket,udpClients,players);
+		send.start();
 		System.out.println(players.size());
 	}
 	
