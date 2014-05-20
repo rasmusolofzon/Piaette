@@ -70,7 +70,6 @@ public class Player{
 			
 		}
 			playerAnimation = new Animation(new SpriteSheet("Graphics/animations/runningPlayer"+id+".png",64,64),250);
-			//playerAnimation = new Animation(new SpriteSheet("Graphics/animations/taxi.png",64,64),250);
 	}
 
 
