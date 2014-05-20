@@ -291,10 +291,6 @@ public class Game extends BasicGame {
 			if(chaser.score>gameLength) chaser.score = gameLength;
 		}
 
-		//Preppar Death Worm
-		/*double deathWormVictimDistance = 0;
-		Player deathWormVictim = null;
-		deathWorm = new DeathWorm(50, 50, Color.red);*/
 
 		//Spelares styrning
 		for(Player player : players){
@@ -318,15 +314,15 @@ public class Game extends BasicGame {
 				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
 				chaser = null;
+				players.remove(player);
+				
 				playerDeath = System.currentTimeMillis();
 
 				//Om spelaren är den sista kvar = WINNER!
 				if(players.size()-1==1) {
 					isRunning = false;
-					players.remove(player);
 					break;
 				}
-
 			}
 		}
 
