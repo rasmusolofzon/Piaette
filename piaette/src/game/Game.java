@@ -35,7 +35,7 @@ public class Game extends BasicGame {
 
 	//Soooo many attributes
 	private int width,height,dingCounter,playerId,port;
-	private float scale, explX,explY,boomX,boomY;
+	private float scale, explX,explY,boomX,boomY,playerDeath;
 	private long elapsedTime,gameLength;
 	private boolean boom,explode,isRunning = false;
 	private Player chaser,local;
@@ -281,7 +281,7 @@ public class Game extends BasicGame {
 		
 		
 		//Set the chaser from server
-		if (chaser==null || chaser.id!=gameClient.getChaser()) {
+		if ((chaser==null && (System.currentTimeMillis()-playerDeath>3000))|| chaser.id!=gameClient.getChaser()) {
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
 					youreIt(p);
@@ -342,6 +342,7 @@ public class Game extends BasicGame {
 
 			//När tiden rinner ut
 			if(player.score>=gameLength){ 
+				System.out.println("Found dead player");
 				player.die();
 				explode = true;
 				explodeAnimate.restart();
@@ -349,6 +350,7 @@ public class Game extends BasicGame {
 				explX = player.circle.getCenterX()-explodeAnimate.getWidth()/2;
 				explY = player.circle.getCenterY()-explodeAnimate.getWidth()/2;
 				chaser = null;
+				playerDeath = System.currentTimeMillis();
 
 				//Om spelaren är den sista kvar = WINNER!
 				if(players.size()-1==1) {
