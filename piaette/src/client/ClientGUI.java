@@ -36,7 +36,7 @@ public class ClientGUI implements ActionListener {
 
 	private JTextField tHost, tPort, tPlayer;
 	private JLabel lMessage, lTopicHost, lTopicPort, lTopicName, picLabel,
-			sloganLabel;
+	sloganLabel;
 	private JButton bJoin;
 	private BufferedImage image, slogan;
 	private FileFilter filter;
@@ -51,7 +51,7 @@ public class ClientGUI implements ActionListener {
 		tHost.setText("192.168.1.83");
 		tPort.setText("22222");
 		tPlayer.setText("Axelander");
-		
+
 		loadGraphics();
 
 		JPanel northTop = new JPanel();
@@ -68,10 +68,6 @@ public class ClientGUI implements ActionListener {
 		lTopicPort = new JLabel("Server port:");
 		lTopicName = new JLabel("Player name:");
 		lMessage = new JLabel("\r\n\r\n\r\n");
-
-
-
-
 
 		bJoin = new JButton("Join game");
 		bJoin.addActionListener(this);
@@ -115,7 +111,7 @@ public class ClientGUI implements ActionListener {
 			Random generator = new Random();
 			filter = new PNGFileFilter();
 			int nbrOfSlogans = new File("Graphics/menu/slogan/")
-					.listFiles(filter).length;
+			.listFiles(filter).length;
 			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans) + 1;
 			if (randomNbrOfSlogans == 8)
 				vladislavIChooseYou();
@@ -156,6 +152,7 @@ public class ClientGUI implements ActionListener {
 		}
 
 	}
+
 	private void vladislavIChooseYou() {
 		try {
 			tPlayer.setText("Vladislav");
