@@ -3,7 +3,6 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 
 public class ServerLobby extends Thread {
@@ -21,7 +20,6 @@ public class ServerLobby extends Thread {
 		try {
 			System.out.println("Starting server");
 			serverSocket = new ServerSocket(serverPort);
-			System.out.println("Created ChatServer? WTF");
 			while (true) {
 				if(!(serverSocket.isClosed())){
 				Socket socket = serverSocket.accept();
