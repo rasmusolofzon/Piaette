@@ -9,9 +9,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-
-
-
 import utilities.PlayerDefinition;
 import utilities.comUtility;
 
@@ -22,57 +19,59 @@ public class LobbyClient {
 	private String playerName;
 	private static InetAddress hostAddress;
 	private static int hostPort;
-	
-	public LobbyClient(String machine, int port, String playerName) throws IOException,NumberFormatException{
+
+	public LobbyClient(String machine, int port, String playerName)
+			throws IOException, NumberFormatException {
 		hostAddress = InetAddress.getByName(machine);
-		hostPort = port+1;
-		
+		hostPort = port + 1;
+
 		this.playerName = playerName;
-			Socket socket = new Socket(machine, port);
-			outputStream = socket.getOutputStream();
-			inputStream = socket.getInputStream();
-			
-			if(handshake()){
-				System.out.println("handshake succesful");
-				Thread waitForServer = new LobbyFromServer(socket);
-				waitForServer.start();
-			}
+		Socket socket = new Socket(machine, port);
+		outputStream = socket.getOutputStream();
+		inputStream = socket.getInputStream();
+
+		if (handshake()) {
+			System.out.println("handshake succesful");
+			Thread waitForServer = new LobbyFromServer(socket);
+			waitForServer.start();
+		}
 
 	}
-	
+
 	private boolean handshake() {
 		try {
 			String initMessage = comUtility.receiveMessage(inputStream);
-			if(!initMessage.startsWith("welcome")) return false;
-			comUtility.sendMessage(outputStream,"playerName: "+playerName);
+			if (!initMessage.startsWith("welcome"))
+				return false;
+			comUtility.sendMessage(outputStream, "playerName: " + playerName);
 			String idMessage = comUtility.receiveMessage(inputStream);
 			playerId = Integer.parseInt(idMessage.substring(10));
-			System.out.println("Received id "+playerId+" from the server");
-		}catch(Exception e) {
+			System.out.println("Received id " + playerId + " from the server");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return true;
 	}
 
-	public static void startGame(ArrayList<PlayerDefinition> pDefs){
+	public static void startGame(ArrayList<PlayerDefinition> pDefs) {
 		System.out.println("Trying to start game");
 		System.out.println("Recieved startgame");
-		new GameInstantiator(pDefs,playerId,hostAddress,hostPort); 
+		new GameInstantiator(pDefs, playerId, hostAddress, hostPort);
 	}
-	public static void disconnectedByServer(){
+
+	public static void disconnectedByServer() {
 	}
-	
-	public void disconnectByClient(){
+
+	public void disconnectByClient() {
 		try {
-			comUtility.sendMessage(outputStream,"leaveGame");
+			comUtility.sendMessage(outputStream, "leaveGame");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public int getPlayerId(){
+
+	public int getPlayerId() {
 		return playerId;
 	}
-
 
 }

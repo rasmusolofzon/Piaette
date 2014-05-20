@@ -1,6 +1,5 @@
 package client;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -32,18 +31,18 @@ public class LobbyFromServer extends Thread {
 		try {
 			input = comUtility.receiveMessage(in);
 
-			//System.out.println("doCase returns: " + input);
+	
 			if (input.equalsIgnoreCase("startGame")) {
 				System.out.println("Recieved startgame in doCase()");
-				
-				HashMap<Integer,String> playerNames = playerNames();
-				
+
+				HashMap<Integer, String> playerNames = playerNames();
+
 				ArrayList<PlayerDefinition> pDefs = receivePlayers();
-				
+
 				for (PlayerDefinition p : pDefs) {
 					p.setName(playerNames.get(p.getId()));
 				}
-				
+
 				LobbyClient.startGame(pDefs);
 			} else if (input.equals("serverClosed")) {
 				LobbyClient.disconnectedByServer();
@@ -52,14 +51,14 @@ public class LobbyFromServer extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
-	private HashMap<Integer,String> playerNames() {
-		HashMap<Integer,String> players = new HashMap<Integer,String>();
+
+	private HashMap<Integer, String> playerNames() {
+		HashMap<Integer, String> players = new HashMap<Integer, String>();
 		String input;
 		try {
 			input = comUtility.receiveMessage(in);
 			String[] pNames = input.split(":");
-			for (int i = 0;i<pNames.length;i++) {
+			for (int i = 0; i < pNames.length; i++) {
 				int pID = Integer.parseInt(pNames[i].split("#")[0]);
 				String name = pNames[i].split("#")[1];
 				players.put(pID, name);
@@ -76,10 +75,10 @@ public class LobbyFromServer extends Thread {
 			ProtocolParser parser = ProtocolParser.getInstance();
 			String input = comUtility.receiveMessage(in);
 			Protocol pp = parser.parse(input);
-			if (pp.getProtocol()==Protocol.PROTOCOL_SERVER) {
+			if (pp.getProtocol() == Protocol.PROTOCOL_SERVER) {
 				ServerProtocol srv = (ServerProtocol) pp;
 				return srv.getPlayers();
-			}else{
+			} else {
 				return receivePlayers();
 			}
 		} catch (IOException e) {
