@@ -126,13 +126,13 @@ public class GameServer {
 					/*
 					 * WARNING! UNTESTED!
 					 */
-					if(chas.getTimer()>=30000 && alivePlayers.size()>1){ //chaser is dead
+					if(chas.getTimer()>=30000){ //chaser is dead
 						alivePlayers.remove(chas);
 						//randomize new chaser
 						Random rand = new Random();
 						chas = alivePlayers.get(rand.nextInt(alivePlayers.size()));
 						chaser = chas.getId();
-						System.out.println("named new chaser to be: "+chas.getId());
+						System.out.println("named new chaser to be: "+chas.getName());
 					}
 
 
@@ -181,7 +181,7 @@ public class GameServer {
 				if ((now - lastSend)>=50) {
 					ArrayList<PlayerDefinition> arrPlayers = new ArrayList<PlayerDefinition>(players);
 					String debugP = new ServerProtocol(SEQ,arrPlayers,chaser).toString();
-					System.out.println(debugP);
+//					System.out.println(debugP);
 					byte[] sndTemp = debugP.getBytes();
 					for (SocketAddress sa : udpClients) {
 						try {
