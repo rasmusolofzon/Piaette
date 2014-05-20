@@ -56,7 +56,7 @@ public class Game extends BasicGame {
 		scale = GameInstantiator.scale;
 		this.playerId = playerId;
 		this.initialPlayerDefs = pDefs;
-
+		playerDeath = System.currentTimeMillis();
 		this.hostAddress = hostAddress;
 		this.port = port;
 		
@@ -281,10 +281,10 @@ public class Game extends BasicGame {
 		
 		
 		//Set the chaser from server
-		if ((chaser==null && (System.currentTimeMillis()-playerDeath>3000))|| chaser.id!=gameClient.getChaser()) {
+		if (chaser==null || chaser.id!=gameClient.getChaser()) {
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
-					youreIt(p);
+					if(System.currentTimeMillis()-playerDeath>3000) youreIt(p);
 					break;
 				}
 			}
