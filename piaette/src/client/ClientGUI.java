@@ -157,18 +157,6 @@ public class ClientGUI implements ActionListener {
 
 	private LobbyClient lc;
 	public void actionPerformed(ActionEvent e) {
-
-		if (e.getSource() == bCancel) {
-			
-			if (lc!=null) {
-				lc.disconnectByClient();
-				lc = null;
-				lMessage.setText("Cancelled game");
-			}
-			enableAll(true);	
-			return;
-		}
-
 		enableAll(false);
 
 		String host = tHost.getText();
@@ -200,6 +188,5 @@ public class ClientGUI implements ActionListener {
 		tPort.setEnabled(flag);
 		tPlayer.setEnabled(flag);
 		bJoin.setEnabled(flag);
-		bCancel.setEnabled(!flag);
 	}
 }
