@@ -116,7 +116,6 @@ public class ClientGUI implements ActionListener {
 			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans) + 1;
 			if (randomNbrOfSlogans == 8)
 				loadMusic();
-			tPlayer.setText("Vladislav");
 			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"
 					+ randomNbrOfSlogans + ".png"));
 			sloganLabel = new JLabel(new ImageIcon(slogan));
