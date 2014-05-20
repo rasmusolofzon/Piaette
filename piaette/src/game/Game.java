@@ -48,6 +48,7 @@ public class Game extends BasicGame {
 	private Image gameBackground;
 	private GameClient gameClient;
 	private InetAddress hostAddress;
+	private GameContainer gc;
 	public Game(ArrayList<PlayerDefinition> pDefs, int playerId,InetAddress hostAddress,int port) {
 		super("Piaette");
 		width = GameInstantiator.width;
@@ -121,7 +122,7 @@ public class Game extends BasicGame {
 		createPlayers(initialPlayerDefs);
 		
 
-		
+		this.gc = gc;
 		//Vit bakgrund
 
 		Graphics g = gc.getGraphics();
@@ -382,6 +383,19 @@ public class Game extends BasicGame {
 		boomAnimate.restart();
 		boomX = player.circle.getCenterX()-boomAnimate.getWidth()/2;
 		boomY = player.circle.getCenterY()-boomAnimate.getWidth()/2;
+	}
+	
+	@Override
+	public boolean closeRequested(){
+		//Not working properly yet
+		gameClient.close();
+		ding.stop();
+		explosion.stop();
+		ding = null;
+		explosion = null;
+		gc.exit();
+		System.out.println("Trying to clean up");
+		return true;
 	}
 
 
