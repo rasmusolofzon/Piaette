@@ -148,6 +148,14 @@ public class GameServer {
 						}
 					}
 				}
+				
+				Iterator<PlayerDefinition> itr = players.iterator();
+				while (itr.hasNext()) {
+					PlayerDefinition p = itr.next();
+					if (now-p.getLastHeartbeat()>TIMEOUT) {
+						itr.remove();
+					}
+				}
 			}
 		}
 	}
