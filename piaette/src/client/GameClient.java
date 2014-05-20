@@ -20,7 +20,6 @@ public class GameClient {
 
 	public GameClient(DatagramSocket socket, InetAddress hostAddress,
 			int hostPort, Game game, Player player) {
-		System.out.println("Starting sending all that shit!");
 
 		this.game = game;
 		this.player = player;
