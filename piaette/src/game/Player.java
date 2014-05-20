@@ -132,6 +132,11 @@ public class Player{
 		if(newX<0) newX +=width;
 		newY = newY%height;
 		if(newY<0) newY+=height;
+		
+		circle.setCenterX(newX);
+		circle.setCenterY(newY);
+		
+		
 	}
 
 	public String toString(){
