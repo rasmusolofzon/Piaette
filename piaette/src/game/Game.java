@@ -280,10 +280,10 @@ public class Game extends BasicGame {
 			for (Player p : players) {
 				if (p.id==gameClient.getChaser()) {
 					System.out.println("Trying to name the new chaser to "+p.id);
-					if(System.currentTimeMillis()-playerDeath>3000){
+//					if(System.currentTimeMillis()-playerDeath > 3000){
 						youreIt(p);
 						System.out.println("succesful");
-					}
+//					}
 					break;
 				}
 			}
