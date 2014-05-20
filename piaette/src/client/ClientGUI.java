@@ -117,6 +117,7 @@ public class ClientGUI implements ActionListener {
 			int nbrOfSlogans = new File("Graphics/menu/slogan/")
 					.listFiles(filter).length;
 			int randomNbrOfSlogans = generator.nextInt(nbrOfSlogans) + 1;
+			randomNbrOfSlogans =8;
 			if (randomNbrOfSlogans == 8)
 				loadMusic();
 			slogan = ImageIO.read(new File("Graphics/menu/slogan/slogan-"
@@ -147,8 +148,7 @@ public class ClientGUI implements ActionListener {
 			info = new DataLine.Info(Clip.class, format);
 			clip = (Clip) AudioSystem.getLine(info);
 			clip.open(stream);
-			clip.start();
-
+			clip.loop(5000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
