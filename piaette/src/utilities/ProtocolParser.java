@@ -61,8 +61,6 @@ public class ProtocolParser {
 			int PIAETTE = toInt(p[p.length-1]);
 			rVal = new ServerProtocol(SEQ, pp, PIAETTE);
 		}
-		
-//		System.out.println(s);
 		return rVal;
 	}
 	

@@ -1,6 +1,5 @@
 package utilities;
 
-import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,19 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
-
-public class comUtility {
-
-//DENNA BORDE INTE FINNAS MEN OM DEN INTE FINNS BLIR FRAMTIDEN LEDSEN I �GAT
-	@SuppressWarnings("unchecked")
-	public static UnicodeFont getNewFont(String fontName , int fontSize) {
-		UnicodeFont font = new UnicodeFont(new Font(fontName , Font.PLAIN , fontSize));
-		font.addGlyphs("@");
-		font.getEffects().add(new ColorEffect(java.awt.Color.white));
-		return font;
-	}
+public class ComUtility {
 
 	public static String receiveMessage(InputStream in) throws IOException {
 		int readByte;
@@ -62,7 +49,6 @@ public class comUtility {
 		try {
 			socket.send(sendPacket);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
