@@ -24,7 +24,7 @@ import utilities.ServerProtocol;
 public class GameServer {
 	private ServerLobby  clientAdder;
 	private DatagramSocket udpSocket;
-	private Vector<PlayerDefinition> players;
+	private Vector<PlayerDefinition> players,alivePlayers;
 	private Vector<SocketAddress> udpClients;
 	private ServerUDPReceiver receive;
 	private ServerUDPSender send;
@@ -50,6 +50,7 @@ public class GameServer {
 	
 	public void startGame(Vector<PlayerDefinition> players) {
 		this.players = players;
+		this.alivePlayers = players;
 		receive = new ServerUDPReceiver(udpSocket,udpClients,players);
 		receive.start();
 		send = new ServerUDPSender(udpSocket,udpClients,players);
@@ -121,6 +122,19 @@ public class GameServer {
 					if (chas==null) {
 						continue;
 					}
+					
+					/*
+					 * WARNING! UNTESTED!
+					 */
+					if(chas.getTimer()==30000){ //chaser is dead
+						alivePlayers.remove(chas);
+						if(alivePlayers.size()>1){
+							//randomize new chaser
+							Random rand = new Random(alivePlayers.size());
+							chas = alivePlayers.get(rand.nextInt());
+						}
+					}
+					
 					
 					if(System.currentTimeMillis()-lastIntersect<3000) continue;
 					for (PlayerDefinition p : players) {
