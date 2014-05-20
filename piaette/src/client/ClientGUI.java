@@ -193,5 +193,6 @@ public class ClientGUI implements ActionListener {
 		tHost.setEnabled(flag);
 		tPort.setEnabled(flag);
 		tPlayer.setEnabled(flag);
+		bJoin.setEnabled(flag);
 	}
 }
